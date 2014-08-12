@@ -1,3 +1,18 @@
+It is recommended to create new Eclipse workspace and copy .metadata from original DemoSite - this way everything will be ready to go.
+Also remember to:
+- add environmental variables for Maven (M2_HOME and probably path variable) and Java (java.home)
+- set up MySql database and create connection according to build.properties (or edit this file)
+	Current DB configuration:
+	port: 3306
+	name: broadleaf
+	user: admin
+	password: admin
+
+
+
+
+
+(this is auto-generated readme, left it in case you can find something useful)
 ## The New Broadleaf Commerce Demo Site
 
 This Maven project is meant to be used as a solid started project for any [Broadleaf Commerce](http://www.broadleafcommerce.org) application. It has many sensible defaults set up along with examples of how a fully functioning eCommerce site based on Broadleaf might work.
