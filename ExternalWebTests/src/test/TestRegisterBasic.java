@@ -38,64 +38,71 @@ public class TestRegisterBasic{
 	private boolean acceptNextAlert = true;
 	private StringBuffer verificationErrors = new StringBuffer();
 	private Connection connection;
+	private Statement statement;
 
-	private boolean setUp = false;
+	private boolean setUpEnv = false;
 	private boolean tearDown;
 
 	private String loginNotFoundError = "The e-mail address and/or password entered do not match our records. Please try again";
 	private String login_taken_error = "email address is already in use";
 
 	@BeforeClass
-	public void startDBConnection(){
+	public void setUpEnvironment(){
         try {
 			connection = DataSourceFactory.getMySQLDataSource().getConnection();
-		} catch (SQLException e) {
-			e.printStackTrace();
+			 statement = connection.createStatement();
+		} catch (Exception e) {
+			throw new Error("Failed to initialize database connection");
 		}
+        
+        try{
+		driver = new FirefoxDriver();
+		baseUrl = "http://localhost:8080/";
+		baseRedirectUrl = "https://localhost:8443/register";
+		driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+        } catch(Exception e){
+			throw new Error("Failed to initialize Selenium driver");
+		}
+        
+		setUpEnv = true;
+		tearDown = true;
 	}
 	
 	@Before
 	public void setUp() throws Exception{
-		driver = new FirefoxDriver();
-		baseUrl = "http://localhost:8080";
-		baseRedirectUrl = "https://localhost:8443";
-		driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
-		setUp = true;
-		tearDown = true;
+		driver.get(baseUrl);
 	}
 	
 	@After
 	public void tearDown() throws Exception{
-		driver.quit();
-		String verificationErrorString = verificationErrors.toString();
-		if(!"".equals(verificationErrorString)){
-			fail(verificationErrorString);
-		}
-		setUp = false;
-		tearDown = true;
+
 	}
 	
 	@AfterClass
-	public void closeDbConnection(){
+	public void tearDownEnvironment(){
 		try {
             if(connection != null) connection.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
+		
+		driver.quit();
+		String verificationErrorString = verificationErrors.toString();
+		if(!"".equals(verificationErrorString)){
+			fail(verificationErrorString);
+		}
+		setUpEnv = false;
+		tearDown = true;
 	}
 
 	@Test
 	@TestSuites("valid data")
 	public void testRegisterValidData(String email, String first_name, String last_name, String password) throws Exception{
-		if(!setUp){
-			try{
-				setUp();
-			} catch(Exception e){
-				throw new AssertionError("Failed to initialize Selenium driver");
-			}
+		if(!setUpEnv){
+			setUpEnvironment();
 		}
+		setUp();
 		
-		driver.get(baseUrl + "/");
 		driver.findElement(By.xpath("//div[@id='cart_info']/a[2]/span")).click();
 		driver.findElement(By.id("customer.emailAddress")).clear();
 		driver.findElement(By.id("customer.emailAddress")).sendKeys(email);
@@ -118,11 +125,12 @@ public class TestRegisterBasic{
 			driver.findElement(By.name("j_password")).sendKeys(password);
 			driver.findElement(By.xpath("//input[@value='Login']")).click();
 		}
-		Assert.assertTrue("Not logged in!", driver.findElement(By.linkText("Logout")) != null);
+		Assert.assertTrue("Not logged in - registration failed!", driver.findElement(By.linkText("Logout")) != null);
 
 		// revert password change and logout
 		driver.findElement(By.cssSelector("a > span")).click();
 		Assert.assertTrue("Not logged out!", driver.findElement(By.linkText("Login")) != null);
+		cleanUpAfterTest(email);
 
 		// ERROR: Caught exception [ERROR: Unsupported command [selectWindow |
 		// null | ]]
@@ -130,15 +138,10 @@ public class TestRegisterBasic{
 
 	@Test
 	public void testRegisterEmailData(String email, String first_name, String last_name, String password, boolean expected_result){
-		if(!setUp){
-			try{
-				setUp();
-			} catch(Exception e){
-				throw new AssertionError("Failed to initialize Selenium driver");
-			}
-		}
-		
-		driver.get(baseRedirectUrl + "/register");
+		if(!setUpEnv){
+			setUpEnvironment();
+		}	
+		driver.get(baseRedirectUrl);
 
 		driver.findElement(By.id("customer.emailAddress")).clear();
 		driver.findElement(By.id("customer.emailAddress")).sendKeys(email);
@@ -163,12 +166,18 @@ public class TestRegisterBasic{
 					|| !isElementPresent(By.xpath("//*[contains(.,'email address is invalid')]"))
 					|| !isElementPresent(By.xpath("//*[contains(.,' Please enter your email address.'')]")));
 		}
+		
+		cleanUpAfterTest(email);
 	}
 	
 
 	@Test
 	public void testRegisterBasic(String email, String first_name, String last_name, String password, String confpsswd) throws Exception{
-		driver.get(baseUrl + "/");
+		if(!setUpEnv){
+			setUpEnvironment();
+		}
+		setUp();
+		
 		driver.findElement(By.xpath("//div[@id='cart_info']/a[2]/span")).click();
 		driver.findElement(By.id("customer.emailAddress")).clear();
 		driver.findElement(By.id("customer.emailAddress")).sendKeys(email);
@@ -184,6 +193,17 @@ public class TestRegisterBasic{
 		driver.findElement(By.linkText("Proper Name")).click();
 		driver.findElement(By.cssSelector("a > span")).click(); // ERROR: Caught
 		// exception [ERROR: Unsupported command [selectWindow | null | ]]
+		cleanUpAfterTest(email);
+	}
+	
+	private void cleanUpAfterTest(String email){
+		try{
+			statement.executeQuery("SET FOREIGN_KEY_CHECKS=0;");
+			statement.executeUpdate("DELETE FROM broadleaf.blc_customer WHERE EMAIL_ADDRESS=\"" + email + "\";");
+			statement.executeQuery("SET FOREIGN_KEY_CHECKS=1;");
+		} catch(SQLException e){
+			e.printStackTrace();
+		}
 	}
 
 	private boolean isElementPresent(By by){

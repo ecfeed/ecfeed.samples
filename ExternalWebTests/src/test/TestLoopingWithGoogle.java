@@ -18,6 +18,12 @@ import com.testify.ecfeed.runner.StaticRunner;
 import com.testify.ecfeed.runner.annotations.EcModel;
 
 
+/*
+ * This testclass provides sample test independent from local environment - just google.
+ * I used it to learn some basic Selenium driver behaviour. Leaving it here and in the model in case
+ * you just want to launch something to check if driver etc. is ok.
+ */
+
 @RunWith(StaticRunner.class)
 @EcModel("src/model.ect")
 public class TestLoopingWithGoogle {
