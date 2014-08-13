@@ -5,8 +5,10 @@ import static org.junit.Assert.fail;
 import java.util.concurrent.TimeUnit;
 
 import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.Alert;
@@ -14,12 +16,18 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.remote.ErrorHandler.UnknownServerException;
+
+import tools.DataSourceFactory;
+
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 import com.testify.ecfeed.runner.StaticRunner;
-import com.testify.ecfeed.runner.annotations.*;
+import com.testify.ecfeed.runner.annotations.EcModel;
+import com.testify.ecfeed.runner.annotations.TestSuites;
 
 @RunWith(StaticRunner.class)
 @EcModel("src/model.ect")
@@ -29,6 +37,7 @@ public class TestRegisterBasic{
 	private String baseRedirectUrl;
 	private boolean acceptNextAlert = true;
 	private StringBuffer verificationErrors = new StringBuffer();
+	private Connection connection;
 
 	private boolean setUp = false;
 	private boolean tearDown;
@@ -36,6 +45,15 @@ public class TestRegisterBasic{
 	private String loginNotFoundError = "The e-mail address and/or password entered do not match our records. Please try again";
 	private String login_taken_error = "email address is already in use";
 
+	@BeforeClass
+	public void startDBConnection(){
+        try {
+			connection = DataSourceFactory.getMySQLDataSource().getConnection();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	@Before
 	public void setUp() throws Exception{
 		driver = new FirefoxDriver();
@@ -44,6 +62,26 @@ public class TestRegisterBasic{
 		driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
 		setUp = true;
 		tearDown = true;
+	}
+	
+	@After
+	public void tearDown() throws Exception{
+		driver.quit();
+		String verificationErrorString = verificationErrors.toString();
+		if(!"".equals(verificationErrorString)){
+			fail(verificationErrorString);
+		}
+		setUp = false;
+		tearDown = true;
+	}
+	
+	@AfterClass
+	public void closeDbConnection(){
+		try {
+            if(connection != null) connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 	}
 
 	@Test
@@ -146,18 +184,6 @@ public class TestRegisterBasic{
 		driver.findElement(By.linkText("Proper Name")).click();
 		driver.findElement(By.cssSelector("a > span")).click(); // ERROR: Caught
 		// exception [ERROR: Unsupported command [selectWindow | null | ]]
-	}
-	
-
-	@After
-	public void tearDown() throws Exception{
-		driver.quit();
-		String verificationErrorString = verificationErrors.toString();
-		if(!"".equals(verificationErrorString)){
-			fail(verificationErrorString);
-		}
-		setUp = false;
-		tearDown = true;
 	}
 
 	private boolean isElementPresent(By by){
