@@ -46,12 +46,13 @@ public class TestRegisterBasic{
 	private String loginNotFoundError = "The e-mail address and/or password entered do not match our records. Please try again";
 	private String login_taken_error = "email address is already in use";
 
-	@BeforeClass
+	//@BeforeClass
 	public void setUpEnvironment(){
         try {
 			connection = DataSourceFactory.getMySQLDataSource().getConnection();
-			 statement = connection.createStatement();
+			statement = connection.createStatement();
 		} catch (Exception e) {
+            e.printStackTrace();
 			throw new Error("Failed to initialize database connection");
 		}
         
@@ -68,17 +69,17 @@ public class TestRegisterBasic{
 		tearDown = true;
 	}
 	
-	@Before
+	//@Before
 	public void setUp() throws Exception{
 		driver.get(baseUrl);
 	}
 	
-	@After
+	//@After
 	public void tearDown() throws Exception{
 
 	}
 	
-	@AfterClass
+	//@AfterClass
 	public void tearDownEnvironment(){
 		try {
             if(connection != null) connection.close();
@@ -201,8 +202,8 @@ public class TestRegisterBasic{
 			statement.executeQuery("SET FOREIGN_KEY_CHECKS=0;");
 			statement.executeUpdate("DELETE FROM broadleaf.blc_customer WHERE EMAIL_ADDRESS=\"" + email + "\";");
 			statement.executeQuery("SET FOREIGN_KEY_CHECKS=1;");
-		} catch(SQLException e){
-			e.printStackTrace();
+		} catch(Exception e){
+			throw new Error("Database connection failed");
 		}
 	}
 
