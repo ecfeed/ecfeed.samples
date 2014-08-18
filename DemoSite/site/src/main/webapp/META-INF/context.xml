@@ -1,5 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Context>
+<Resource name="jdbc/web" auth="Container" type="javax.sql.DataSource"
+               maxActive="10" maxIdle="30" maxWait="10000"
+               username="sa" password="" driverClassName="org.hsqldb.jdbcDriver"
+               url="jdbc:hsqldb:hsql://localhost/broadleaf"/>
+               
+    <Resource name="jdbc/secure" auth="Container" type="javax.sql.DataSource"
+               maxActive="10" maxIdle="30" maxWait="10000"
+               username="sa" password="" driverClassName="org.hsqldb.jdbcDriver"
+               url="jdbc:hsqldb:hsql://localhost/broadleaf"/>
+       
+    <Resource name="jdbc/storage" auth="Container" type="javax.sql.DataSource"
+               maxActive="10" maxIdle="30" maxWait="10000"
+               username="sa" password="" driverClassName="org.hsqldb.jdbcDriver"
+               url="jdbc:hsqldb:hsql://localhost/broadleaf"/>
+			   <!--
     <Resource name="jdbc/web"
               auth="Container"
               type="javax.sql.DataSource"
@@ -65,4 +80,5 @@
               password="${database.password}"
               driverClassName="${database.driver}"
               url="${database.url}"/>
+			  -->
 </Context>

@@ -130,10 +130,6 @@
     </build>
     <dependencies>
         <dependency>
-    		<groupId>mysql</groupId>
-    		<artifactId>mysql-connector-java</artifactId>
-		</dependency> 
-        <dependency>
             <groupId>com.mycompany</groupId>
             <artifactId>core</artifactId>
         </dependency>
