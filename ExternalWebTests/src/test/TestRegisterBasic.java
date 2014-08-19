@@ -2,13 +2,12 @@ package test;
 
 import static org.junit.Assert.fail;
 
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.concurrent.TimeUnit;
 
-import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Assert;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.Alert;
@@ -20,11 +19,6 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 
 import tools.DataSourceFactory;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-
 import com.testify.ecfeed.runner.StaticRunner;
 import com.testify.ecfeed.runner.annotations.EcModel;
 import com.testify.ecfeed.runner.annotations.TestSuites;
@@ -32,7 +26,7 @@ import com.testify.ecfeed.runner.annotations.TestSuites;
 @RunWith(StaticRunner.class)
 @EcModel("src/model.ect")
 public class TestRegisterBasic{
-	private WebDriver driver;
+	private WebDriver driver = null;
 	private String baseUrl;
 	private String baseRedirectUrl;
 	private boolean acceptNextAlert = true;
@@ -46,47 +40,50 @@ public class TestRegisterBasic{
 	private String loginNotFoundError = "The e-mail address and/or password entered do not match our records. Please try again";
 	private String login_taken_error = "email address is already in use";
 
-	//@BeforeClass
+	// @BeforeClass
 	public void setUpEnvironment(){
-        try {
+		try{
 			connection = DataSourceFactory.getHSQLDataSource().getConnection();
 			statement = connection.createStatement();
-		} catch (Exception e) {
-            e.printStackTrace();
+		} catch(Exception e){
+			e.printStackTrace();
 			throw new Error("Failed to initialize database connection");
 		}
-        
-        try{
-		driver = new FirefoxDriver();
-		baseUrl = "http://localhost:8080/";
-		baseRedirectUrl = "https://localhost:8443/register";
-		driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
-        } catch(Exception e){
-			throw new Error("Failed to initialize Selenium driver");
+
+		if(driver == null){
+			try{
+				driver = new FirefoxDriver();
+				baseUrl = "http://localhost:8080/";
+				baseRedirectUrl = "https://localhost:8443/register";
+				driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+			} catch(Exception e){
+				throw new Error("Failed to initialize Selenium driver");
+			}
 		}
-        
+
 		setUpEnv = true;
 		tearDown = true;
 	}
-	
-	//@Before
-	public void setUp() throws Exception{
+
+	// @Before
+	public void setUp(){
 		driver.get(baseUrl);
 	}
-	
-	//@After
+
+	// @After
 	public void tearDown() throws Exception{
 
 	}
-	
-	//@AfterClass
+
+	// @AfterClass
 	public void tearDownEnvironment(){
-		try {
-            if(connection != null) connection.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-		
+		try{
+			if(connection != null)
+				connection.close();
+		} catch(SQLException e){
+			e.printStackTrace();
+		}
+
 		driver.quit();
 		String verificationErrorString = verificationErrors.toString();
 		if(!"".equals(verificationErrorString)){
@@ -103,7 +100,6 @@ public class TestRegisterBasic{
 			setUpEnvironment();
 		}
 		setUp();
-		
 		driver.findElement(By.xpath("//div[@id='cart_info']/a[2]/span")).click();
 		driver.findElement(By.id("customer.emailAddress")).clear();
 		driver.findElement(By.id("customer.emailAddress")).sendKeys(email);
@@ -141,7 +137,7 @@ public class TestRegisterBasic{
 	public void testRegisterEmailData(String email, String first_name, String last_name, String password, boolean expected_result){
 		if(!setUpEnv){
 			setUpEnvironment();
-		}	
+		}
 		driver.get(baseRedirectUrl);
 
 		driver.findElement(By.id("customer.emailAddress")).clear();
@@ -167,10 +163,9 @@ public class TestRegisterBasic{
 					|| !isElementPresent(By.xpath("//*[contains(.,'email address is invalid')]"))
 					|| !isElementPresent(By.xpath("//*[contains(.,' Please enter your email address.'')]")));
 		}
-		
+
 		cleanUpAfterTest(email);
 	}
-	
 
 	@Test
 	public void testRegisterBasic(String email, String first_name, String last_name, String password, String confpsswd) throws Exception{
@@ -178,7 +173,7 @@ public class TestRegisterBasic{
 			setUpEnvironment();
 		}
 		setUp();
-		
+
 		driver.findElement(By.xpath("//div[@id='cart_info']/a[2]/span")).click();
 		driver.findElement(By.id("customer.emailAddress")).clear();
 		driver.findElement(By.id("customer.emailAddress")).sendKeys(email);
@@ -196,11 +191,11 @@ public class TestRegisterBasic{
 		// exception [ERROR: Unsupported command [selectWindow | null | ]]
 		cleanUpAfterTest(email);
 	}
-	
+
 	private void cleanUpAfterTest(String email){
 		try{
 			statement.executeQuery("SET DATABASE REFERENTIAL INTEGRITY FALSE;");
-			statement.executeUpdate("DELETE FROM PUBLIC.blc_customer WHERE EMAIL_ADDRESS=\"" + email + "\";");
+			statement.executeUpdate("DELETE FROM PUBLIC.blc_customer WHERE EMAIL_ADDRESS='" + email + "';");
 			statement.executeQuery("SET DATABASE REFERENTIAL INTEGRITY TRUE;");
 		} catch(Exception e){
 			throw new Error("Database connection failed");

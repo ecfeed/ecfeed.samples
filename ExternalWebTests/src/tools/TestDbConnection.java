@@ -132,7 +132,7 @@ public class TestDbConnection{
 	private void cleanUpAfterTest(String email){
 		try{
 			statement.executeQuery("SET DATABASE REFERENTIAL INTEGRITY FALSE;");
-			statement.executeUpdate("DELETE FROM PUBLIC.blc_customer WHERE EMAIL_ADDRESS=\"" + email + "\";");
+			statement.executeUpdate("DELETE FROM PUBLIC.blc_customer WHERE EMAIL_ADDRESS='" + email + "';");
 			statement.executeQuery("SET DATABASE REFERENTIAL INTEGRITY TRUE;");
 		} catch(SQLException e){
 			e.printStackTrace();
