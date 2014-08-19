@@ -199,9 +199,9 @@ public class TestRegisterBasic{
 	
 	private void cleanUpAfterTest(String email){
 		try{
-			statement.executeQuery("SET FOREIGN_KEY_CHECKS=0;");
-			statement.executeUpdate("DELETE FROM broadleaf.blc_customer WHERE EMAIL_ADDRESS=\"" + email + "\";");
-			statement.executeQuery("SET FOREIGN_KEY_CHECKS=1;");
+			statement.executeQuery("SET DATABASE REFERENTIAL INTEGRITY FALSE;");
+			statement.executeUpdate("DELETE FROM PUBLIC.blc_customer WHERE EMAIL_ADDRESS=\"" + email + "\";");
+			statement.executeQuery("SET DATABASE REFERENTIAL INTEGRITY TRUE;");
 		} catch(Exception e){
 			throw new Error("Database connection failed");
 		}
