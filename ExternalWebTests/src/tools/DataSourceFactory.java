@@ -11,7 +11,7 @@ public class DataSourceFactory {
 		JDBCDataSource hsqlDS = null;
 
 		hsqlDS = new JDBCDataSource();
-		hsqlDS.setUrl("jdbc:hsqldb:hsql://localhost/PUBLIC;ifexists=true;shutdown=true");
+		hsqlDS.setUrl("jdbc:hsqldb:hsql://localhost/broadleaf;ifexists=true;shutdown=true");
 		hsqlDS.setUser("sa");
 		hsqlDS.setPassword("");
 
