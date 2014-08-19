@@ -17,7 +17,7 @@ public class DataSourceTest {
     }
  
     private static void testDataSource() {
-        DataSource ds = DataSourceFactory.getMySQLDataSource();
+        DataSource ds = DataSourceFactory.getHSQLDataSource();
          
         Connection con = null;
         Statement stmt = null;

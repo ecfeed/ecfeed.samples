@@ -50,7 +50,7 @@ public class TestDbConnection{
 	@Before
 	public void setUpEnvironment(){
         try {
-			connection = DataSourceFactory.getMySQLDataSource().getConnection();
+			connection = DataSourceFactory.getHSQLDataSource().getConnection();
 			 statement = connection.createStatement();
 		} catch (Exception e) {
 			throw new Error("Failed to initialize database connection");
