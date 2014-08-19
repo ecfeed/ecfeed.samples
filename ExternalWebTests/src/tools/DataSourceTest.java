@@ -1,113 +1,55 @@
 package tools;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 
-import javax.sql.DataSource;
- 
-public class DataSourceTest {
- 
-    public static void main(String[] args) {
-        testPrivileges(); 
-    	testTablePresence();
-        testDataSource();
-        System.out.println("**********");
- 
-    }
-    
-    private static void testPrivileges() {
-		DataSource ds = DataSourceFactory.getHSQLDataSource();
+public class DataSourceTest{
 
-		Connection con = null;
-		Statement stmt = null;
+	public static void main(String[] args){
+		testPrivileges();
+		System.out.println("\n**********\n");
+		testDataSource();
+	}
+
+	private static void testPrivileges(){
+		ConnectionInstance con = new ConnectionInstance(DataSourceFactory.getHSQLDataSource());
+
+		System.out.println("Testing DBA privileges...");
+		// #################################
+		con.tryQuery("SET DATABASE REFERENTIAL INTEGRITY FALSE;");
+		con.tryQuery("SET DATABASE REFERENTIAL INTEGRITY TRUE;");
+		System.out.println("DBA privileges granted.");
+		// ##################################
+		con.close();
+	}
+
+	private static void testDataSource(){
+
+		ConnectionInstance con = new ConnectionInstance(DataSourceFactory.getHSQLDataSource());
+
 		try{
-			con = ds.getConnection();
-			stmt = con.createStatement();
-			// #################################
-			stmt.executeQuery("SET DATABASE REFERENTIAL INTEGRITY FALSE;");
-			stmt.executeQuery("SET DATABASE REFERENTIAL INTEGRITY TRUE;");
-			// ##################################
-            
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }finally{
-                try {
-                    if(stmt != null) stmt.close();
-                    if(con != null) con.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-        }
-    }
- 
-    private static void testTablePresence() {
-		DataSource ds = DataSourceFactory.getHSQLDataSource();
-
-		Connection con = null;
-		Statement stmt = null;
-		ResultSet rs = null;
-		try{
-			con = ds.getConnection();
-			stmt = con.createStatement();
-			rs = stmt.executeQuery("SELECT * FROM INFORMATION_SCHEMA.SYSTEM_TABLES;");
-			while(rs.next()){
-				System.out.println(rs.getString(2));
+			con.tryQuery("SELECT * FROM PUBLIC.blc_customer;");
+			while(con.result.next()){
+				System.out.println("Customer ID=" + con.result.getInt("CUSTOMER_ID") + ", " + con.result.getString("FIRST_NAME"));
 			}
+			// #################################
+			con.tryUpdate("DELETE FROM PUBLIC.blc_customer WHERE FIRST_NAME='vname';");
+
+			System.out.println("After deletion:");
+
+			con.tryQuery("SELECT * FROM PUBLIC.blc_customer;");
+			while(con.result.next()){
+				System.out.println("Customer ID=" + con.result.getInt("CUSTOMER_ID") + ", " + con.result.getString("FIRST_NAME"));
+			}
+			System.out.println("\nDone.");
 			// ##################################
-            
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }finally{
-                try {
-                    if(rs != null) rs.close();
-                    if(stmt != null) stmt.close();
-                    if(con != null) con.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-        }
-    }
-    
-    private static void testDataSource() {
-        DataSource ds = DataSourceFactory.getHSQLDataSource();
-         
-        Connection con = null;
-        Statement stmt = null;
-        ResultSet rs = null;
-        try {
-            con = ds.getConnection();
-            stmt = con.createStatement();
-            rs = stmt.executeQuery("SELECT * FROM PUBLIC.blc_customer;");
-            while(rs.next()){
-                System.out.println("Customer ID="+rs.getInt("CUSTOMER_ID")+ ", " + rs.getString("FIRST_NAME"));
-            }
-            //#################################
-            stmt.executeQuery("SET DATABASE REFERENTIAL INTEGRITY FALSE;");
-            stmt.executeUpdate("DELETE FROM PUBLIC.blc_customer;");// WHERE FIRST_NAME=\"vname\";");
-            stmt.executeQuery("SET DATABASE REFERENTIAL INTEGRITY TRUE;");
-            rs.close();
-            
-            System.out.println("After deletion:");
-            
-            rs = stmt.executeQuery("SELECT * FROM PUBLIC.blc_customer;");
-            while(rs.next()){
-                System.out.println("Customer ID="+rs.getInt("CUSTOMER_ID"));
-            }
-            //##################################
-            
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }finally{
-                try {
-                    if(rs != null) rs.close();
-                    if(stmt != null) stmt.close();
-                    if(con != null) con.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-        }
-    }
- 
+
+		} catch(SQLException e){
+			e.printStackTrace();
+		} finally{
+			if(con != null){
+				con.close();
+			}
+		}
+	}
+
 }
