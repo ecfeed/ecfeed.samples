@@ -13,7 +13,7 @@ public class ConnectionInstance{
 	public Statement statement = null;
 	public ResultSet result = null;
 	
-	ConnectionInstance(DataSource dataSource){
+	public ConnectionInstance(DataSource dataSource){
 		try{
 			connection = dataSource.getConnection();
 			statement = connection.createStatement();
@@ -22,7 +22,7 @@ public class ConnectionInstance{
 		}
 	}
 	
-	ResultSet tryQuery(String query){
+	public ResultSet tryQuery(String query){
 		try{
 			result = statement.executeQuery(query);
 			return result;
@@ -33,7 +33,7 @@ public class ConnectionInstance{
 		}		
 	}
 	
-	int tryUpdate(String query){
+	public int tryUpdate(String query){
 		int outcome = -1;
 		try{
 			statement.executeQuery("SET DATABASE REFERENTIAL INTEGRITY FALSE;");

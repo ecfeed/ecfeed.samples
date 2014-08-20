@@ -2,9 +2,7 @@ package test;
 
 import static org.junit.Assert.fail;
 
-import java.sql.Connection;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.concurrent.TimeUnit;
 
 import org.junit.Assert;
@@ -17,6 +15,7 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
+import tools.ConnectionInstance;
 import tools.DataSourceFactory;
 
 import com.testify.ecfeed.runner.StaticRunner;
@@ -31,20 +30,17 @@ public class TestRegisterBasic{
 	private String baseRedirectUrl;
 	private boolean acceptNextAlert = true;
 	private StringBuffer verificationErrors = new StringBuffer();
-	private Connection connection;
-	private Statement statement;
+	private ConnectionInstance connection;
 
 	private boolean setUpEnv = false;
 	private boolean tearDown;
-
 	private String loginNotFoundError = "The e-mail address and/or password entered do not match our records. Please try again";
 	private String login_taken_error = "email address is already in use";
 
 	// @BeforeClass
 	public void setUpEnvironment(){
 		try{
-			connection = DataSourceFactory.getHSQLDataSource().getConnection();
-			statement = connection.createStatement();
+			connection = new ConnectionInstance(DataSourceFactory.getHSQLDataSource());
 		} catch(Exception e){
 			e.printStackTrace();
 			throw new Error("Failed to initialize database connection");
@@ -77,11 +73,8 @@ public class TestRegisterBasic{
 
 	// @AfterClass
 	public void tearDownEnvironment(){
-		try{
-			if(connection != null)
-				connection.close();
-		} catch(SQLException e){
-			e.printStackTrace();
+		if(connection != null){
+			connection.close();
 		}
 
 		driver.quit();
@@ -159,9 +152,9 @@ public class TestRegisterBasic{
 					|| isElementPresent(By.xpath("//*[contains(.,' Please enter your email address.'')]")));
 		} else{
 			Assert.assertTrue(isElementPresent(By.xpath("//*[contains(.,'email address is already in use')]"))
-					|| driver.findElement(By.linkText("Logout")) != null
 					|| !isElementPresent(By.xpath("//*[contains(.,'email address is invalid')]"))
-					|| !isElementPresent(By.xpath("//*[contains(.,' Please enter your email address.'')]")));
+					|| !isElementPresent(By.xpath("//*[contains(.,' Please enter your email address.'')]"))
+					|| driver.findElement(By.linkText("Logout")) != null);
 		}
 
 		cleanUpAfterTest(email);
@@ -186,7 +179,6 @@ public class TestRegisterBasic{
 		driver.findElement(By.id("passwordConfirm")).clear();
 		driver.findElement(By.id("passwordConfirm")).sendKeys(confpsswd);
 		driver.findElement(By.xpath("//input[@value='Register']")).click();
-		driver.findElement(By.linkText("Proper Name")).click();
 		driver.findElement(By.cssSelector("a > span")).click(); // ERROR: Caught
 		// exception [ERROR: Unsupported command [selectWindow | null | ]]
 		cleanUpAfterTest(email);
@@ -194,9 +186,7 @@ public class TestRegisterBasic{
 
 	private void cleanUpAfterTest(String email){
 		try{
-			statement.executeQuery("SET DATABASE REFERENTIAL INTEGRITY FALSE;");
-			statement.executeUpdate("DELETE FROM PUBLIC.blc_customer WHERE EMAIL_ADDRESS='" + email + "';");
-			statement.executeQuery("SET DATABASE REFERENTIAL INTEGRITY TRUE;");
+			connection.tryUpdate("DELETE FROM PUBLIC.blc_customer WHERE EMAIL_ADDRESS='" + email + "';");
 		} catch(Exception e){
 			throw new Error("Database connection failed");
 		}
