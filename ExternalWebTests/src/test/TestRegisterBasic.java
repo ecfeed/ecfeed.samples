@@ -23,8 +23,8 @@ import com.testify.ecfeed.runner.annotations.TestSuites;
 @EcModel("src/model.ect")
 public class TestRegisterBasic{
 	private WebDriver driver = null;
-	private String baseUrl;
-	private String baseRedirectUrl;
+	private String baseUrl = "http://localhost:8080/";
+	private String baseRedirectUrl = "https://localhost:8443/register";
 	private StringBuffer verificationErrors = new StringBuffer();
 	private ConnectionInstance connection;
 
@@ -158,8 +158,6 @@ public class TestRegisterBasic{
 
 		try{
 			driver = new FirefoxDriver();
-			baseUrl = "http://localhost:8080/";
-			baseRedirectUrl = "https://localhost:8443/register";
 			driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
 		} catch(Exception e){
 			throw new Error("Failed to initialize Selenium driver");

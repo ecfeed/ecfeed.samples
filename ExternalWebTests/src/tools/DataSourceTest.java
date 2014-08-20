@@ -22,6 +22,9 @@ public class DataSourceTest{
 		con.close();
 	}
 
+	/*
+	 * Testing statements here.
+	 */
 	private static void testDataSource(){
 
 		ConnectionInstance con = new ConnectionInstance(DataSourceFactory.getHSQLDataSource());
@@ -29,7 +32,8 @@ public class DataSourceTest{
 		try{
 			con.tryQuery("SELECT * FROM PUBLIC.blc_customer;");
 			while(con.result.next()){
-				System.out.println("Customer ID=" + con.result.getInt("CUSTOMER_ID") + ", " + con.result.getString("FIRST_NAME"));
+				System.out.println("Customer ID=" + con.result.getInt("CUSTOMER_ID") + ", " + con.result.getString("FIRST_NAME") + ", " +
+						con.result.getString("EMAIL_ADDRESS") + ", " + con.result.getString("PASSWORD"));
 			}
 			// #################################
 			con.tryUpdate("DELETE FROM PUBLIC.blc_customer WHERE FIRST_NAME='vname';");
@@ -38,8 +42,9 @@ public class DataSourceTest{
 
 			con.tryQuery("SELECT * FROM PUBLIC.blc_customer;");
 			while(con.result.next()){
-				System.out.println("Customer ID=" + con.result.getInt("CUSTOMER_ID") + ", " + con.result.getString("FIRST_NAME"));
-			}
+				System.out.println("Customer ID=" + con.result.getInt("CUSTOMER_ID") + ", " + con.result.getString("FIRST_NAME") + ", " +
+						con.result.getString("EMAIL_ADDRESS") + ", " + con.result.getString("PASSWORD"));
+				}
 			System.out.println("\nDone.");
 			// ##################################
 
