@@ -27,7 +27,7 @@ import com.testify.ecfeed.runner.annotations.EcModel;
 @EcModel("src/model.ect")
 public class TestLoginBasic {
   private WebDriver driver;
-  private String baseUrl = "https://localhost:8443/login";
+  private String baseUrl = "http://localhost:8080/login";
   private boolean acceptNextAlert = true;
   private StringBuffer verificationErrors = new StringBuffer();
   private String loginNotFoundError = "The e-mail address and/or password entered do not match our records. Please try again";
@@ -81,12 +81,12 @@ public class TestLoginBasic {
 
 			if(expected_result){
 				Assert.assertTrue(isElementPresent(By.xpath("//*[contains(.,'" + loginNotFoundError + "')]"))
-						|| driver.findElement(By.linkText("Login")) != null);
+						|| driver.findElement(By.linkText("Logout")) != null);
 			} else{
-				Assert.assertTrue("No error message present", driver.findElement(By.linkText("Logout")) == null);
+				Assert.assertTrue("Login failed", driver.findElement(By.linkText("Login")) != null);
 			}
 			
-			//connection.tryUpdate("DELETE FROM PUBLIC.blc_customer WHERE EMAIL_ADDRESS='" + email + "';");
+			connection.tryUpdate("DELETE FROM PUBLIC.blc_customer WHERE EMAIL_ADDRESS='" + email + "';");
 			
 		} finally{
 			tearDown();

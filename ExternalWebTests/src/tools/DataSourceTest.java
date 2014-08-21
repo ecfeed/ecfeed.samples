@@ -28,7 +28,12 @@ public class DataSourceTest{
 	private static void testDataSource(){
 
 		ConnectionInstance con = new ConnectionInstance(DataSourceFactory.getHSQLDataSource());
+		
+		String email = "'que@que.que'";
 
+		con.tryUpdate("INSERT INTO BLC_CUSTOMER VALUES(10110,10110,'2014-08-20 11:22:49.263000',NULL,NULL,NULL,FALSE,"+
+				email +",'vname','vname'," + "'mypass{10110}',FALSE,NULL,TRUE,TRUE,NULL," + email + ",NULL,NULL)");
+		
 		try{
 			con.tryQuery("SELECT * FROM PUBLIC.blc_customer;");
 			while(con.result.next()){
