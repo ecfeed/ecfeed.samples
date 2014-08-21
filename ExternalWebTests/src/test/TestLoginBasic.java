@@ -4,9 +4,7 @@ import static org.junit.Assert.fail;
 
 import java.util.concurrent.TimeUnit;
 
-import org.junit.After;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.Alert;
@@ -23,6 +21,7 @@ import tools.Utils;
 
 import com.testify.ecfeed.runner.StaticRunner;
 import com.testify.ecfeed.runner.annotations.EcModel;
+import com.testify.ecfeed.runner.annotations.expected;
 
 @RunWith(StaticRunner.class)
 @EcModel("src/model.ect")
@@ -58,20 +57,68 @@ public class TestLoginBasic {
 			tearDown();
 		}
   	}
-
-  
-  	//password is stored without hashing, in format:	password{USER_ID}
-	@Test
-	public void testLoginEmailData(String email, String password, boolean expected_result) throws Exception{
+  	
+  	/*
+  	 * This one is for pairwise.
+  	 * Of course all tests could be covered with just this method, but it will require some clever constraints.
+  	 */
+	public void testLoginData(String email, String password, String input_email, String input_password, @expected boolean expected_result) throws Exception{
 		try{
 			setUp();
 			
 			String escaped_email = Utils.escapeString(email);
 			String escaped_password = Utils.escapeString(password);
 			
+			/* just wondering:
+			 * it should be easy to just dump expected_result and put an IF(email == input_email && password == input_password)
+			 * then condition assert based on result (assert login succeed if they match, assert false if not)
+			 * but then it would take away all the control user has via ecFeed so it would be just used
+			 * as data generating tool. So I will rather leave expected result and juggle around with constraints,
+			 * we are after presenting features, not simplicity, after all.
+			 */
+			
 			connection.tryUpdate("DELETE FROM PUBLIC.blc_customer WHERE CUSTOMER_ID=10110;");
 			connection.tryUpdate("INSERT INTO BLC_CUSTOMER VALUES(10110,10110,'2014-08-20 11:22:49.263000',NULL,NULL,NULL,FALSE,'"+
 					escaped_email +"','vname','vname','" + escaped_password +"{10110}',FALSE,NULL,TRUE,TRUE,NULL,'" + escaped_email + "',NULL,NULL)");
+			
+			driver.get(baseUrl);
+
+			WebElement mail_field = driver.findElement(By.name("j_username"));
+			Assert.assertTrue("field should be of email type!", mail_field.getAttribute("type").equalsIgnoreCase("email"));
+
+			driver.findElement(By.name("j_username")).sendKeys(input_email);
+			driver.findElement(By.name("j_password")).clear();
+			driver.findElement(By.name("j_password")).sendKeys(input_password);
+			driver.findElement(By.xpath("//input[@value='Login']")).click();
+
+			if(expected_result){
+				Assert.assertTrue(isElementPresent(By.xpath("//*[contains(.,'" + ErrorMessages.loginNotFound + "')]"))
+						|| driver.findElement(By.linkText("Logout")) != null);
+			} else{
+				Assert.assertTrue("Login failed", driver.findElement(By.linkText("Login")) != null);
+			}
+			
+			connection.tryUpdate("DELETE FROM PUBLIC.blc_customer WHERE EMAIL_ADDRESS='" + escaped_email + "';");
+			
+		} finally{
+			tearDown();
+		}
+
+	}
+
+  
+  	//password is stored without hashing, in format:	password{USER_ID}
+	@Test
+	public void testLoginEmailData(String email, boolean expected_result) throws Exception{
+		try{
+			setUp();
+			
+			String escaped_email = Utils.escapeString(email);
+			String password = "mypassword";
+			
+			connection.tryUpdate("DELETE FROM PUBLIC.blc_customer WHERE CUSTOMER_ID=10110;");
+			connection.tryUpdate("INSERT INTO BLC_CUSTOMER VALUES(10110,10110,'2014-08-20 11:22:49.263000',NULL,NULL,NULL,FALSE,'"+
+					escaped_email +"','vname','vname','" + password +"{10110}',FALSE,NULL,TRUE,TRUE,NULL,'" + escaped_email + "',NULL,NULL)");
 			
 			driver.get(baseUrl);
 
@@ -96,6 +143,41 @@ public class TestLoginBasic {
 			tearDown();
 		}
 
+	}
+	
+	@Test
+	public void testLoginPasswordData(String password, String input_password, boolean expected_result) throws Exception{
+		try{
+			setUp();
+			
+			String escaped_password = Utils.escapeString(password);
+			String email = "email@mail.com";
+			
+			connection.tryUpdate("DELETE FROM PUBLIC.blc_customer WHERE CUSTOMER_ID=10110;");
+			connection.tryUpdate("INSERT INTO BLC_CUSTOMER VALUES(10110,10110,'2014-08-20 11:22:49.263000',NULL,NULL,NULL,FALSE,'"+
+					email +"','vname','vname','" + escaped_password +"{10110}',FALSE,NULL,TRUE,TRUE,NULL,'" + email + "',NULL,NULL)");
+			
+			driver.get(baseUrl);
+
+			WebElement mail_field = driver.findElement(By.name("j_username"));
+			Assert.assertTrue("field should be of email type!", mail_field.getAttribute("type").equalsIgnoreCase("email"));
+
+			driver.findElement(By.name("j_username")).sendKeys(email);
+			driver.findElement(By.name("j_password")).clear();
+			driver.findElement(By.name("j_password")).sendKeys(input_password);
+			driver.findElement(By.xpath("//input[@value='Login']")).click();
+
+			if(expected_result){
+				Assert.assertTrue(driver.findElement(By.linkText("Logout")) != null);
+			} else{
+				Assert.assertTrue(isElementPresent(By.xpath("//*[contains(.,'" + ErrorMessages.loginNotFound + "')]")));
+			}
+			
+			connection.tryUpdate("DELETE FROM PUBLIC.blc_customer WHERE EMAIL_ADDRESS='" + email + "';");
+			
+		} finally{
+			tearDown();
+		}
 	}
   
 	private void setUp(){
