@@ -28,6 +28,8 @@ public class ConnectionInstance{
 			return result;
 		} catch(Exception e){
 			System.out.println(e.getMessage());
+			System.out.println("While executing query: ");
+			System.out.println(query);
 			result = null;
 			return null;
 		}		
@@ -42,6 +44,8 @@ public class ConnectionInstance{
 			return outcome;
 		} catch(Exception e){
 			System.out.println(e.getMessage());
+			System.out.println("While executing query: ");
+			System.out.println(query);
 			return outcome;
 		}		
 	}
