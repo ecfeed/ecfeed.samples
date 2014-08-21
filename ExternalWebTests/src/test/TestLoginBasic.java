@@ -30,8 +30,7 @@ public class TestLoginBasic {
   private String baseUrl = "http://localhost:8080/login";
   private boolean acceptNextAlert = true;
   private StringBuffer verificationErrors = new StringBuffer();
-  private String loginNotFoundError = "The e-mail address and/or password entered do not match our records. Please try again";
-  private String login_taken_error = "email address is already in use";
+
   private ConnectionInstance connection;
   
   	@Test
@@ -50,7 +49,7 @@ public class TestLoginBasic {
 			driver.findElement(By.xpath("//input[@value='Login']")).click();
 
 			if(expected_result){
-				Assert.assertTrue(isElementPresent(By.xpath("//*[contains(.,'" + loginNotFoundError + "')]")));
+				Assert.assertTrue(isElementPresent(By.xpath("//*[contains(.,'" + ErrorMessages.loginNotFound + "')]")));
 			} else{
 				Assert.assertFalse(isElementPresent(By.className("error")));//"No error message present", driver.findElement(By.linkText("Logout")) == null);
 			}
@@ -80,7 +79,7 @@ public class TestLoginBasic {
 			driver.findElement(By.xpath("//input[@value='Login']")).click();
 
 			if(expected_result){
-				Assert.assertTrue(isElementPresent(By.xpath("//*[contains(.,'" + loginNotFoundError + "')]"))
+				Assert.assertTrue(isElementPresent(By.xpath("//*[contains(.,'" + ErrorMessages.loginNotFound + "')]"))
 						|| driver.findElement(By.linkText("Logout")) != null);
 			} else{
 				Assert.assertTrue("Login failed", driver.findElement(By.linkText("Login")) != null);
