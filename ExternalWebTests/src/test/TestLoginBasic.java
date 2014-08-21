@@ -19,6 +19,7 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 
 import tools.ConnectionInstance;
 import tools.DataSourceFactory;
+import tools.Utils;
 
 import com.testify.ecfeed.runner.StaticRunner;
 import com.testify.ecfeed.runner.annotations.EcModel;
@@ -65,8 +66,12 @@ public class TestLoginBasic {
 		try{
 			setUp();
 			
+			String escaped_email = Utils.escapeString(email);
+			String escaped_password = Utils.escapeString(password);
+			
+			connection.tryUpdate("DELETE FROM PUBLIC.blc_customer WHERE CUSTOMER_ID=10110;");
 			connection.tryUpdate("INSERT INTO BLC_CUSTOMER VALUES(10110,10110,'2014-08-20 11:22:49.263000',NULL,NULL,NULL,FALSE,'"+
-					email +"','vname','vname','" + password +"{10110}',FALSE,NULL,TRUE,TRUE,NULL,'" + email + "',NULL,NULL)");
+					escaped_email +"','vname','vname','" + escaped_password +"{10110}',FALSE,NULL,TRUE,TRUE,NULL,'" + escaped_email + "',NULL,NULL)");
 			
 			driver.get(baseUrl);
 
@@ -85,7 +90,7 @@ public class TestLoginBasic {
 				Assert.assertTrue("Login failed", driver.findElement(By.linkText("Login")) != null);
 			}
 			
-			connection.tryUpdate("DELETE FROM PUBLIC.blc_customer WHERE EMAIL_ADDRESS='" + email + "';");
+			connection.tryUpdate("DELETE FROM PUBLIC.blc_customer WHERE EMAIL_ADDRESS='" + escaped_email + "';");
 			
 		} finally{
 			tearDown();
