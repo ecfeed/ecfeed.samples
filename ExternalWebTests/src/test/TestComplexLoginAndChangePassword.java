@@ -1,17 +1,15 @@
 package test;
 
-import java.util.concurrent.TimeUnit;
-
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
 
 import tools.ConnectionInstance;
 import tools.DataSourceFactory;
+import tools.DriverFactory;
 import tools.Utils;
 
 import com.testify.ecfeed.runner.StaticRunner;
@@ -86,8 +84,7 @@ public class TestComplexLoginAndChangePassword {
 		}
 
 		try {
-			driver = new FirefoxDriver();
-			driver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
+			driver = DriverFactory.getDriver();
 		} catch(Exception e) {
 			throw new Error("Failed to initialize Selenium driver");
 		}

@@ -1,17 +1,15 @@
 package test;
 
-import java.util.concurrent.TimeUnit;
-
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
 
 import tools.ConnectionInstance;
 import tools.DataSourceFactory;
+import tools.DriverFactory;
 
 import com.testify.ecfeed.runner.StaticRunner;
 import com.testify.ecfeed.runner.annotations.EcModel;
@@ -141,8 +139,7 @@ public class TestRegisterBasic {
 		}
 
 		try {
-			driver = new FirefoxDriver();
-			driver.manage().timeouts().implicitlyWait(1, TimeUnit.SECONDS);
+			driver = DriverFactory.getDriver();
 		} catch(Exception e) {
 			throw new Error("Failed to initialize Selenium driver");
 		}
