@@ -43,7 +43,7 @@ public class TestRegisterBasic {
 			driver.findElement(By.id("passwordConfirm")).sendKeys(password);
 			driver.findElement(By.xpath("//input[@value='Register']")).click();
 	
-			boolean email_taken = isElementPresent(By.xpath("//*[contains(.,'" + ErrorMessages.AddressInUse + "')]"));
+			boolean email_taken = isElementPresent(By.xpath("//*[contains(.,'" + ErrorMessage.AddressInUse + "')]"));
 			if (email_taken) {
 				driver.findElement(By.cssSelector("span")).click();
 				driver.findElement(By.name("j_username")).clear();
@@ -82,14 +82,14 @@ public class TestRegisterBasic {
 			driver.findElement(By.xpath("//input[@value='Register']")).click();
 
 			if (!expected_result) {
-				Assert.assertTrue(isElementPresent(By.xpath("//*[contains(.,'" + ErrorMessages.AddressInvalid + "')]"))
-						|| isElementPresent(By.xpath("//*[contains(.,'" + ErrorMessages.EnterAddress + "')]"))
+				Assert.assertTrue(isElementPresent(By.xpath("//*[contains(.,'" + ErrorMessage.AddressInvalid + "')]"))
+						|| isElementPresent(By.xpath("//*[contains(.,'" + ErrorMessage.EnterAddress + "')]"))
 						|| driver.getCurrentUrl().equals(registerUrl));
 			} else {
-				Assert.assertTrue((isElementPresent(By.xpath("//*[contains(.,'" + ErrorMessages.AddressInUse + "')]"))
+				Assert.assertTrue((isElementPresent(By.xpath("//*[contains(.,'" + ErrorMessage.AddressInUse + "')]"))
 						|| (driver.findElement(By.linkText("Logout")) != null))
-						&& !isElementPresent(By.xpath("//*[contains(.,'" + ErrorMessages.AddressInvalid + "')]"))
-						&& !isElementPresent(By.xpath("//*[contains(.,'" + ErrorMessages.EnterAddress + "')]")));
+						&& !isElementPresent(By.xpath("//*[contains(.,'" + ErrorMessage.AddressInvalid + "')]"))
+						&& !isElementPresent(By.xpath("//*[contains(.,'" + ErrorMessage.EnterAddress + "')]")));
 			}
 		} finally {
 			cleanUpAfterTest(email);

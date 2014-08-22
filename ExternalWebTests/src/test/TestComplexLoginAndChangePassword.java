@@ -42,7 +42,7 @@ public class TestComplexLoginAndChangePassword {
 			driver.findElement(By.id("passwordConfirm")).sendKeys(confpsswd);
 			driver.findElement(By.xpath("//input[@value='Register']")).click();
 
-			boolean email_taken = isElementPresent(By.xpath("//[contains(.,'" + ErrorMessages.AddressInUse + "')]"));
+			boolean email_taken = isElementPresent(By.xpath("//[contains(.,'" + ErrorMessage.AddressInUse + "')]"));
 			if (email_taken) {
 				driver.findElement(By.cssSelector("span")).click();
 				driver.findElement(By.name("j_username")).clear();
