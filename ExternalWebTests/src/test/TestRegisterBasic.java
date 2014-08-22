@@ -10,6 +10,7 @@ import org.openqa.selenium.WebDriver;
 import tools.ConnectionInstance;
 import tools.DataSourceFactory;
 import tools.DriverFactory;
+import tools.PageAddress;
 
 import com.testify.ecfeed.runner.StaticRunner;
 import com.testify.ecfeed.runner.annotations.EcModel;
@@ -20,8 +21,8 @@ import com.testify.ecfeed.runner.annotations.TestSuites;
 public class TestRegisterBasic {
 	private WebDriver driver = null;
 	private ConnectionInstance connection;
-	private String baseUrl = "http://localhost:8080/";
-	private String registerUrl = "https://localhost:8443/register";
+	private String baseUrl = PageAddress.Base;
+	private String registerUrl = PageAddress.Register;
 
 	@Test
 	@TestSuites("valid data")

@@ -10,6 +10,7 @@ import org.openqa.selenium.WebDriver;
 import tools.ConnectionInstance;
 import tools.DataSourceFactory;
 import tools.DriverFactory;
+import tools.PageAddress;
 import tools.Utils;
 
 import com.testify.ecfeed.runner.StaticRunner;
@@ -20,7 +21,7 @@ import com.testify.ecfeed.runner.annotations.*;
 public class TestComplexLoginAndChangePassword {
 	private WebDriver driver;
 	private ConnectionInstance connection;
-	private String baseUrl = "http://localhost:8080";
+	private String baseUrl = PageAddress.Base;
 
 	@Test
 	public void testRegisterBasic(String email, String first_name, String last_name, String password, String confpsswd, String newpassword,

@@ -10,6 +10,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.browserlaunchers.Sleeper;
 
 import tools.DriverFactory;
+import tools.PageAddress;
 
 import com.testify.ecfeed.runner.StaticRunner;
 import com.testify.ecfeed.runner.annotations.EcModel;
@@ -18,7 +19,7 @@ import com.testify.ecfeed.runner.annotations.EcModel;
 @EcModel("src/model.ect")
 public class TestSauceSearch {
 	private WebDriver driver;
-	private String baseUrl = "http://localhost:8080";
+	private String baseUrl = PageAddress.Base;
 
 	@Test
 	public void testSearchSauce(String name, boolean expected) throws Exception {

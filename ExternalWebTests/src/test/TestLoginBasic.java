@@ -11,6 +11,7 @@ import org.openqa.selenium.WebElement;
 import tools.ConnectionInstance;
 import tools.DataSourceFactory;
 import tools.DriverFactory;
+import tools.PageAddress;
 import tools.Utils;
 
 import com.testify.ecfeed.runner.StaticRunner;
@@ -22,7 +23,7 @@ import com.testify.ecfeed.runner.annotations.expected;
 public class TestLoginBasic {
 	private WebDriver driver;
 	private ConnectionInstance connection;
-	private String baseUrl = "http://localhost:8080/login";
+	private String baseUrl = PageAddress.Login;
 
 	@Test
 	public void testBrowserLoginCheck(String email, boolean expected_result) throws Exception {
