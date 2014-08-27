@@ -25,28 +25,6 @@ public class TestLogin {
 	private ConnectionInstance connection;
 	private String baseUrl = PageAddress.Login;
 
-	@Test
-	public void testBrowserLoginCheck(String email, boolean expected_result) throws Exception {
-		try {
-			setUp();
-			driver.get(baseUrl);
-
-			WebElement mail_field = driver.findElement(By.name("j_username"));
-			Assert.assertTrue("field should be of email type!", mail_field.getAttribute("type").equalsIgnoreCase("email"));
-			driver.findElement(By.name("j_username")).clear();
-			driver.findElement(By.name("j_username")).sendKeys(email);
-			driver.findElement(By.xpath("//input[@value='Login']")).click();
-
-			if (expected_result) {
-				Assert.assertTrue(isElementPresent(By.xpath("//*[contains(.,'" + ErrorMessage.LoginNotFound + "')]")));
-			} else {
-				Assert.assertFalse(isElementPresent(By.className("error")));
-			}
-		} finally {
-			tearDown();
-		}
-  	}
-
   	/*
   	 * This one is for pairwise.
   	 * Of course all tests could be covered with just this method, but it will require some clever constraints.
