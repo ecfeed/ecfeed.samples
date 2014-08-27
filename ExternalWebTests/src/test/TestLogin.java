@@ -20,7 +20,7 @@ import com.testify.ecfeed.runner.annotations.expected;
 
 @RunWith(StaticRunner.class)
 @EcModel("src/model.ect")
-public class TestLoginBasic {
+public class TestLogin {
 	private WebDriver driver;
 	private ConnectionInstance connection;
 	private String baseUrl = PageAddress.Login;

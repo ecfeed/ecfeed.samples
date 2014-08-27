@@ -11,6 +11,7 @@ import tools.ConnectionInstance;
 import tools.DataSourceFactory;
 import tools.DriverFactory;
 import tools.PageAddress;
+import tools.Utils;
 
 import com.testify.ecfeed.runner.StaticRunner;
 import com.testify.ecfeed.runner.annotations.EcModel;
@@ -18,53 +19,17 @@ import com.testify.ecfeed.runner.annotations.TestSuites;
 
 @RunWith(StaticRunner.class)
 @EcModel("src/model.ect")
-public class TestRegisterBasic {
+public class TestRegister {
 	private WebDriver driver = null;
 	private ConnectionInstance connection;
 	private String baseUrl = PageAddress.Base;
 	private String registerUrl = PageAddress.Register;
 
+	/*
+	 * This tests checks and warnings for email field.
+	 */
 	@Test
-	@TestSuites("valid data")
-	public void testRegisterValidData(String email, String first_name, String last_name, String password) throws Exception {
-		try {
-			setUp();
-			driver.get(baseUrl);
-			
-			driver.findElement(By.xpath("//div[@id='cart_info']/a[2]/span")).click();
-			driver.findElement(By.id("customer.emailAddress")).clear();
-			driver.findElement(By.id("customer.emailAddress")).sendKeys(email);
-			driver.findElement(By.id("customer.firstName")).clear();
-			driver.findElement(By.id("customer.firstName")).sendKeys(first_name);
-			driver.findElement(By.id("customer.lastName")).clear();
-			driver.findElement(By.id("customer.lastName")).sendKeys(last_name);
-			driver.findElement(By.id("password")).clear();
-			driver.findElement(By.id("password")).sendKeys(password);
-			driver.findElement(By.id("passwordConfirm")).clear();
-			driver.findElement(By.id("passwordConfirm")).sendKeys(password);
-			driver.findElement(By.xpath("//input[@value='Register']")).click();
-	
-			boolean email_taken = isElementPresent(By.xpath("//*[contains(.,'" + ErrorMessage.AddressInUse + "')]"));
-			if (email_taken) {
-				driver.findElement(By.cssSelector("span")).click();
-				driver.findElement(By.name("j_username")).clear();
-				driver.findElement(By.name("j_username")).sendKeys(email);
-				driver.findElement(By.name("j_password")).clear();
-				driver.findElement(By.name("j_password")).sendKeys(password);
-				driver.findElement(By.xpath("//input[@value='Login']")).click();
-			}
-			Assert.assertTrue("Not logged in - registration failed!", driver.findElement(By.linkText("Logout")) != null);
-			// Revert password change and logout
-			driver.findElement(By.cssSelector("a > span")).click();
-			Assert.assertTrue("Not logged out!", driver.findElement(By.linkText("Login")) != null);
-		} finally {
-			cleanUpAfterTest(email);
-			tearDown();
-		}
-	}
-
-	@Test
-	public void testRegisterEmailData(String email, String first_name, String last_name, String password, boolean expected_result) throws Exception {
+	public void testRegisterEmailData(String email, boolean expected_result) throws Exception {
 		try {
 			setUp();
 			driver.get(baseUrl);
@@ -73,13 +38,13 @@ public class TestRegisterBasic {
 			driver.findElement(By.id("customer.emailAddress")).clear();
 			driver.findElement(By.id("customer.emailAddress")).sendKeys(email);
 			driver.findElement(By.id("customer.firstName")).clear();
-			driver.findElement(By.id("customer.firstName")).sendKeys(first_name);
+			driver.findElement(By.id("customer.firstName")).sendKeys("name");
 			driver.findElement(By.id("customer.lastName")).clear();
-			driver.findElement(By.id("customer.lastName")).sendKeys(last_name);
+			driver.findElement(By.id("customer.lastName")).sendKeys("lastname");
 			driver.findElement(By.id("password")).clear();
-			driver.findElement(By.id("password")).sendKeys(password);
+			driver.findElement(By.id("password")).sendKeys("password");
 			driver.findElement(By.id("passwordConfirm")).clear();
-			driver.findElement(By.id("passwordConfirm")).sendKeys(password);
+			driver.findElement(By.id("passwordConfirm")).sendKeys("password");
 			driver.findElement(By.xpath("//input[@value='Register']")).click();
 
 			if (!expected_result) {
@@ -97,9 +62,12 @@ public class TestRegisterBasic {
 			tearDown();
 		}
 	}
-
+	
+/*
+ * This test checks registering in very simple binary manner - either success or failure. It doesn't check if proper warnings etc. appear.
+ */
 	@Test
-	public void testRegisterBasic(String email, String first_name, String last_name, String password, String confpsswd) throws Exception {
+	public void testRegisterComplete(String email, String first_name, String last_name, String password, String confpsswd, boolean expected_result) throws Exception {
 		try {
 			setUp();
 			driver.get(baseUrl);
@@ -116,6 +84,15 @@ public class TestRegisterBasic {
 			driver.findElement(By.id("passwordConfirm")).clear();
 			driver.findElement(By.id("passwordConfirm")).sendKeys(confpsswd);
 			driver.findElement(By.xpath("//input[@value='Register']")).click();
+			
+			if(expected_result){
+				Assert.assertTrue((isElementPresent(By.linkText("Logout"))
+						&& isElementPresent(By.xpath("//*[contains(., '" + first_name +"')]")))
+						|| isElementPresent(By.xpath("//*[contains(.,'" + ErrorMessage.AddressInUse + "')]")));
+			} else {
+				Assert.assertTrue((isElementPresent(By.className("error")) || isElementPresent(By.linkText("Login")))
+				&& driver.getCurrentUrl().equals(registerUrl));	
+			}
 			driver.findElement(By.cssSelector("a > span")).click();
 		} finally {
 			cleanUpAfterTest(email);
@@ -125,7 +102,7 @@ public class TestRegisterBasic {
 
 	private void cleanUpAfterTest(String email){
 		try{
-			connection.tryUpdate("DELETE FROM PUBLIC.blc_customer WHERE EMAIL_ADDRESS='" + email + "';");
+			connection.tryUpdate("DELETE FROM PUBLIC.blc_customer WHERE EMAIL_ADDRESS='" + Utils.escapeString(email) + "';");
 		} catch(Exception e){
 			throw new Error("Database connection failed");
 		}
@@ -134,6 +111,7 @@ public class TestRegisterBasic {
 	private void setUp() {
 		try {
 			connection = new ConnectionInstance(DataSourceFactory.getHSQLDataSource());
+			connection.tryUpdate("DELETE FROM PUBLIC.blc_customer");
 		} catch(Exception e) {
 			e.printStackTrace();
 			throw new Error("Failed to initialize database connection");
