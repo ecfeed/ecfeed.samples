@@ -15,7 +15,6 @@ import tools.Utils;
 
 import com.testify.ecfeed.runner.StaticRunner;
 import com.testify.ecfeed.runner.annotations.EcModel;
-import com.testify.ecfeed.runner.annotations.TestSuites;
 
 @RunWith(StaticRunner.class)
 @EcModel("src/model.ect")

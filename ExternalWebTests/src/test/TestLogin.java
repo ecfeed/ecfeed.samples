@@ -58,7 +58,7 @@ public class TestLogin {
 
 			if (expected_result) {
 				Assert.assertTrue(isElementPresent(By.xpath("//*[contains(.,'" + ErrorMessage.LoginNotFound + "')]"))
-						|| driver.findElement(By.linkText("Logout")) != null);
+						|| isElementPresent(By.linkText("Logout")));
 			} else{
 				Assert.assertTrue("Login failed", driver.findElement(By.linkText("Login")) != null);
 			}
@@ -89,7 +89,7 @@ public class TestLogin {
 
 			if (expected_result) {
 				Assert.assertTrue(isElementPresent(By.xpath("//*[contains(.,'" + ErrorMessage.LoginNotFound + "')]"))
-						|| driver.findElement(By.linkText("Logout")) != null);
+						|| isElementPresent(By.linkText("Logout")));
 			} else {
 				Assert.assertTrue("Login failed", driver.findElement(By.linkText("Login")) != null);
 			}
@@ -119,7 +119,7 @@ public class TestLogin {
 			driver.findElement(By.xpath("//input[@value='Login']")).click();
 
 			if (expected_result) {
-				Assert.assertTrue(driver.findElement(By.linkText("Logout")) != null);
+				Assert.assertTrue(isElementPresent(By.linkText("Logout")));
 			} else {
 				Assert.assertTrue(isElementPresent(By.xpath("//*[contains(.,'" + ErrorMessage.LoginNotFound + "')]")));
 			}
