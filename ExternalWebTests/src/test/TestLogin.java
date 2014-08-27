@@ -60,7 +60,7 @@ public class TestLogin {
 				Assert.assertTrue(isElementPresent(By.xpath("//*[contains(.,'" + ErrorMessage.LoginNotFound + "')]"))
 						|| isElementPresent(By.linkText("Logout")));
 			} else{
-				Assert.assertTrue("Login failed", driver.findElement(By.linkText("Login")) != null);
+				Assert.assertTrue("Login failed", isElementPresent(By.linkText("Login")));
 			}
 		} finally {
 			connection.tryUpdate("DELETE FROM PUBLIC.blc_customer WHERE EMAIL_ADDRESS='" + escaped_email + "';");
@@ -91,7 +91,7 @@ public class TestLogin {
 				Assert.assertTrue(isElementPresent(By.xpath("//*[contains(.,'" + ErrorMessage.LoginNotFound + "')]"))
 						|| isElementPresent(By.linkText("Logout")));
 			} else {
-				Assert.assertTrue("Login failed", driver.findElement(By.linkText("Login")) != null);
+				Assert.assertTrue("Login failed", isElementPresent(By.linkText("Login")));
 			}
 		} finally {
 			connection.tryUpdate("DELETE FROM PUBLIC.blc_customer WHERE EMAIL_ADDRESS='" + escaped_email + "';");
