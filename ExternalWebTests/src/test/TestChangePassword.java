@@ -49,8 +49,8 @@ public class TestChangePassword {
 			driver.findElement(By.id("passwordConfirm")).clear();
 			driver.findElement(By.id("passwordConfirm")).sendKeys(password);
 			driver.findElement(By.xpath("//input[@value='Register']")).click();
-			Assert.assertTrue("Not logged in!", isElementPresent(By.linkText(first_name)));
 			
+			Assert.assertTrue("Not logged in!", isElementPresent(By.linkText(first_name)));
 			driver.findElement(By.linkText(first_name)).click();
 			driver.findElement(By.linkText("Change Password")).click();
 			driver.findElement(By.id("currentPassword")).clear();
@@ -60,8 +60,8 @@ public class TestChangePassword {
 			driver.findElement(By.id("newPasswordConfirm")).clear();
 			driver.findElement(By.id("newPasswordConfirm")).sendKeys(confnewpsswd);
 			driver.findElement(By.cssSelector("input.medium.red")).click();
-			
 			driver.findElement(By.cssSelector("a > span")).click();
+			
 			Assert.assertTrue("Not logged out!", isElementPresent(By.linkText("Login")));
 
 			driver.findElement(By.cssSelector("span")).click();
@@ -71,7 +71,6 @@ public class TestChangePassword {
 			driver.findElement(By.name("j_password")).sendKeys(newpassword);
 			driver.findElement(By.xpath("//input[@value='Login']")).click();
 			Assert.assertTrue("Not logged in!", isElementPresent(By.linkText(first_name)));
-
 		} finally {
 			connection.tryUpdate("DELETE FROM PUBLIC.blc_customer WHERE EMAIL_ADDRESS='" + Utils.escapeString(email) + "';");
 			tearDown();
