@@ -18,13 +18,13 @@ import com.testify.ecfeed.runner.annotations.*;
 
 @RunWith(StaticRunner.class)
 @EcModel("src/model.ect")
-public class TestComplexLoginAndChangePassword {
+public class TestChangePassword {
 	private WebDriver driver;
 	private ConnectionInstance connection;
 	private String baseUrl = PageAddress.Base;
 
 	@Test
-	public void testRegisterBasic(String email, String first_name, String last_name, String password, String confpsswd, String newpassword,
+	public void testChangePassword(String email, String first_name, String last_name, String password, String confpsswd, String newpassword,
 			String confnewpsswd, boolean valid_data) throws Exception {
 		try {
 			setUp();
