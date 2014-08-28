@@ -29,19 +29,19 @@ public class TestLogin {
   	 * Tests for success.
   	 */
 	@Test
-	public void testLoginSuccess(String email, String password, String input_email, String input_password, @expected boolean expected_result) throws Exception {
+	public void testLoginSuccess(String email, String password, String input_email, String input_password, @expected boolean valid_input) throws Exception {
 		String escaped_email = Utils.escapeString(email);
 		String escaped_password = Utils.escapeString(password);
 		try {
 			setUp();
 			driver.get(baseUrl);
 
-			/* just wondering:
-			 * it should be easy to just dump expected_result and put an IF(email == input_email && password == input_password)
-			 * then condition assert based on result (assert login succeed if they match, assert false if not)
-			 * but then it would take away all the control user has via ecFeed so it would be just used
-			 * as data generating tool. So I will rather leave expected result and juggle around with constraints,
-			 * we are after presenting features, not simplicity, after all.
+			/*
+			 * We will combine ecFeed with in-test logic checks.
+			 * It is sometimes needed when there are more than 1 levels of complexity.
+			 * Here we have:
+			 * - validation checks on input data (please note that email and password are already in base and must be valid)
+			 * - logical check - when data is valid AND is matching database data it results in success.
 			 */
 			
 			connection.tryUpdate("DELETE FROM PUBLIC.blc_customer WHERE CUSTOMER_ID=10110;");
@@ -55,14 +55,15 @@ public class TestLogin {
 			driver.findElement(By.name("j_password")).sendKeys(input_password);
 			driver.findElement(By.xpath("//input[@value='Login']")).click();
 
-			if (expected_result) {
-				Assert.assertTrue(isElementPresent(By.xpath("//*[contains(.,'" + ErrorMessage.LoginNotFound + "')]"))
-						|| isElementPresent(By.linkText("Logout")));
+			if (valid_input && (email.equals(input_email) && password.equals(input_password))) {
+				Assert.assertTrue(isElementPresent(By.linkText("Logout")));
+			} else if(valid_input){
+				Assert.assertTrue(isElementPresent(By.xpath("//*[contains(.,'" + ErrorMessage.LoginNotFound + "')]")));	
 			} else{
 				Assert.assertTrue("Login failed", isElementPresent(By.linkText("Login")));
 			}
 		} finally {
-			connection.tryUpdate("DELETE FROM PUBLIC.blc_customer WHERE EMAIL_ADDRESS='" + escaped_email + "';");
+			cleanUpAfterTest(email);
 			tearDown();
 		}
 	}
@@ -96,7 +97,7 @@ public class TestLogin {
 				Assert.assertTrue("Login failed", isElementPresent(By.linkText("Login")));
 			}
 		} finally {
-			connection.tryUpdate("DELETE FROM PUBLIC.blc_customer WHERE EMAIL_ADDRESS='" + escaped_email + "';");
+			cleanUpAfterTest(email);
 			tearDown();
 		}
 	}
@@ -129,7 +130,7 @@ public class TestLogin {
 				Assert.assertTrue(isElementPresent(By.xpath("//*[contains(.,'" + ErrorMessage.LoginNotFound + "')]")));
 			}
 		} finally {
-			connection.tryUpdate("DELETE FROM PUBLIC.blc_customer WHERE EMAIL_ADDRESS='" + email + "';");
+			cleanUpAfterTest(email);
 			tearDown();
 		}
 	}
@@ -156,6 +157,14 @@ public class TestLogin {
 		}
 		if (connection != null) {
 			connection.close();
+		}
+	}
+	
+	private void cleanUpAfterTest(String email){
+		try{
+			connection.tryUpdate("DELETE FROM PUBLIC.blc_customer WHERE EMAIL_ADDRESS='" + Utils.escapeString(email) + "';");
+		} catch(Exception e){
+			throw new Error("Database connection failed");
 		}
 	}
 
