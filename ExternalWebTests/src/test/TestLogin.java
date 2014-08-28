@@ -26,11 +26,10 @@ public class TestLogin {
 	private String baseUrl = PageAddress.Login;
 
   	/*
-  	 * This one is for pairwise.
-  	 * Of course all tests could be covered with just this method, but it will require some clever constraints.
+  	 * Tests for success.
   	 */
 	@Test
-	public void testLoginData(String email, String password, String input_email, String input_password, @expected boolean expected_result) throws Exception {
+	public void testLoginSuccess(String email, String password, String input_email, String input_password, @expected boolean expected_result) throws Exception {
 		String escaped_email = Utils.escapeString(email);
 		String escaped_password = Utils.escapeString(password);
 		try {
@@ -68,8 +67,11 @@ public class TestLogin {
 		}
 	}
 
+	/*
+	 * Test for email field warnings.
+	 */
 	@Test
-	public void testLoginEmailData(String email, boolean expected_result) throws Exception {
+	public void testLoginEmail(String email, boolean expected_result) throws Exception {
 		String escaped_email = Utils.escapeString(email);
 		String password = "mypassword";
 		try {
@@ -99,8 +101,11 @@ public class TestLogin {
 		}
 	}
 	
+	/*
+	 * Test for password field warnings.
+	 */
 	@Test
-	public void testLoginPasswordData(String password, String input_password, boolean expected_result) throws Exception {
+	public void testLoginPassword(String password, String input_password, boolean expected_result) throws Exception {
 		String escaped_password = Utils.escapeString(password);
 		String email = "email@mail.com";
 		try {

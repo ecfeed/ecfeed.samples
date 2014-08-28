@@ -14,18 +14,25 @@ import tools.PageAddress;
 import tools.Utils;
 
 import com.testify.ecfeed.runner.StaticRunner;
-import com.testify.ecfeed.runner.annotations.*;
+import com.testify.ecfeed.runner.annotations.EcModel;
 
 @RunWith(StaticRunner.class)
 @EcModel("src/model.ect")
-public class TestComplexLoginAndChangePassword {
+public class TestChangePassword {
 	private WebDriver driver;
 	private ConnectionInstance connection;
 	private String baseUrl = PageAddress.Base;
 
+	/*
+	 * This test requires valid password.
+	 */
 	@Test
-	public void testRegisterBasic(String email, String first_name, String last_name, String password, String confpsswd, String newpassword,
-			String confnewpsswd, boolean valid_data) throws Exception {
+	public void testChangePassword(String password, String currentpsswd, String newpassword,
+			String confnewpsswd, boolean expected_result) throws Exception {
+		
+		String email = "standard.email@address.com";
+		String first_name = "Firstname";
+		
 		try {
 			setUp();
 			driver.get(baseUrl);
@@ -36,27 +43,26 @@ public class TestComplexLoginAndChangePassword {
 			driver.findElement(By.id("customer.firstName")).clear();
 			driver.findElement(By.id("customer.firstName")).sendKeys(first_name);
 			driver.findElement(By.id("customer.lastName")).clear();
-			driver.findElement(By.id("customer.lastName")).sendKeys(last_name);
+			driver.findElement(By.id("customer.lastName")).sendKeys("Surname");
 			driver.findElement(By.id("password")).clear();
 			driver.findElement(By.id("password")).sendKeys(password);
 			driver.findElement(By.id("passwordConfirm")).clear();
-			driver.findElement(By.id("passwordConfirm")).sendKeys(confpsswd);
+			driver.findElement(By.id("passwordConfirm")).sendKeys(password);
 			driver.findElement(By.xpath("//input[@value='Register']")).click();
-
-			boolean email_taken = isElementPresent(By.xpath("//[contains(.,'" + ErrorMessage.AddressInUse + "')]"));
-			if (email_taken) {
-				driver.findElement(By.cssSelector("span")).click();
-				driver.findElement(By.name("j_username")).clear();
-				driver.findElement(By.name("j_username")).sendKeys(email);
-				driver.findElement(By.name("j_password")).clear();
-				driver.findElement(By.name("j_password")).sendKeys(password);
-				driver.findElement(By.xpath("//input[@value='Login']")).click();
-			}
-			Assert.assertTrue("Not logged in!", driver.findElement(By.linkText(first_name)) != null);
-
+			Assert.assertTrue("Not logged in!", isElementPresent(By.linkText(first_name)));
+			
 			driver.findElement(By.linkText(first_name)).click();
-			changePassword(password, newpassword, confnewpsswd);
-			Assert.assertTrue("Not logged out!", driver.findElement(By.linkText("Login")) != null);
+			driver.findElement(By.linkText("Change Password")).click();
+			driver.findElement(By.id("currentPassword")).clear();
+			driver.findElement(By.id("currentPassword")).sendKeys(password);
+			driver.findElement(By.id("newPassword")).clear();
+			driver.findElement(By.id("newPassword")).sendKeys(newpassword);
+			driver.findElement(By.id("newPasswordConfirm")).clear();
+			driver.findElement(By.id("newPasswordConfirm")).sendKeys(confnewpsswd);
+			driver.findElement(By.cssSelector("input.medium.red")).click();
+			
+			driver.findElement(By.cssSelector("a > span")).click();
+			Assert.assertTrue("Not logged out!", isElementPresent(By.linkText("Login")));
 
 			driver.findElement(By.cssSelector("span")).click();
 			driver.findElement(By.name("j_username")).clear();
@@ -64,12 +70,8 @@ public class TestComplexLoginAndChangePassword {
 			driver.findElement(By.name("j_password")).clear();
 			driver.findElement(By.name("j_password")).sendKeys(newpassword);
 			driver.findElement(By.xpath("//input[@value='Login']")).click();
-			Assert.assertTrue("Not logged in!", driver.findElement(By.linkText(first_name)) != null);
+			Assert.assertTrue("Not logged in!", isElementPresent(By.linkText(first_name)));
 
-			driver.findElement(By.linkText(first_name)).click();
-			changePassword(newpassword, password, password);
-			driver.findElement(By.cssSelector("a > span")).click();
-			Assert.assertTrue("Not logged out!", driver.findElement(By.linkText("Login")) != null);
 		} finally {
 			connection.tryUpdate("DELETE FROM PUBLIC.blc_customer WHERE EMAIL_ADDRESS='" + Utils.escapeString(email) + "';");
 			tearDown();
@@ -79,6 +81,7 @@ public class TestComplexLoginAndChangePassword {
 	private void setUp() throws Exception {
 		try {
 			connection = new ConnectionInstance(DataSourceFactory.getHSQLDataSource());
+			connection.tryUpdate("DELETE FROM PUBLIC.blc_customer");
 		} catch(Exception e) {
 			e.printStackTrace();
 			throw new Error("Failed to initialize database connection");
@@ -89,18 +92,6 @@ public class TestComplexLoginAndChangePassword {
 		} catch(Exception e) {
 			throw new Error("Failed to initialize Selenium driver");
 		}
-	}
-
-	private void changePassword(String password, String newpassword, String confnewpsswd) {
-		driver.findElement(By.linkText("Change Password")).click();
-		driver.findElement(By.id("currentPassword")).clear();
-		driver.findElement(By.id("currentPassword")).sendKeys(password);
-		driver.findElement(By.id("newPassword")).clear();
-		driver.findElement(By.id("newPassword")).sendKeys(newpassword);
-		driver.findElement(By.id("newPasswordConfirm")).clear();
-		driver.findElement(By.id("newPasswordConfirm")).sendKeys(confnewpsswd);
-		driver.findElement(By.cssSelector("input.medium.red")).click();
-		driver.findElement(By.cssSelector("a > span")).click();
 	}
 
 	private void tearDown() {
