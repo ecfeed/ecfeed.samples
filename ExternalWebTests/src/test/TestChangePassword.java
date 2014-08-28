@@ -52,11 +52,11 @@ public class TestChangePassword {
 				driver.findElement(By.name("j_password")).sendKeys(password);
 				driver.findElement(By.xpath("//input[@value='Login']")).click();
 			}
-			Assert.assertTrue("Not logged in!", driver.findElement(By.linkText(first_name)) != null);
+			Assert.assertTrue("Not logged in!", isElementPresent(By.linkText(first_name)));
 
 			driver.findElement(By.linkText(first_name)).click();
 			changePassword(password, newpassword, confnewpsswd);
-			Assert.assertTrue("Not logged out!", driver.findElement(By.linkText("Login")) != null);
+			Assert.assertTrue("Not logged out!", isElementPresent(By.linkText("Login")));
 
 			driver.findElement(By.cssSelector("span")).click();
 			driver.findElement(By.name("j_username")).clear();
@@ -64,12 +64,12 @@ public class TestChangePassword {
 			driver.findElement(By.name("j_password")).clear();
 			driver.findElement(By.name("j_password")).sendKeys(newpassword);
 			driver.findElement(By.xpath("//input[@value='Login']")).click();
-			Assert.assertTrue("Not logged in!", driver.findElement(By.linkText(first_name)) != null);
+			Assert.assertTrue("Not logged in!", isElementPresent(By.linkText(first_name)));
 
 			driver.findElement(By.linkText(first_name)).click();
 			changePassword(newpassword, password, password);
 			driver.findElement(By.cssSelector("a > span")).click();
-			Assert.assertTrue("Not logged out!", driver.findElement(By.linkText("Login")) != null);
+			Assert.assertTrue("Not logged out!", isElementPresent(By.linkText("Login")));
 		} finally {
 			connection.tryUpdate("DELETE FROM PUBLIC.blc_customer WHERE EMAIL_ADDRESS='" + Utils.escapeString(email) + "';");
 			tearDown();

@@ -52,7 +52,7 @@ public class TestRegister {
 						|| driver.getCurrentUrl().equals(registerUrl));
 			} else {
 				Assert.assertTrue((isElementPresent(By.xpath("//*[contains(.,'" + ErrorMessage.AddressInUse + "')]"))
-						|| (driver.findElement(By.linkText("Logout")) != null))
+						|| isElementPresent(By.linkText("Logout")))
 						&& !isElementPresent(By.xpath("//*[contains(.,'" + ErrorMessage.AddressInvalid + "')]"))
 						&& !isElementPresent(By.xpath("//*[contains(.,'" + ErrorMessage.EnterAddress + "')]")));
 			}
