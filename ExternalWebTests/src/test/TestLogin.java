@@ -16,7 +16,6 @@ import tools.Utils;
 
 import com.testify.ecfeed.runner.StaticRunner;
 import com.testify.ecfeed.runner.annotations.EcModel;
-import com.testify.ecfeed.runner.annotations.expected;
 
 @RunWith(StaticRunner.class)
 @EcModel("src/model.ect")
@@ -29,20 +28,12 @@ public class TestLogin {
   	 * Tests for success.
   	 */
 	@Test
-	public void testLoginSuccess(String email, String password, String input_email, String input_password, @expected boolean valid_input) throws Exception {
+	public void testLoginSuccess(String email, String password, String input_email, String input_password) throws Exception {
 		String escaped_email = Utils.escapeString(email);
 		String escaped_password = Utils.escapeString(password);
 		try {
 			setUp();
 			driver.get(baseUrl);
-
-			/*
-			 * We will combine ecFeed with in-test logic checks.
-			 * It is sometimes needed when there are more than 1 levels of complexity.
-			 * Here we have:
-			 * - validation checks on input data (please note that email and password are already in base and must be valid)
-			 * - logical check - when input data is valid AND is matching database data it results in success.
-			 */
 			
 			connection.tryUpdate("DELETE FROM PUBLIC.blc_customer WHERE CUSTOMER_ID=10110;");
 			connection.tryUpdate("INSERT INTO BLC_CUSTOMER VALUES(10110,10110,'2014-08-20 11:22:49.263000',NULL,NULL,NULL,FALSE,'"+
@@ -55,10 +46,8 @@ public class TestLogin {
 			driver.findElement(By.name("j_password")).sendKeys(input_password);
 			driver.findElement(By.xpath("//input[@value='Login']")).click();
 
-			if (valid_input && (email.equals(input_email) && password.equals(input_password))) {
+			if ((email.equals(input_email) && password.equals(input_password))) {
 				Assert.assertTrue(isElementPresent(By.linkText("Logout")));
-			} else if(valid_input){
-				Assert.assertTrue(isElementPresent(By.xpath("//*[contains(.,'" + ErrorMessage.LoginNotFound + "')]")));	
 			} else{
 				Assert.assertTrue("Login failed", isElementPresent(By.linkText("Login")));
 			}
