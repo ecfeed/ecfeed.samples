@@ -41,7 +41,7 @@ public class TestLogin {
 			 * It is sometimes needed when there are more than 1 levels of complexity.
 			 * Here we have:
 			 * - validation checks on input data (please note that email and password are already in base and must be valid)
-			 * - logical check - when data is valid AND is matching database data it results in success.
+			 * - logical check - when input data is valid AND is matching database data it results in success.
 			 */
 			
 			connection.tryUpdate("DELETE FROM PUBLIC.blc_customer WHERE CUSTOMER_ID=10110;");
@@ -70,9 +70,10 @@ public class TestLogin {
 
 	/*
 	 * Test for email field warnings.
+
 	 */
 	@Test
-	public void testLoginEmail(String email, boolean expected_result) throws Exception {
+	public void testLoginEmail(String email, String input_email, boolean expected_result) throws Exception {
 		String escaped_email = Utils.escapeString(email);
 		String password = "mypassword";
 		try {
@@ -85,14 +86,15 @@ public class TestLogin {
 
 			WebElement mail_field = driver.findElement(By.name("j_username"));
 			Assert.assertTrue("field should be of email type!", mail_field.getAttribute("type").equalsIgnoreCase("email"));
-			driver.findElement(By.name("j_username")).sendKeys(email);
+			driver.findElement(By.name("j_username")).sendKeys(input_email);
 			driver.findElement(By.name("j_password")).clear();
 			driver.findElement(By.name("j_password")).sendKeys(password);
 			driver.findElement(By.xpath("//input[@value='Login']")).click();
 
-			if (expected_result) {
-				Assert.assertTrue(isElementPresent(By.xpath("//*[contains(.,'" + ErrorMessage.LoginNotFound + "')]"))
-						|| isElementPresent(By.linkText("Logout")));
+			if (expected_result && email.equals(input_email)) {
+				Assert.assertTrue( isElementPresent(By.linkText("Logout")));
+			} else if (expected_result){
+				Assert.assertTrue(isElementPresent(By.xpath("//*[contains(.,'" + ErrorMessage.LoginNotFound + "')]")));
 			} else {
 				Assert.assertTrue("Login failed", isElementPresent(By.linkText("Login")));
 			}
@@ -104,6 +106,8 @@ public class TestLogin {
 	
 	/*
 	 * Test for password field warnings.
+	 * Lack of compare constraint (arg1 = / != arg2) makes it tempting to use mixed solution, as in LoginSuccess test.
+	 * In this one we will use just EcFeed though.
 	 */
 	@Test
 	public void testLoginPassword(String password, String input_password, boolean expected_result) throws Exception {

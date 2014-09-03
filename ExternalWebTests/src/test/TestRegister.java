@@ -160,7 +160,7 @@ public class TestRegister{
 			driver.findElement(By.xpath("//input[@value='Register']")).click();
 
 			if(!expected_result){
-				Assert.assertTrue(isElementPresent(By.xpath("//*[contains(.,'" + ErrorMessage.EnterPassword + "')]"))
+				Assert.assertTrue(isElementPresent(By.xpath("//*[contains(.,'" + ErrorMessage.EnterValidPassword + "')]"))
 						|| isElementPresent(By.xpath("//*[contains(.,'" + ErrorMessage.InvalidPassword + "')]"))
 						|| driver.getCurrentUrl().equals(registerUrl));
 			} else{
