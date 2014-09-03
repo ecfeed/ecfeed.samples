@@ -14,7 +14,6 @@ public class ErrorMessage {
 	static String ConfirmPasswod = "Please confirm your password";
 	static String InvalidCurrentPassword = "Current password is invalid";
 	static String EnterCurrentPassword = "Please enter your current password";
-	static String ConfirmCurrentPassword = "Please confirm your current password";
 	static String EnterPassword = "Please enter a password";
 	static String EnterNewPassword = "Please enter your new password";
 	static String ConfirmNewPassword = "Please confirm your new password";
