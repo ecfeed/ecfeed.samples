@@ -4,25 +4,20 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.WebDriver;
 
-import tools.ConnectionInstance;
-import tools.DataSourceFactory;
-import tools.DriverFactory;
 import tools.PageAddress;
-import tools.Utils;
 
 import com.testify.ecfeed.runner.StaticRunner;
 import com.testify.ecfeed.runner.annotations.EcModel;
 
 @RunWith(StaticRunner.class)
 @EcModel("src/model.ect")
-public class TestRegister{
-	private WebDriver driver = null;
-	private ConnectionInstance connection;
-	private String baseUrl = PageAddress.Base;
+public class TestRegister extends TestUserData{
 	private String registerUrl = PageAddress.Register;
+	
+	public TestRegister(){
+		baseUrl = PageAddress.Base;
+	}
 
 	/*
 	 * This tests checks and warnings for email field.
@@ -234,7 +229,6 @@ public class TestRegister{
 			driver.findElement(By.xpath("//input[@value='Register']")).click();
 
 			driver.findElement(By.cssSelector("a > span")).click();
-			driver.findElement(By.linkText("Login")).click();
 
 			driver.findElement(By.xpath("//div[@id='cart_info']/a[2]/span")).click();
 			driver.findElement(By.id("customer.emailAddress")).clear();
@@ -295,45 +289,4 @@ public class TestRegister{
 		}
 	}
 
-	private void cleanUpAfterTest(String email){
-		try{
-			connection.tryUpdate("DELETE FROM PUBLIC.blc_customer WHERE EMAIL_ADDRESS='" + Utils.escapeString(email) + "';");
-		} catch(Exception e){
-			throw new Error("Database connection failed");
-		}
-	}
-
-	private void setUp(){
-		try{
-			connection = new ConnectionInstance(DataSourceFactory.getHSQLDataSource());
-			connection.tryUpdate("DELETE FROM PUBLIC.blc_customer");
-		} catch(Exception e){
-			e.printStackTrace();
-			throw new Error("Failed to initialize database connection");
-		}
-
-		try{
-			driver = DriverFactory.getDriver();
-		} catch(Exception e){
-			throw new Error("Failed to initialize Selenium driver");
-		}
-	}
-
-	private void tearDown() throws Exception{
-		if(driver != null){
-			driver.quit();
-		}
-		if(connection != null){
-			connection.close();
-		}
-	}
-
-	private boolean isElementPresent(By by){
-		try{
-			driver.findElement(by);
-			return true;
-		} catch(NoSuchElementException e){
-			return false;
-		}
-	}
 }
