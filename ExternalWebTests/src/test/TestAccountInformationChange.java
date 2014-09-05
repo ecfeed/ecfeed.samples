@@ -164,4 +164,36 @@ public class TestAccountInformationChange extends TestUserData{
 		}
 	}
 	
+	@Test
+	public void testSuccessNotification(String email, String newEmail, String name, String newName, String lastName, String newLastName, boolean valid_data) throws Exception {	
+		try{
+			setUp();
+			connection.tryUpdate("INSERT INTO BLC_CUSTOMER VALUES(10112,10112,'2014-08-20 11:22:49.263000',NULL,NULL,NULL,FALSE,'"+
+					Utils.escapeString(email) +"','"+Utils.escapeString(name)+"','"+Utils.escapeString(lastName)+
+					"','password{10112}',FALSE,NULL,TRUE,TRUE,NULL,'" + Utils.escapeString(email) + "',NULL,NULL)");
+			
+			login(email, "password");
+			Assert.assertTrue("Not logged in!", isElementPresent(By.linkText(name)));
+			driver.get(baseUrl);	
+			
+			driver.findElement(By.id("emailAddress")).clear();
+			driver.findElement(By.id("emailAddress")).sendKeys(newEmail);
+			driver.findElement(By.id("firstName")).clear();
+			driver.findElement(By.id("firstName")).sendKeys(newName);
+			driver.findElement(By.id("lastName")).clear();
+			driver.findElement(By.id("lastName")).sendKeys(newLastName);
+
+			driver.findElement(By.cssSelector("input.medium.red")).click();
+
+			if(valid_data && (!email.equals(newEmail) || !name.equals(newName) || !lastName.equals(newLastName))){
+				Assert.assertTrue(isElementPresent(By.className("success")));
+			} else{
+				Assert.assertTrue(!isElementPresent(By.className("success")));
+			}
+		} finally{
+			cleanUpAfterTest(email);
+			tearDown();
+		}
+	}
+	
 }
