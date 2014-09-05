@@ -30,18 +30,13 @@ public class TestChangePassword extends TestUserData {
 			driver.findElement(By.linkText("Logout")).click();
 			Assert.assertTrue("Not logged out!", isElementPresent(By.linkText("Login")));
 
-			driver.get(baseUrl);
-			driver.findElement(By.name("j_username")).clear();
-			driver.findElement(By.name("j_username")).sendKeys(email);
-			driver.findElement(By.name("j_password")).clear();
-			driver.findElement(By.name("j_password")).sendKeys(newpassword);
-			driver.findElement(By.xpath("//input[@value='Login']")).click();
+			login(email, newpassword);
 
 			if(((password.equals(currentpsswd) && newpassword.equals(confnewpsswd)) && !newpassword.equals(currentpsswd))){
 				Assert.assertFalse("Unexpected error!", isElementPresent(By.className("error")));
-				Assert.assertTrue("Not logged on!", isElementPresent(By.linkText(first_name)));
+				Assert.assertTrue("Not logged in!", isElementPresent(By.linkText(first_name)));
 			} else{
-				Assert.assertFalse("Shouldn't be logged on!", isElementPresent(By.linkText(first_name)));
+				Assert.assertFalse("Shouldn't be logged in!", isElementPresent(By.linkText(first_name)));
 			}
 		} finally{
 			connection.tryUpdate("DELETE FROM PUBLIC.blc_customer WHERE EMAIL_ADDRESS='" + email + "';");
@@ -90,13 +85,7 @@ public class TestChangePassword extends TestUserData {
 		connection.tryUpdate("INSERT INTO BLC_CUSTOMER VALUES(10112,10112,'2014-08-20 11:22:49.263000',NULL,NULL,NULL,FALSE,'"+
 				email +"','"+Utils.escapeString(first_name)+"','vname','" + Utils.escapeString(password) +"{10112}',FALSE,NULL,TRUE,TRUE,NULL,'" + email + "',NULL,NULL)");
 		
-		driver.get(baseUrl);
-
-		driver.findElement(By.name("j_username")).sendKeys(email);
-		driver.findElement(By.name("j_password")).clear();
-		driver.findElement(By.name("j_password")).sendKeys(password);
-		driver.findElement(By.xpath("//input[@value='Login']")).click();
-		
+		login(email, password);	
 		Assert.assertTrue("Not logged in!", isElementPresent(By.linkText(first_name)));
 		
 		driver.findElement(By.linkText(first_name)).click();

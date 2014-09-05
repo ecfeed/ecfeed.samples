@@ -50,7 +50,7 @@ public class TestUserData{
 
 	protected void cleanUpAfterTest(String email){
 		try{
-			connection.tryUpdate("DELETE FROM PUBLIC.blc_customer WHERE EMAIL_ADDRESS='" + Utils.escapeString(email) + "';");
+			connection.tryUpdate("DELETE FROM PUBLIC.blc_customer WHERE USER_NAME='" + Utils.escapeString(email) + "';");
 		} catch(Exception e){
 			throw new Error("Database connection failed");
 		}
