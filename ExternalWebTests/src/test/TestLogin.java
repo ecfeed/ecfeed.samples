@@ -6,14 +6,14 @@ import org.junit.runner.RunWith;
 import org.openqa.selenium.By;
 
 import tools.PageAddress;
-import tools.Utils;
+import tools.DBUtils;
 
 import com.testify.ecfeed.runner.StaticRunner;
 import com.testify.ecfeed.runner.annotations.EcModel;
 
 @RunWith(StaticRunner.class)
 @EcModel("src/model.ect")
-public class TestLogin extends TestUserData {
+public class TestLogin extends UserDataTest {
 
 	public TestLogin(){
 		baseUrl = PageAddress.Login;
@@ -24,15 +24,10 @@ public class TestLogin extends TestUserData {
   	 */
 	@Test
 	public void testLoginSuccess(String email, String password, String input_email, String input_password) throws Exception {
-		String escaped_email = Utils.escapeString(email);
-		String escaped_password = Utils.escapeString(password);
 		try {
 			setUp();
 			driver.get(baseUrl);
-			
-			connection.tryUpdate("DELETE FROM PUBLIC.blc_customer WHERE CUSTOMER_ID=10110;");
-			connection.tryUpdate("INSERT INTO BLC_CUSTOMER VALUES(10110,10110,'2014-08-20 11:22:49.263000',NULL,NULL,NULL,FALSE,'"+
-					escaped_email +"','vname','vname','" + escaped_password +"{10110}',FALSE,NULL,TRUE,TRUE,NULL,'" + escaped_email + "',NULL,NULL)");
+			insertCustomer(10110, email, password, "FirstName", "LastName");
 
 			login(input_email, input_password);
 
@@ -42,7 +37,7 @@ public class TestLogin extends TestUserData {
 				Assert.assertTrue("Login failed", isElementPresent(By.linkText("Login")));
 			}
 		} finally {
-			cleanUpAfterTest(email);
+			cleanUpUserTable(email);
 			tearDown();
 		}
 	}
@@ -53,15 +48,11 @@ public class TestLogin extends TestUserData {
 	 */
 	@Test
 	public void testLoginEmail(String email, String input_email, boolean expected_result) throws Exception {
-		String escaped_email = Utils.escapeString(email);
 		String password = "mypassword";
 		try {
 			setUp();
 			driver.get(baseUrl);
-
-			connection.tryUpdate("DELETE FROM PUBLIC.blc_customer WHERE CUSTOMER_ID=10110;");
-			connection.tryUpdate("INSERT INTO BLC_CUSTOMER VALUES(10110,10110,'2014-08-20 11:22:49.263000',NULL,NULL,NULL,FALSE,'"+
-					escaped_email +"','vname','vname','" + password +"{10110}',FALSE,NULL,TRUE,TRUE,NULL,'" + escaped_email + "',NULL,NULL)");
+			insertCustomer(10110, email, password, "FirstName", "LastName");
 
 			login(input_email, password);
 
@@ -73,7 +64,7 @@ public class TestLogin extends TestUserData {
 				Assert.assertTrue("Login failed", isElementPresent(By.linkText("Login")));
 			}
 		} finally {
-			cleanUpAfterTest(email);
+			cleanUpUserTable(email);
 			tearDown();
 		}
 	}
@@ -85,16 +76,13 @@ public class TestLogin extends TestUserData {
 	 */
 	@Test
 	public void testLoginPassword(String password, String input_password, boolean expected_result) throws Exception {
-		String escaped_password = Utils.escapeString(password);
+		String escaped_password = DBUtils.escapeString(password);
 		String email = "email@mail.com";
 		try {
 			setUp();
+			insertCustomer(10110, email, escaped_password, "firstName", "lastName");
+			
 			driver.get(baseUrl);
-
-			connection.tryUpdate("DELETE FROM PUBLIC.blc_customer WHERE CUSTOMER_ID=10110;");
-			connection.tryUpdate("INSERT INTO BLC_CUSTOMER VALUES(10110,10110,'2014-08-20 11:22:49.263000',NULL,NULL,NULL,FALSE,'"+
-					email +"','vname','vname','" + escaped_password +"{10110}',FALSE,NULL,TRUE,TRUE,NULL,'" + email + "',NULL,NULL)");
-
 			login(email, input_password);
 
 			if (expected_result) {
@@ -103,7 +91,7 @@ public class TestLogin extends TestUserData {
 				Assert.assertTrue(isElementPresent(By.xpath("//*[contains(.,'" + ErrorMessage.LoginNotFound + "')]")));
 			}
 		} finally {
-			cleanUpAfterTest(email);
+			cleanUpUserTable(email);
 			tearDown();
 		}
 	}

@@ -7,10 +7,8 @@ import org.openqa.selenium.WebDriver;
 import tools.ConnectionInstance;
 import tools.DataSourceFactory;
 import tools.DriverFactory;
-import tools.PageAddress;
-import tools.Utils;
 
-public class TestUserData{
+public class ParentTest{
 	protected WebDriver driver;
 	protected ConnectionInstance connection;
 	protected String baseUrl;
@@ -31,14 +29,6 @@ public class TestUserData{
 
 	}
 	
-	protected void login(String email, String password){
-		driver.get(PageAddress.Login);
-		driver.findElement(By.name("j_username")).sendKeys(email);
-		driver.findElement(By.name("j_password")).clear();
-		driver.findElement(By.name("j_password")).sendKeys(password);
-		driver.findElement(By.xpath("//input[@value='Login']")).click();
-	}
-
 	protected void tearDown() throws Exception{
 		if(driver != null){
 			driver.quit();
@@ -47,15 +37,7 @@ public class TestUserData{
 			connection.close();
 		}
 	}
-
-	protected void cleanUpAfterTest(String email){
-		try{
-			connection.tryUpdate("DELETE FROM PUBLIC.blc_customer WHERE USER_NAME='" + Utils.escapeString(email) + "';");
-		} catch(Exception e){
-			throw new Error("Database connection failed");
-		}
-	}
-
+	
 	protected boolean isElementPresent(By by){
 		try{
 			driver.findElement(by);

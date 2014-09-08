@@ -12,7 +12,7 @@ import com.testify.ecfeed.runner.annotations.EcModel;
 
 @RunWith(StaticRunner.class)
 @EcModel("src/model.ect")
-public class TestRegister extends TestUserData{
+public class TestRegister extends UserDataTest{
 	private String registerUrl = PageAddress.Register;
 	
 	public TestRegister(){
@@ -52,7 +52,7 @@ public class TestRegister extends TestUserData{
 						&& !isElementPresent(By.xpath("//*[contains(.,'" + ErrorMessage.EnterAddress + "')]")));
 			}
 		} finally{
-			cleanUpAfterTest(email);
+			cleanUpUserTable(email);
 			tearDown();
 		}
 	}
@@ -88,7 +88,7 @@ public class TestRegister extends TestUserData{
 				Assert.assertTrue((isElementPresent(By.xpath("//*[contains(.,'" + ErrorMessage.AddressInUse + "')]")) || isElementPresent(By.linkText("Logout"))));
 			}
 		} finally{
-			cleanUpAfterTest(email);
+			cleanUpUserTable(email);
 			tearDown();
 		}
 	}
@@ -125,7 +125,7 @@ public class TestRegister extends TestUserData{
 						|| isElementPresent(By.linkText("Logout"))));
 			}
 		} finally{
-			cleanUpAfterTest(email);
+			cleanUpUserTable(email);
 			tearDown();
 		}
 	}
@@ -162,7 +162,7 @@ public class TestRegister extends TestUserData{
 				Assert.assertTrue((isElementPresent(By.xpath("//*[contains(.,'" + ErrorMessage.AddressInUse + "')]")) || isElementPresent(By.linkText("Logout"))));
 			}
 		} finally{
-			cleanUpAfterTest(email);
+			cleanUpUserTable(email);
 			tearDown();
 		}
 	}
@@ -199,7 +199,7 @@ public class TestRegister extends TestUserData{
 				Assert.assertTrue((isElementPresent(By.xpath("//*[contains(.,'" + ErrorMessage.AddressInUse + "')]")) || isElementPresent(By.linkText("Logout"))));
 			}
 		} finally{
-			cleanUpAfterTest(email);
+			cleanUpUserTable(email);
 			tearDown();
 		}
 	}
@@ -213,7 +213,7 @@ public class TestRegister extends TestUserData{
 			setUp();
 			driver.get(baseUrl);
 
-			cleanUpAfterTest(email);
+			cleanUpUserTable(email);
 
 			driver.findElement(By.xpath("//div[@id='cart_info']/a[2]/span")).click();
 			driver.findElement(By.id("customer.emailAddress")).clear();
@@ -245,7 +245,7 @@ public class TestRegister extends TestUserData{
 
 			Assert.assertTrue(isElementPresent(By.xpath("//*[contains(.,'" + ErrorMessage.AddressInUse + "')]")));
 		} finally{
-			cleanUpAfterTest(email);
+			cleanUpUserTable(email);
 			tearDown();
 		}
 	}
@@ -284,7 +284,7 @@ public class TestRegister extends TestUserData{
 			}
 			driver.findElement(By.cssSelector("a > span")).click();
 		} finally{
-			cleanUpAfterTest(email);
+			cleanUpUserTable(email);
 			tearDown();
 		}
 	}

@@ -6,7 +6,6 @@ import org.junit.runner.RunWith;
 import org.openqa.selenium.By;
 
 import tools.PageAddress;
-import tools.Utils;
 
 import com.testify.ecfeed.runner.StaticRunner;
 import com.testify.ecfeed.runner.annotations.EcModel;
@@ -14,16 +13,17 @@ import com.testify.ecfeed.runner.annotations.expected;
 
 @RunWith(StaticRunner.class)
 @EcModel("src/model.ect")
-public class TestAccountInformationChange extends TestUserData{
-	private String baseUrl = PageAddress.AccountInfo;
+public class TestAccountInformationChange extends UserDataTest{
+	
+	public TestAccountInformationChange(){
+		baseUrl = PageAddress.AccountInfo;
+	}
 	
 	@Test
 	public void testInitialFill(String email, String name, String lastName) throws Exception {
 		try{
 			setUp();
-			connection.tryUpdate("INSERT INTO BLC_CUSTOMER VALUES(10112,10112,'2014-08-20 11:22:49.263000',NULL,NULL,NULL,FALSE,'"+
-					Utils.escapeString(email) +"','"+Utils.escapeString(name)+"','"+Utils.escapeString(lastName)+
-					"','password{10112}',FALSE,NULL,TRUE,TRUE,NULL,'" + Utils.escapeString(email) + "',NULL,NULL)");
+			insertCustomer(10112, email, "password", name, lastName);
 			
 			login(email, "password");
 			Assert.assertTrue("Not logged in!", isElementPresent(By.linkText(name)));
@@ -35,7 +35,7 @@ public class TestAccountInformationChange extends TestUserData{
 
 			driver.findElement(By.linkText("Logout")).click();
 		} finally{
-			cleanUpAfterTest(email);
+			cleanUpUserTable(email);
 			tearDown();
 		}
 	}
@@ -45,9 +45,7 @@ public class TestAccountInformationChange extends TestUserData{
 		try{
 			String name = "Firstname";
 			setUp();
-			connection.tryUpdate("INSERT INTO BLC_CUSTOMER VALUES(10112,10112,'2014-08-20 11:22:49.263000',NULL,NULL,NULL,FALSE,'"+
-					Utils.escapeString(email) +"','"+Utils.escapeString(name)+"','Lastname','password{10112}',FALSE,NULL,TRUE,TRUE,NULL,'" + 
-					Utils.escapeString(email) + "',NULL,NULL)");
+			insertCustomer(10112, email, "password", name, "LastName");
 			
 			login(email, "password");
 			Assert.assertTrue("Not logged in!", isElementPresent(By.linkText(name)));
@@ -62,7 +60,7 @@ public class TestAccountInformationChange extends TestUserData{
 				Assert.assertTrue("email address doesn't match.", driver.findElement(By.id("emailAddress")).getAttribute("value").equals(email));
 			}
 		} finally{
-			cleanUpAfterTest(email);
+			cleanUpUserTable(email);
 			tearDown();
 		}
 	}
@@ -72,9 +70,7 @@ public class TestAccountInformationChange extends TestUserData{
 		String email = "standard.email@address.com";
 		try{
 			setUp();
-			connection.tryUpdate("INSERT INTO BLC_CUSTOMER VALUES(10112,10112,'2014-08-20 11:22:49.263000',NULL,NULL,NULL,FALSE,'"+
-					Utils.escapeString(email) +"','"+Utils.escapeString(name)+"','Lastname','password{10112}',FALSE,NULL,TRUE,TRUE,NULL,'" +
-					Utils.escapeString(email) + "',NULL,NULL)");
+			insertCustomer(10112, email, "password", name, "LastName");
 			
 			login(email, "password");
 			Assert.assertTrue("Not logged in!", isElementPresent(By.linkText(name)));
@@ -91,7 +87,7 @@ public class TestAccountInformationChange extends TestUserData{
 				Assert.assertTrue("first name doesn't match.", driver.findElement(By.id("firstName")).getAttribute("value").equals(name));
 			}
 		} finally{
-			cleanUpAfterTest(email);
+			cleanUpUserTable(email);
 			tearDown();
 		}
 	}
@@ -102,9 +98,7 @@ public class TestAccountInformationChange extends TestUserData{
 		String firstName = "Firstname";
 		try{
 			setUp();
-			connection.tryUpdate("INSERT INTO BLC_CUSTOMER VALUES(10112,10112,'2014-08-20 11:22:49.263000',NULL,NULL,NULL,FALSE,'"+
-					Utils.escapeString(email) +"','"+Utils.escapeString(firstName)+"','"+Utils.escapeString(name)+
-					"','password{10112}',FALSE,NULL,TRUE,TRUE,NULL,'" +	Utils.escapeString(email) + "',NULL,NULL)");
+			insertCustomer(10112, email, "password", firstName, name);
 			
 			login(email, "password");
 			Assert.assertTrue("Not logged in!", isElementPresent(By.linkText(firstName)));
@@ -121,7 +115,7 @@ public class TestAccountInformationChange extends TestUserData{
 				Assert.assertTrue("last name doesn't match.", driver.findElement(By.id("lastName")).getAttribute("value").equals(name));
 			}
 		} finally{
-			cleanUpAfterTest(email);
+			cleanUpUserTable(email);
 			tearDown();
 		}
 	}
@@ -131,9 +125,7 @@ public class TestAccountInformationChange extends TestUserData{
 	public void testAccountInfoChangeSuccess(String email, String newEmail, String name, String newName, String lastName, String newLastName, boolean valid_data) throws Exception {	
 		try{
 			setUp();
-			connection.tryUpdate("INSERT INTO BLC_CUSTOMER VALUES(10112,10112,'2014-08-20 11:22:49.263000',NULL,NULL,NULL,FALSE,'"+
-					Utils.escapeString(email) +"','"+Utils.escapeString(name)+"','"+Utils.escapeString(lastName)+
-					"','password{10112}',FALSE,NULL,TRUE,TRUE,NULL,'" + Utils.escapeString(email) + "',NULL,NULL)");
+			insertCustomer(10112, email, "password", name, lastName);
 			
 			login(email, "password");
 			Assert.assertTrue("Not logged in!", isElementPresent(By.linkText(name)));
@@ -159,7 +151,7 @@ public class TestAccountInformationChange extends TestUserData{
 				Assert.assertTrue("last name doesn't match.", driver.findElement(By.id("lastName")).getAttribute("value").equals(lastName));
 			}
 		} finally{
-			cleanUpAfterTest(email);
+			cleanUpUserTable(email);
 			tearDown();
 		}
 	}
@@ -168,9 +160,7 @@ public class TestAccountInformationChange extends TestUserData{
 	public void testSuccessNotification(String email, String newEmail, String name, String newName, String lastName, String newLastName, boolean valid_data) throws Exception {	
 		try{
 			setUp();
-			connection.tryUpdate("INSERT INTO BLC_CUSTOMER VALUES(10112,10112,'2014-08-20 11:22:49.263000',NULL,NULL,NULL,FALSE,'"+
-					Utils.escapeString(email) +"','"+Utils.escapeString(name)+"','"+Utils.escapeString(lastName)+
-					"','password{10112}',FALSE,NULL,TRUE,TRUE,NULL,'" + Utils.escapeString(email) + "',NULL,NULL)");
+			insertCustomer(10112, email, "password", name, lastName);
 			
 			login(email, "password");
 			Assert.assertTrue("Not logged in!", isElementPresent(By.linkText(name)));
@@ -185,13 +175,13 @@ public class TestAccountInformationChange extends TestUserData{
 
 			driver.findElement(By.cssSelector("input.medium.red")).click();
 
-			if(valid_data && (!email.equals(newEmail) || !name.equals(newName) || !lastName.equals(newLastName))){
+			if(valid_data){
 				Assert.assertTrue(isElementPresent(By.className("success")));
 			} else{
 				Assert.assertTrue(!isElementPresent(By.className("success")));
 			}
 		} finally{
-			cleanUpAfterTest(email);
+			cleanUpUserTable(email);
 			tearDown();
 		}
 	}

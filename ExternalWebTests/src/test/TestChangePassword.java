@@ -6,14 +6,13 @@ import org.junit.runner.RunWith;
 import org.openqa.selenium.By;
 
 import tools.PageAddress;
-import tools.Utils;
 
 import com.testify.ecfeed.runner.StaticRunner;
 import com.testify.ecfeed.runner.annotations.EcModel;
 
 @RunWith(StaticRunner.class)
 @EcModel("src/model.ect")
-public class TestChangePassword extends TestUserData {
+public class TestChangePassword extends UserDataTest {
 
 	public TestChangePassword(){
 		baseUrl = PageAddress.Login;
@@ -33,13 +32,12 @@ public class TestChangePassword extends TestUserData {
 			login(email, newpassword);
 
 			if(((password.equals(currentpsswd) && newpassword.equals(confnewpsswd)) && !newpassword.equals(currentpsswd))){
-				Assert.assertFalse("Unexpected error!", isElementPresent(By.className("error")));
 				Assert.assertTrue("Not logged in!", isElementPresent(By.linkText(first_name)));
 			} else{
 				Assert.assertFalse("Shouldn't be logged in!", isElementPresent(By.linkText(first_name)));
 			}
 		} finally{
-			connection.tryUpdate("DELETE FROM PUBLIC.blc_customer WHERE EMAIL_ADDRESS='" + email + "';");
+			cleanUpUserTable(email);
 			tearDown();
 		}
 
@@ -74,7 +72,7 @@ public class TestChangePassword extends TestUserData {
 				Assert.assertTrue("Expected error here!", isElementPresent(By.className("error")));
 			}						
 		} finally {
-			connection.tryUpdate("DELETE FROM PUBLIC.blc_customer WHERE EMAIL_ADDRESS='" + email + "';");
+			cleanUpUserTable(email);
 			tearDown();
 		}
 	
@@ -82,8 +80,7 @@ public class TestChangePassword extends TestUserData {
 	
 	private void tryLoginAndChangePassword(String email, String first_name, String password, String currentpsswd, String newpassword,
 			String confnewpsswd){
-		connection.tryUpdate("INSERT INTO BLC_CUSTOMER VALUES(10112,10112,'2014-08-20 11:22:49.263000',NULL,NULL,NULL,FALSE,'"+
-				email +"','"+Utils.escapeString(first_name)+"','vname','" + Utils.escapeString(password) +"{10112}',FALSE,NULL,TRUE,TRUE,NULL,'" + email + "',NULL,NULL)");
+		insertCustomer(10113, email, password, first_name, "LastName");
 		
 		login(email, password);	
 		Assert.assertTrue("Not logged in!", isElementPresent(By.linkText(first_name)));
