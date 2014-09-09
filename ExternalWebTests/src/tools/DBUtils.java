@@ -20,7 +20,7 @@ public class DBUtils{
 
 			for(int i = 1; i <= rsmd.getColumnCount(); i++){
 				if(i > 1)
-					System.out.print("\t");
+					System.out.print(",  ");
 				String columnName = rsmd.getColumnName(i);
 				System.out.print(columnName);
 			}
@@ -29,7 +29,7 @@ public class DBUtils{
 				System.out.println("");
 				for(int i = 1; i <= rsmd.getColumnCount(); i++){
 					if(i > 1)
-						System.out.print("\t");
+						System.out.print(",  ");
 					String columnValue = rs.getString(i);
 					System.out.print(columnValue);
 				}
@@ -38,5 +38,23 @@ public class DBUtils{
 			e.printStackTrace();
 			throw new Error("Failed to initialize database connection");
 		}
+	}
+	
+	public static long getNextMaxValue(String tableName, String key){
+		ConnectionInstance connection;
+		try{
+			connection = new ConnectionInstance(DataSourceFactory.getHSQLDataSource());
+			ResultSet rs = connection.tryQuery("SELECT MAX(" + key + ") FROM " + tableName + ";");
+
+			while(rs.next()){
+				return rs.getLong(1);
+			}
+		} catch(Exception e){
+			e.printStackTrace();
+			throw new Error("Failed to initialize database connection");
+		}
+		
+		
+		return -1;
 	}
 }
