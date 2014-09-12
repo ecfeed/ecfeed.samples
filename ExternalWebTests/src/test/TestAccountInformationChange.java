@@ -23,7 +23,7 @@ public class TestAccountInformationChange extends UserDataTest{
 	public void testInitialFill(String email, String name, String lastName) throws Exception {
 		try{
 			setUp();
-			insertCustomer(10112, email, "password", name, lastName);
+			insertCustomer(email, "password", name, lastName);
 			
 			login(email, "password");
 			Assert.assertTrue("Not logged in!", isElementPresent(By.linkText(name)));
@@ -45,7 +45,7 @@ public class TestAccountInformationChange extends UserDataTest{
 		try{
 			String name = "Firstname";
 			setUp();
-			insertCustomer(10112, email, "password", name, "LastName");
+			insertCustomer(email, "password", name, "LastName");
 			
 			login(email, "password");
 			Assert.assertTrue("Not logged in!", isElementPresent(By.linkText(name)));
@@ -70,7 +70,7 @@ public class TestAccountInformationChange extends UserDataTest{
 		String email = "standard.email@address.com";
 		try{
 			setUp();
-			insertCustomer(10112, email, "password", name, "LastName");
+			insertCustomer(email, "password", name, "LastName");
 			
 			login(email, "password");
 			Assert.assertTrue("Not logged in!", isElementPresent(By.linkText(name)));
@@ -98,7 +98,7 @@ public class TestAccountInformationChange extends UserDataTest{
 		String firstName = "Firstname";
 		try{
 			setUp();
-			insertCustomer(10112, email, "password", firstName, name);
+			insertCustomer(email, "password", firstName, name);
 			
 			login(email, "password");
 			Assert.assertTrue("Not logged in!", isElementPresent(By.linkText(firstName)));
@@ -125,7 +125,7 @@ public class TestAccountInformationChange extends UserDataTest{
 	public void testAccountInfoChangeSuccess(String email, String newEmail, String name, String newName, String lastName, String newLastName, boolean valid_data) throws Exception {	
 		try{
 			setUp();
-			insertCustomer(10112, email, "password", name, lastName);
+			insertCustomer(email, "password", name, lastName);
 			
 			login(email, "password");
 			Assert.assertTrue("Not logged in!", isElementPresent(By.linkText(name)));
@@ -160,7 +160,7 @@ public class TestAccountInformationChange extends UserDataTest{
 	public void testSuccessNotification(String email, String newEmail, String name, String newName, String lastName, String newLastName, boolean valid_data) throws Exception {	
 		try{
 			setUp();
-			insertCustomer(10112, email, "password", name, lastName);
+			insertCustomer(email, "password", name, lastName);
 			
 			login(email, "password");
 			Assert.assertTrue("Not logged in!", isElementPresent(By.linkText(name)));

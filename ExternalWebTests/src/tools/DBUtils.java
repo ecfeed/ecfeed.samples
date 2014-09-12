@@ -47,7 +47,7 @@ public class DBUtils{
 			ResultSet rs = connection.tryQuery("SELECT MAX(" + key + ") FROM " + tableName + ";");
 
 			while(rs.next()){
-				return rs.getLong(1);
+				return rs.getLong(1)+1;
 			}
 		} catch(Exception e){
 			e.printStackTrace();

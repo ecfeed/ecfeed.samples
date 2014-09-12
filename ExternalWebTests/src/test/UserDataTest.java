@@ -10,19 +10,21 @@ import tools.PageAddress;
 
 public class UserDataTest extends ParentTest{
 
-	protected boolean insertCustomer(int id, String email, String password, String firstName, String lastName){
-		connection.tryUpdate("DELETE FROM PUBLIC.blc_customer WHERE CUSTOMER_ID=" + id + ";");
+	/*
+	 * @return id of user added or -1 if failed; Use that id with cleanUpUser to remove all related data after test
+	 */
+	protected long insertCustomer(String email, String password, String firstName, String lastName){
+		long id = DBUtils.getNextMaxValue("PUBLIC.blc_customer", "CUSTOMER_ID");
 		connection.tryUpdate("DELETE FROM PUBLIC.blc_customer WHERE USER_NAME='" + DBUtils.escapeString(email) + "';");
-		int outcome =
-				connection.tryUpdate("INSERT INTO BLC_CUSTOMER VALUES(" + id + "," + id
+		int outcome = connection.tryUpdate("INSERT INTO BLC_CUSTOMER VALUES(" + id + "," + id
 						+ ",'2014-08-20 11:22:49.263000',NULL,NULL,NULL,FALSE,'" + DBUtils.escapeString(email) + "','"
 						+ DBUtils.escapeString(firstName) + "','" + DBUtils.escapeString(lastName) + "','" + DBUtils.escapeString(password)
 						+ "{" + id + "}',FALSE,NULL,TRUE,TRUE,NULL,'" + DBUtils.escapeString(email) + "',NULL,NULL)");
 
 		if(outcome == -1){
-			return false;
+			return -1;
 		}
-		return true;
+		return id;
 	}
 
 	protected boolean insertAddress(long customerId, String line1, String line2, String city, String postal, String addrName, State state,
@@ -78,7 +80,7 @@ public class UserDataTest extends ParentTest{
 	 * @param id id of user to be completely wiped from database, along with all
 	 * correlated data. This method will be complemented with each added module;
 	 */
-	protected void cleanUpUser(int id){
+	protected void cleanUpUser(long id){
 		try{
 			connection.tryUpdate("DELETE FROM PUBLIC.blc_customer WHERE CUSTOMER_ID=" + id + ";");
 			ArrayList<Long> addrList = new ArrayList<>();

@@ -80,7 +80,7 @@ public class TestChangePassword extends UserDataTest {
 	
 	private void tryLoginAndChangePassword(String email, String first_name, String password, String currentpsswd, String newpassword,
 			String confnewpsswd){
-		insertCustomer(10113, email, password, first_name, "LastName");
+		insertCustomer(email, password, first_name, "LastName");
 		
 		login(email, password);	
 		Assert.assertTrue("Not logged in!", isElementPresent(By.linkText(first_name)));

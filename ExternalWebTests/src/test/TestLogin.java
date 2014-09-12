@@ -27,7 +27,7 @@ public class TestLogin extends UserDataTest {
 		try {
 			setUp();
 			driver.get(baseUrl);
-			insertCustomer(10110, email, password, "FirstName", "LastName");
+			insertCustomer(email, password, "FirstName", "LastName");
 
 			login(input_email, input_password);
 
@@ -52,7 +52,7 @@ public class TestLogin extends UserDataTest {
 		try {
 			setUp();
 			driver.get(baseUrl);
-			insertCustomer(10110, email, password, "FirstName", "LastName");
+			insertCustomer(email, password, "FirstName", "LastName");
 
 			login(input_email, password);
 
@@ -80,7 +80,7 @@ public class TestLogin extends UserDataTest {
 		String email = "email@mail.com";
 		try {
 			setUp();
-			insertCustomer(10110, email, escaped_password, "firstName", "lastName");
+			insertCustomer(email, escaped_password, "firstName", "lastName");
 			
 			driver.get(baseUrl);
 			login(email, input_password);
