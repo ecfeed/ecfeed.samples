@@ -61,8 +61,7 @@ public class TestUserAddressChange extends UserDataTest{
 			 driver.findElement(By.id("address.default1")).click();
 			 driver.findElement(By.cssSelector("input.medium.red")).click();
 			
-				driver.get(baseUrl);
-			//it throws error if address names are the same. It shouldn't.
+			driver.get(baseUrl);
 			boolean addressPresent = false;
 			List<WebElement> dropDownList = driver.findElements(By.cssSelector("option"));
 			for(WebElement element : dropDownList){
@@ -104,14 +103,8 @@ public class TestUserAddressChange extends UserDataTest{
 		}
 		finally{
 			cleanUpUser(user_id);
-			tearDown();
+
 		}
-		
-		DBUtils.printTableContent("BLC_CUSTOMER");
-		DBUtils.printTableContent("BLC_CUSTOMER_ADDRESS");
-		DBUtils.printTableContent("BLC_ADDRESS");
-		DBUtils.printTableContent("BLC_CUSTOMER_PHONE");
-		DBUtils.printTableContent("BLC_PHONE");
 		
 	}
 
