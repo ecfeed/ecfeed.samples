@@ -9,7 +9,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 
-import tools.DBUtils;
 import tools.PageAddress;
 
 import com.testify.ecfeed.runner.StaticRunner;
@@ -103,7 +102,7 @@ public class TestUserAddressChange extends UserDataTest{
 		}
 		finally{
 			cleanUpUser(user_id);
-
+			tearDown();
 		}
 		
 	}

@@ -6,4 +6,5 @@ public class PageAddress {
 	public static String Register = "https://localhost:8443/register";
 	public static String AccountInfo = "https://localhost:8443/account";
 	public static String AddressInfo = "https://localhost:8443/account/addresses";
+	public static String Checkout = "https://localhost:8443/checkout";
 }
