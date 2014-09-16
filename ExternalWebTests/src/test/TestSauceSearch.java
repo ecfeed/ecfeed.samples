@@ -1,7 +1,7 @@
 package test;
 
-import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertFalse;
 
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
@@ -9,7 +9,6 @@ import org.junit.runner.RunWith;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.browserlaunchers.Sleeper;
 
 import tools.PageAddress;
 
@@ -25,21 +24,20 @@ public class TestSauceSearch extends ParentTest{
 	}
 
 	@Test
-	public void testSearchSauce(String name, boolean expected) throws Exception {
+	public void testSearchSauceSuccess(String keywords, boolean expected) throws Exception {
 		try {
 			setUp();
 			driver.get(baseUrl);
-
 			driver.findElement(By.name("q")).clear();
-			driver.findElement(By.name("q")).sendKeys(name);
+			driver.findElement(By.name("q")).sendKeys(keywords);
 			driver.findElement(By.id("search_button")).click();
-			if (expected) {
-				assertTrue(isElementPresent(By.cssSelector("div.title")));
-				driver.findElement(By.cssSelector("input.addToCart")).click();
-				Sleeper.sleepTightInSeconds(2);
-				assertNotEquals("0", driver.findElement(By.cssSelector("span.headerCartItemsCount")).getText());
+			
+			if(expected){
+				assertTrue("Expected results, found nothing", isElementPresent(By.xpath("id('products')/li[1]/div[1]/a")) 
+						|| isElementPresent(By.xpath("id('products')/li[1]/div[2]/a")));
 			} else {
-				assertTrue(!isElementPresent(By.cssSelector("div.title")));
+				assertFalse("Expected nothing",isElementPresent(By.xpath("id('products')/li[1]/div[1]/a")) 
+						|| isElementPresent(By.xpath("id('products')/li[1]/div[2]/a")));
 			}
 		} finally {
 			tearDown();
@@ -83,11 +81,9 @@ public class TestSauceSearch extends ParentTest{
 				} else{
 					break;
 				}
-			}
-			
+			}		
 		}
-		finally {
-		
+		finally {	
 			tearDown();
 		}
 	}
