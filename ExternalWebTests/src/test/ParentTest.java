@@ -23,6 +23,7 @@ public class ParentTest{
 
 		try{
 			driver = DriverFactory.getDriver();
+			driver.manage().window().maximize();
 		} catch(Exception e){
 			throw new Error("Failed to initialize Selenium driver");
 		}

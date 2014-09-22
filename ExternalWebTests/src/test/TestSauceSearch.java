@@ -24,7 +24,7 @@ public class TestSauceSearch extends ParentTest{
 	}
 
 	@Test
-	public void testSearchSauceSuccess(String keywords, boolean expected) throws Exception {
+	public void testSearchSuccess(String keywords, boolean expected) throws Exception {
 		try {
 			setUp();
 			driver.get(baseUrl);
@@ -62,14 +62,11 @@ public class TestSauceSearch extends ParentTest{
 						assertTrue("not found any keyword in resulting page!",
 								openInNewTabAndScanForKeywords(driver.findElement(By.xpath("id('products')/li["+position+"]/div[1]/a")), keywords));
 						position +=1;
-						System.out.println("NORMAL");
 					} else if(isElementPresent(By.xpath("id('products')/li["+position+"]/div[2]/a"))){
 						assertTrue("not found any keyword in resulting page!",
 								openInNewTabAndScanForKeywords(driver.findElement(By.xpath("id('products')/li["+position+"]/div[2]/a")), keywords));
 						position +=1;
-						System.out.println("NORMAL");
 					} else {
-						System.out.println("PAGE ENDED");	
 						position = 1;
 						page += 1;
 						break;

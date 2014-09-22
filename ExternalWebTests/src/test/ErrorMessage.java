@@ -19,4 +19,6 @@ public class ErrorMessage {
 	static String ConfirmNewPassword = "Please confirm your new password";
 	static String PasswordsMustMatch2 = "Passwords don't match";
 	
+	static String CartIsEmpty = "Your cart is empty";
+	static String SelectShippingMethod = "Please select a shipping method";
 }

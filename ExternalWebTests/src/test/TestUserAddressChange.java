@@ -22,7 +22,7 @@ public class TestUserAddressChange extends UserDataTest{
 	public TestUserAddressChange(){
 		baseUrl = PageAddress.AddressInfo;
 	}
-
+	
 	@Test
 	public void testAddAddress(String firstName,String lastName, String phone, String addr1, String addr2, String city, 
 											State state, String postal, String addrName, boolean isDefault, @expected boolean valid_data) throws Exception{
