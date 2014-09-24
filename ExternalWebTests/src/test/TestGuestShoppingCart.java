@@ -32,6 +32,7 @@ public class TestGuestShoppingCart extends ParentTest{
 		final String name;
 		Integer quantity;
 		BigDecimal price;
+		BigDecimal discount;
 
 		public ItemSpec(String aname){
 			name = aname;
@@ -43,7 +44,11 @@ public class TestGuestShoppingCart extends ParentTest{
 			if(quantity == null || price == null){
 				return new BigDecimal(0);
 			}
-			return price.multiply(new BigDecimal(quantity));
+			if(discount != null){
+				return (price.multiply(new BigDecimal(quantity))).subtract(discount);
+			} else {
+				return price.multiply(new BigDecimal(quantity));
+			}
 		}
 
 		@Override
@@ -75,17 +80,19 @@ public class TestGuestShoppingCart extends ParentTest{
 			driver.findElement(By.name("q")).clear();
 			driver.findElement(By.name("q")).sendKeys(name);
 			driver.findElement(By.name("q")).sendKeys(Keys.ENTER);
-			Assert.assertTrue("no elements found", isElementPresent(By.cssSelector("input.addToCart")));
 			
-			String saucename = driver.findElement(By.cssSelector("div.title")).getText();		
-			driver.findElement(By.cssSelector("input.addToCart")).click();
+			int itemCount = itemCount();
 			
-			if(isElementPresent(By.id("simplemodal-container"))){
-				driver.findElement(By.xpath("id('simplemodal-container')//div/ul/li[1]/ul/li[1]/div/a")).click();
-				driver.findElement(By.xpath("id('simplemodal-container')//div/ul/li[2]/ul/li[1]/div/a")).click();
-				driver.findElement(By.xpath("id('simplemodal-container')//div/ul/li[2]/ul/li[1]/div/a")).sendKeys(Keys.END);				
-				driver.findElement(By.xpath("id('simplemodal-container')//input[@class='addToCart']")).click();
-			}
+			Assert.assertTrue("no elements found", itemCount > 0 && isElementPresent(By.cssSelector("input.addToCart")));
+			Random rng = new Random(System.currentTimeMillis());
+			
+			int index = rng.nextInt(itemCount) +1;
+			//random
+			
+			String saucename = driver.findElement(By.xpath("//ul[@id='products']/li["+ index +"]//div[@class='title']")).getText();
+			driver.findElement(By.xpath("//ul[@id='products']/li["+ index +"]//input[4]")).sendKeys(Keys.ENTER);
+			
+			tryAddGadgetToCart();
 			
 			for(int i = 0; i < 10; i++){
 				driver.findElement(By.cssSelector("span.headerCartItemsCountWord")).sendKeys(Keys.HOME);
@@ -264,6 +271,30 @@ public class TestGuestShoppingCart extends ParentTest{
 		return count-1;
 	}
 	
+	private boolean tryAddGadgetToCart(){
+		if(isElementPresent(By.id("simplemodal-container"))){
+			Random rng = new Random(System.currentTimeMillis());
+			int attributeCount = driver.findElements(By.xpath("id('simplemodal-container')//div/ul/li")).size();
+			
+			for(int i = 1; i <= attributeCount+1; i++){
+				if(i == attributeCount +1){
+					driver.findElement(By.xpath("id('simplemodal-container')//div/ul/li[" + (i-1) + "]")).sendKeys(Keys.END);				
+					driver.findElement(By.xpath("id('simplemodal-container')//input[@class='addToCart']")).click();
+					break;
+				}
+				try{
+					int optionCount = driver.findElements(By.xpath("id('simplemodal-container')//div/ul/li[1]/ul/li")).size();
+					int index = rng.nextInt(optionCount) + 1;
+					driver.findElement(By.xpath("id('simplemodal-container')//div/ul/li["+ i +"]/ul/li[" + index + "]/div/a")).click();
+				} catch(Exception e){
+					
+				}
+			}
+			return true;
+		}
+		return false;
+	}
+	
 	private int selectRandomItems(Set<ItemSpec> items){
 		Random rng = new Random(System.currentTimeMillis());	
 		int itemCount = itemCount();
@@ -274,6 +305,7 @@ public class TestGuestShoppingCart extends ParentTest{
 			int i = rng.nextInt(itemCount) + 1;
 			if(items.add(new ItemSpec(driver.findElement(By.xpath("//ul[@id='products']/li["+ i +"]//div[@class='title']")).getText()))){
 				driver.findElement(By.xpath("//ul[@id='products']/li["+ i +"]//input[4]")).sendKeys(Keys.ENTER);
+				tryAddGadgetToCart();
 				try{
 					Thread.sleep(100);
 				} catch(Exception e){	
@@ -332,6 +364,17 @@ public class TestGuestShoppingCart extends ParentTest{
 							item.price = new BigDecimal(
 											(driver.findElement(By.xpath("id('cart_products')/tbody/tr[" + i + "]/td[4]")).getText())
 													.replace("$", ""));
+							BigDecimal discount = null;
+							try{
+								discount = new BigDecimal(driver.findElement(By.xpath("id('cart_products')/tbody/tr[" + i + "]/td[5]/span")).getText().replace("$", ""));
+								System.out.println("discount: " + discount.toString());
+							} catch(NumberFormatException e){
+							} catch(NoSuchElementException ex){			
+							}
+							if(discount != null){
+								item.discount = discount;
+							}
+
 							BigDecimal total = item.getTotalPrice();
 							Assert.assertTrue(
 									"Price for " + item.name + " doesn't match: " + item.price.toString() + " times " + item.quantity.toString() + " == "
