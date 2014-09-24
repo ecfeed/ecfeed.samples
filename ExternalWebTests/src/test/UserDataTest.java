@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import org.openqa.selenium.By;
 
+import test.enums.State;
 import tools.DBUtils;
 import tools.PageAddress;
 

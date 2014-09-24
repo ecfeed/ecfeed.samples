@@ -13,6 +13,9 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.support.ui.Select;
 
+import test.enums.PaymentMethod;
+import test.enums.ShippingMethod;
+import test.enums.State;
 import tools.PageAddress;
 
 import com.testify.ecfeed.runner.StaticRunner;

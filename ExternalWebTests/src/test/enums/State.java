@@ -1,4 +1,4 @@
-package test;
+package test.enums;
 
 public enum State{
 	NONE, AL, AK, AZ, AR, CA, CO, CT, DE, FL, GA, HI,
