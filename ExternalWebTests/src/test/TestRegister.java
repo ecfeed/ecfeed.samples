@@ -44,7 +44,7 @@ public class TestRegister extends UserDataTest{
 			if(!expected_result){
 				Assert.assertTrue(isElementPresent(By.xpath("//*[contains(.,'" + ErrorMessage.AddressInvalid + "')]"))
 						|| isElementPresent(By.xpath("//*[contains(.,'" + ErrorMessage.EnterAddress + "')]"))
-						|| driver.getCurrentUrl().equals(registerUrl));
+						|| isElementPresent(By.linkText("Login")));
 			} else{
 				Assert.assertTrue((isElementPresent(By.xpath("//*[contains(.,'" + ErrorMessage.AddressInUse + "')]"))
 						|| (isElementPresent(By.linkText("Logout"))))
@@ -255,7 +255,7 @@ public class TestRegister extends UserDataTest{
 	 * success or failure. It doesn't check if proper warnings etc. appear.
 	 */
 	@Test
-	public void testRegisterSuccess(String email, String first_name, String last_name, String password, String confpsswd,
+	public void testRegisterUser(String email, String first_name, String last_name, String password, String confpsswd,
 			boolean expected_result) throws Exception{
 		try{
 			setUp();
@@ -275,11 +275,12 @@ public class TestRegister extends UserDataTest{
 			driver.findElement(By.xpath("//input[@value='Register']")).click();
 
 			if(expected_result){
-				Assert.assertTrue((isElementPresent(By.linkText("Logout")) && isElementPresent(By.xpath("//*[contains(., '" + first_name
-						+ "')]")))
+				
+				Assert.assertTrue("Registration should have succeed", (isElementPresent(By.linkText("Logout")) && isElementPresent(By.xpath("id('cart_info')/span/a"))
+						&& driver.findElement(By.xpath("id('cart_info')/span/a")).getText().equals(first_name))
 						|| isElementPresent(By.xpath("//*[contains(.,'" + ErrorMessage.AddressInUse + "')]")));
 			} else{
-				Assert.assertTrue((isElementPresent(By.className("error")) || isElementPresent(By.linkText("Login")))
+				Assert.assertTrue("Registration should have failed", (isElementPresent(By.className("error")) || isElementPresent(By.linkText("Login")))
 						&& driver.getCurrentUrl().equals(registerUrl));
 			}
 			driver.findElement(By.cssSelector("a > span")).click();
