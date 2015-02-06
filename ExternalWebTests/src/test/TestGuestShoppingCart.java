@@ -28,7 +28,7 @@ public class TestGuestShoppingCart extends ParentTest{
 	protected String checkoutURL = "https://localhost:8443/checkout";
 
 	public TestGuestShoppingCart(){
-		baseUrl = PageAddress.Base;
+		baseUrl = PageAddress.BASE;
 	}
 	
 	protected class ItemSpec{

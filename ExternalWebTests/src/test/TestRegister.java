@@ -5,52 +5,54 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.By;
 
+import pages.LoginPage;
+import pages.MainPage;
+import pages.RegisterPage;
+import pages.elements.AccountMenuLoggedIn;
 import tools.PageAddress;
 
 import com.testify.ecfeed.runner.StaticRunner;
 import com.testify.ecfeed.runner.annotations.EcModel;
+import com.testify.ecfeed.runner.annotations.TestSuites;
 
 @RunWith(StaticRunner.class)
 @EcModel("src/model.ect")
 public class TestRegister extends UserDataTest{
-	private String registerUrl = PageAddress.Register;
-	
-	public TestRegister(){
-		baseUrl = PageAddress.Base;
-	}
-
+	private String registerUrl = PageAddress.REGISTER;
 	/*
 	 * This tests checks and warnings for email field.
 	 */
-	@Test
+	//@Test
 	public void testRegisterEmail(String email, boolean expected_result) throws Exception{
 		try{
 			setUp();
-			driver.get(baseUrl);
-
-			driver.findElement(By.xpath("//div[@id='cart_info']/a[2]/span")).click();
-			driver.findElement(By.id("customer.emailAddress")).clear();
-			driver.findElement(By.id("customer.emailAddress")).sendKeys(email);
-			driver.findElement(By.id("customer.firstName")).clear();
-			driver.findElement(By.id("customer.firstName")).sendKeys("name");
-			driver.findElement(By.id("customer.lastName")).clear();
-			driver.findElement(By.id("customer.lastName")).sendKeys("lastname");
-			driver.findElement(By.id("password")).clear();
-			driver.findElement(By.id("password")).sendKeys("password");
-			driver.findElement(By.id("passwordConfirm")).clear();
-			driver.findElement(By.id("passwordConfirm")).sendKeys("password");
-			driver.findElement(By.xpath("//input[@value='Register']")).click();
-
+			MainPage mainPage = new MainPage(driver);
+			RegisterPage registerPage = mainPage.navigateRegister();
+			
+			registerPage.fillRegisterForm(email, "first", "last", "password", "password");
+			
 			if(!expected_result){
-				Assert.assertTrue(isElementPresent(By.xpath("//*[contains(.,'" + ErrorMessage.AddressInvalid + "')]"))
-						|| isElementPresent(By.xpath("//*[contains(.,'" + ErrorMessage.EnterAddress + "')]"))
-						|| isElementPresent(By.linkText("Login")));
-			} else{
-				Assert.assertTrue((isElementPresent(By.xpath("//*[contains(.,'" + ErrorMessage.AddressInUse + "')]"))
-						|| (isElementPresent(By.linkText("Logout"))))
-						&& !isElementPresent(By.xpath("//*[contains(.,'" + ErrorMessage.AddressInvalid + "')]"))
-						&& !isElementPresent(By.xpath("//*[contains(.,'" + ErrorMessage.EnterAddress + "')]")));
+				registerPage = registerPage.registerExpectFailure();
+				registerPage.isLoaded();
+			} else {
+				mainPage = registerPage.registerExpectSuccess();
+				mainPage.isLoaded();
 			}
+//			if(!expected_result){
+//				registerPage = registerPage.registerExpectFailure();
+//				registerPage.isLoaded();
+//				Assert.assertTrue("Email field error should be thrown", registerPage.fieldHasError(AccessibleElements.EMAIL_FIELD));
+//				Assert.assertTrue(isElementPresent(By.xpath("//*[contains(.,'" + ErrorMessage.AddressInvalid + "')]"))
+//						|| isElementPresent(By.xpath("//*[contains(.,'" + ErrorMessage.EnterAddress + "')]"))
+//						|| isElementPresent(By.linkText("Login")));
+//			} else{
+//				mainPage = registerPage.registerExpectSuccess();
+//				mainPage.isLoaded();
+//				Assert.assertTrue((isElementPresent(By.xpath("//*[contains(.,'" + ErrorMessage.AddressInUse + "')]"))
+//						|| (isElementPresent(By.linkText("Logout"))))
+//						&& !isElementPresent(By.xpath("//*[contains(.,'" + ErrorMessage.AddressInvalid + "')]"))
+//						&& !isElementPresent(By.xpath("//*[contains(.,'" + ErrorMessage.EnterAddress + "')]")));
+//			}
 		} finally{
 			cleanUpUserTable(email);
 			tearDown();
@@ -60,230 +62,73 @@ public class TestRegister extends UserDataTest{
 	/*
 	 * This tests checks and warnings for first name field.
 	 */
-	@Test
-	public void testRegisterFirstName(String first_name, boolean expected_result) throws Exception{
-		String email = "email@address.com";
-		
-		try{
-			setUp();
-			driver.get(baseUrl);
-
-			driver.findElement(By.xpath("//div[@id='cart_info']/a[2]/span")).click();
-			driver.findElement(By.id("customer.emailAddress")).clear();
-			driver.findElement(By.id("customer.emailAddress")).sendKeys("email@address.com");
-			driver.findElement(By.id("customer.firstName")).clear();
-			driver.findElement(By.id("customer.firstName")).sendKeys(first_name);
-			driver.findElement(By.id("customer.lastName")).clear();
-			driver.findElement(By.id("customer.lastName")).sendKeys("lastname");
-			driver.findElement(By.id("password")).clear();
-			driver.findElement(By.id("password")).sendKeys("password");
-			driver.findElement(By.id("passwordConfirm")).clear();
-			driver.findElement(By.id("passwordConfirm")).sendKeys("password");
-			driver.findElement(By.xpath("//input[@value='Register']")).click();
-
-			if(!expected_result){
-				Assert.assertTrue(isElementPresent(By.xpath("//*[contains(.,'" + ErrorMessage.EnterFirstName + "')]"))
-						|| driver.getCurrentUrl().equals(registerUrl));
-			} else{
-				Assert.assertTrue((isElementPresent(By.xpath("//*[contains(.,'" + ErrorMessage.AddressInUse + "')]")) || isElementPresent(By.linkText("Logout"))));
-			}
-		} finally{
-			cleanUpUserTable(email);
-			tearDown();
-		}
-	}
-
-	/*
-	 * This tests checks and warnings for last name field.
-	 */
-	@Test
-	public void testRegisterLastName(String last_name, boolean expected_result) throws Exception{
-		String email = "email@address.com";
-		
-		try{
-			setUp();
-			driver.get(baseUrl);
-
-			driver.findElement(By.xpath("//div[@id='cart_info']/a[2]/span")).click();
-			driver.findElement(By.id("customer.emailAddress")).clear();
-			driver.findElement(By.id("customer.emailAddress")).sendKeys("email@address.com");
-			driver.findElement(By.id("customer.firstName")).clear();
-			driver.findElement(By.id("customer.firstName")).sendKeys("first_name");
-			driver.findElement(By.id("customer.lastName")).clear();
-			driver.findElement(By.id("customer.lastName")).sendKeys(last_name);
-			driver.findElement(By.id("password")).clear();
-			driver.findElement(By.id("password")).sendKeys("password");
-			driver.findElement(By.id("passwordConfirm")).clear();
-			driver.findElement(By.id("passwordConfirm")).sendKeys("password");
-			driver.findElement(By.xpath("//input[@value='Register']")).click();
-
-			if(!expected_result){
-				Assert.assertTrue(isElementPresent(By.xpath("//*[contains(.,'" + ErrorMessage.EnterLastName + "')]"))
-						|| driver.getCurrentUrl().equals(registerUrl));
-			} else{
-				Assert.assertTrue((isElementPresent(By.xpath("//*[contains(.,'" + ErrorMessage.AddressInUse + "')]"))
-						|| isElementPresent(By.linkText("Logout"))));
-			}
-		} finally{
-			cleanUpUserTable(email);
-			tearDown();
-		}
-	}
-
-	/*
-	 * This tests checks and warnings for password field.
-	 */
-	@Test
-	public void testRegisterPassword(String password, boolean expected_result) throws Exception{
-		String email = "email@address.com";
-		
-		try{
-			setUp();
-			driver.get(baseUrl);
-
-			driver.findElement(By.xpath("//div[@id='cart_info']/a[2]/span")).click();
-			driver.findElement(By.id("customer.emailAddress")).clear();
-			driver.findElement(By.id("customer.emailAddress")).sendKeys("email@address.com");
-			driver.findElement(By.id("customer.firstName")).clear();
-			driver.findElement(By.id("customer.firstName")).sendKeys("firsname");
-			driver.findElement(By.id("customer.lastName")).clear();
-			driver.findElement(By.id("customer.lastName")).sendKeys("lastname");
-			driver.findElement(By.id("password")).clear();
-			driver.findElement(By.id("password")).sendKeys(password);
-			driver.findElement(By.id("passwordConfirm")).clear();
-			driver.findElement(By.id("passwordConfirm")).sendKeys(password);
-			driver.findElement(By.xpath("//input[@value='Register']")).click();
-
-			if(!expected_result){
-				Assert.assertTrue(isElementPresent(By.xpath("//*[contains(.,'" + ErrorMessage.EnterValidPassword + "')]"))
-						|| isElementPresent(By.xpath("//*[contains(.,'" + ErrorMessage.InvalidPassword + "')]"))
-						|| driver.getCurrentUrl().equals(registerUrl));
-			} else{
-				Assert.assertTrue((isElementPresent(By.xpath("//*[contains(.,'" + ErrorMessage.AddressInUse + "')]")) || isElementPresent(By.linkText("Logout"))));
-			}
-		} finally{
-			cleanUpUserTable(email);
-			tearDown();
-		}
-	}
-	
-	/*
-	 * This tests checks and warnings for confirm password field.
-	 */
-	@Test
-	public void testRegisterConfirmPassword(String password, String confirm_password, boolean expected_result) throws Exception{
-		String email = "email@address.com";
-		
-		try{
-			setUp();
-			driver.get(baseUrl);
-
-			driver.findElement(By.xpath("//div[@id='cart_info']/a[2]/span")).click();
-			driver.findElement(By.id("customer.emailAddress")).clear();
-			driver.findElement(By.id("customer.emailAddress")).sendKeys("email@address.com");
-			driver.findElement(By.id("customer.firstName")).clear();
-			driver.findElement(By.id("customer.firstName")).sendKeys("firsname");
-			driver.findElement(By.id("customer.lastName")).clear();
-			driver.findElement(By.id("customer.lastName")).sendKeys("lastname");
-			driver.findElement(By.id("password")).clear();
-			driver.findElement(By.id("password")).sendKeys(password);
-			driver.findElement(By.id("passwordConfirm")).clear();
-			driver.findElement(By.id("passwordConfirm")).sendKeys(confirm_password);
-			driver.findElement(By.xpath("//input[@value='Register']")).click();
-
-			if(!expected_result){
-				Assert.assertTrue(isElementPresent(By.xpath("//*[contains(.,'" + ErrorMessage.PasswordsMustMatch + "')]"))
-						|| isElementPresent(By.xpath("//*[contains(.,'" + ErrorMessage.ConfirmPasswod + "')]"))
-						|| driver.getCurrentUrl().equals(registerUrl));
-			} else{
-				Assert.assertTrue((isElementPresent(By.xpath("//*[contains(.,'" + ErrorMessage.AddressInUse + "')]")) || isElementPresent(By.linkText("Logout"))));
-			}
-		} finally{
-			cleanUpUserTable(email);
-			tearDown();
-		}
-	}
-	
-	/*
-	 * Input: valid email, tests for possibility of registering twice using same login
-	 */
-	@Test
-	public void testRegisterLoginTwice(String email) throws Exception{
-		try{
-			setUp();
-			driver.get(baseUrl);
-
-			cleanUpUserTable(email);
-
-			driver.findElement(By.xpath("//div[@id='cart_info']/a[2]/span")).click();
-			driver.findElement(By.id("customer.emailAddress")).clear();
-			driver.findElement(By.id("customer.emailAddress")).sendKeys(email);
-			driver.findElement(By.id("customer.firstName")).clear();
-			driver.findElement(By.id("customer.firstName")).sendKeys("name");
-			driver.findElement(By.id("customer.lastName")).clear();
-			driver.findElement(By.id("customer.lastName")).sendKeys("lastname");
-			driver.findElement(By.id("password")).clear();
-			driver.findElement(By.id("password")).sendKeys("password");
-			driver.findElement(By.id("passwordConfirm")).clear();
-			driver.findElement(By.id("passwordConfirm")).sendKeys("password");
-			driver.findElement(By.xpath("//input[@value='Register']")).click();
-
-			driver.findElement(By.cssSelector("a > span")).click();
-
-			driver.findElement(By.xpath("//div[@id='cart_info']/a[2]/span")).click();
-			driver.findElement(By.id("customer.emailAddress")).clear();
-			driver.findElement(By.id("customer.emailAddress")).sendKeys(email);
-			driver.findElement(By.id("customer.firstName")).clear();
-			driver.findElement(By.id("customer.firstName")).sendKeys("name");
-			driver.findElement(By.id("customer.lastName")).clear();
-			driver.findElement(By.id("customer.lastName")).sendKeys("lastname");
-			driver.findElement(By.id("password")).clear();
-			driver.findElement(By.id("password")).sendKeys("password");
-			driver.findElement(By.id("passwordConfirm")).clear();
-			driver.findElement(By.id("passwordConfirm")).sendKeys("password");
-			driver.findElement(By.xpath("//input[@value='Register']")).click();
-
-			Assert.assertTrue(isElementPresent(By.xpath("//*[contains(.,'" + ErrorMessage.AddressInUse + "')]")));
-		} finally{
-			cleanUpUserTable(email);
-			tearDown();
-		}
-	}
+	//@Test
+//	public void testRegisterFirstName(String first_name, boolean expected_result) throws Exception{
+//			if(!expected_result){
+//				Assert.assertTrue(isElementPresent(By.xpath("//*[contains(.,'" + ErrorMessage.EnterFirstName + "')]"))
+//						|| driver.getCurrentUrl().equals(registerUrl));
+//			} else{
+//				Assert.assertTrue((isElementPresent(By.xpath("//*[contains(.,'" + ErrorMessage.AddressInUse + "')]")) || isElementPresent(By.linkText("Logout"))));
+//			}
+//	}
+//	public void testRegisterLastName(String last_name, boolean expected_result) throws Exception{
+//			if(!expected_result){
+//				Assert.assertTrue(isElementPresent(By.xpath("//*[contains(.,'" + ErrorMessage.EnterLastName + "')]"))
+//						|| driver.getCurrentUrl().equals(registerUrl));
+//			} else{
+//				Assert.assertTrue((isElementPresent(By.xpath("//*[contains(.,'" + ErrorMessage.AddressInUse + "')]"))
+//						|| isElementPresent(By.linkText("Logout"))));
+//			}
+//	}
+//	public void testRegisterPassword(String password, boolean expected_result) throws Exception{
+//			if(!expected_result){
+//				Assert.assertTrue(isElementPresent(By.xpath("//*[contains(.,'" + ErrorMessage.EnterValidPassword + "')]"))
+//						|| isElementPresent(By.xpath("//*[contains(.,'" + ErrorMessage.InvalidPassword + "')]"))
+//						|| driver.getCurrentUrl().equals(registerUrl));
+//	}
+//	public void testRegisterConfirmPassword(String password, String confirm_password, boolean expected_result) throws Exception{
+//
+//			if(!expected_result){
+//				Assert.assertTrue(isElementPresent(By.xpath("//*[contains(.,'" + ErrorMessage.PasswordsMustMatch + "')]"))
+//						|| isElementPresent(By.xpath("//*[contains(.,'" + ErrorMessage.ConfirmPasswod + "')]"))
+//						|| driver.getCurrentUrl().equals(registerUrl));
+//			} else{
+//				Assert.assertTrue((isElementPresent(By.xpath("//*[contains(.,'" + ErrorMessage.AddressInUse + "')]")) || isElementPresent(By.linkText("Logout"))));
+//			}
+//	}
 
 	/*
 	 * This test checks registering in very simple binary manner - either
 	 * success or failure. It doesn't check if proper warnings etc. appear.
 	 */
 	@Test
-	public void testRegisterUser(String email, String first_name, String last_name, String password, String confpsswd,
-			boolean expected_result) throws Exception{
+	@TestSuites("Testing")
+	public void testRegisterUser(String email, String first_name, String last_name, String password, String password_confirm,
+			boolean valid_data) throws Exception{
 		try{
 			setUp();
-			driver.get(baseUrl);
+			MainPage mainPage = new MainPage(driver);
+			mainPage.get();
+			RegisterPage registerPage = mainPage.navigateRegister();
+			registerPage.isLoaded();
+			registerPage.fillRegisterForm(email, first_name, last_name, password, password_confirm);
 
-			driver.findElement(By.xpath("//div[@id='cart_info']/a[2]/span")).click();
-			driver.findElement(By.id("customer.emailAddress")).clear();
-			driver.findElement(By.id("customer.emailAddress")).sendKeys(email);
-			driver.findElement(By.id("customer.firstName")).clear();
-			driver.findElement(By.id("customer.firstName")).sendKeys(first_name);
-			driver.findElement(By.id("customer.lastName")).clear();
-			driver.findElement(By.id("customer.lastName")).sendKeys(last_name);
-			driver.findElement(By.id("password")).clear();
-			driver.findElement(By.id("password")).sendKeys(password);
-			driver.findElement(By.id("passwordConfirm")).clear();
-			driver.findElement(By.id("passwordConfirm")).sendKeys(confpsswd);
-			driver.findElement(By.xpath("//input[@value='Register']")).click();
+			if(valid_data){
+				mainPage = registerPage.registerExpectSuccess();
+				mainPage.isLoaded();
+				if(mainPage.isLoggedIn()){
+					mainPage = ((AccountMenuLoggedIn)(mainPage.getAccountMenu())).navigateLogout();
+				}
+				mainPage = loginExpectSuccess(email, password, (LoginPage)mainPage.navigateLogin());
+				Assert.assertTrue("should be successfully logged on.", mainPage.isLoggedIn());
+				mainPage = ((AccountMenuLoggedIn)(mainPage.getAccountMenu())).navigateLogout();
 
-			if(expected_result){
-				
-				Assert.assertTrue("Registration should have succeed", (isElementPresent(By.linkText("Logout")) && isElementPresent(By.xpath("id('cart_info')/span/a"))
-						&& driver.findElement(By.xpath("id('cart_info')/span/a")).getText().equals(first_name))
-						|| isElementPresent(By.xpath("//*[contains(.,'" + ErrorMessage.AddressInUse + "')]")));
 			} else{
-				Assert.assertTrue("Registration should have failed", (isElementPresent(By.className("error")) || isElementPresent(By.linkText("Login")))
-						&& driver.getCurrentUrl().equals(registerUrl));
+				registerPage.registerExpectFailure();
+				Assert.assertTrue("Registration should have failed", (registerPage.getRegisterForm().hasError()) || registerPage.isLoaded());
+				mainPage = loginExpectFailure(email, password, mainPage.navigateLogin());
+				Assert.assertTrue("shouldn't be successfully logged on.", mainPage.isLoggedIn());
 			}
-			driver.findElement(By.cssSelector("a > span")).click();
 		} finally{
 			cleanUpUserTable(email);
 			tearDown();

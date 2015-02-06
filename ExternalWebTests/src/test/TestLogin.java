@@ -16,7 +16,7 @@ import com.testify.ecfeed.runner.annotations.EcModel;
 public class TestLogin extends UserDataTest {
 
 	public TestLogin(){
-		baseUrl = PageAddress.Login;
+		baseUrl = PageAddress.LOGIN;
 	}
 
   	/*

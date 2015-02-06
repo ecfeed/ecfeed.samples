@@ -5,6 +5,8 @@ import java.util.ArrayList;
 
 import org.openqa.selenium.By;
 
+import pages.LoginPage;
+import pages.MainPage;
 import test.enums.State;
 import tools.DBUtils;
 import tools.PageAddress;
@@ -111,11 +113,23 @@ public class UserDataTest extends ParentTest{
 	}
 
 	protected void login(String email, String password){
-		driver.get(PageAddress.Login);
+		driver.get(PageAddress.LOGIN);
 		driver.findElement(By.name("j_username")).sendKeys(email);
 		driver.findElement(By.name("j_password")).clear();
 		driver.findElement(By.name("j_password")).sendKeys(password);
 		driver.findElement(By.xpath("//input[@value='Login']")).click();
+	}
+	
+	protected MainPage loginExpectSuccess(String email, String password, LoginPage loginPage){
+		loginPage.fillUsername(email);
+		loginPage.fillPassword(password);
+		return loginPage.loginExpectSuccess();
+	}
+	
+	protected LoginPage loginExpectFailure(String email, String password, LoginPage loginPage){
+		loginPage.fillUsername(email);
+		loginPage.fillPassword(password);
+		return loginPage.loginExpectFailure();
 	}
 
 }

@@ -15,7 +15,7 @@ import com.testify.ecfeed.runner.annotations.EcModel;
 public class TestChangePassword extends UserDataTest {
 
 	public TestChangePassword(){
-		baseUrl = PageAddress.Login;
+		baseUrl = PageAddress.LOGIN;
 	}
 	
 	@Test

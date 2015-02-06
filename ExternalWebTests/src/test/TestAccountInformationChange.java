@@ -16,7 +16,7 @@ import com.testify.ecfeed.runner.annotations.expected;
 public class TestAccountInformationChange extends UserDataTest{
 	
 	public TestAccountInformationChange(){
-		baseUrl = PageAddress.AccountInfo;
+		baseUrl = PageAddress.ACCOUNT_INFO;
 	}
 	
 	@Test

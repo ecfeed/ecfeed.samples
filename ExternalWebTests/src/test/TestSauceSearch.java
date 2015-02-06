@@ -20,7 +20,7 @@ import com.testify.ecfeed.runner.annotations.EcModel;
 public class TestSauceSearch extends ParentTest{
 	
 	public TestSauceSearch(){
-		baseUrl = PageAddress.Base;
+		baseUrl = PageAddress.BASE;
 	}
 
 	@Test
