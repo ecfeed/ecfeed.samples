@@ -1,19 +1,18 @@
 package com.mamlambo.article.simplecalc.test;
 
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
 import com.mamlambo.article.simplecalc.ResultFormatter;
-import com.testify.ecfeed.generators.CartesianProductGenerator;
-import com.testify.ecfeed.junit.OnlineRunner;
-import com.testify.ecfeed.junit.annotations.EcModel;
-import com.testify.ecfeed.junit.annotations.Generator;
+//import com.testify.ecfeed.generators.CartesianProductGenerator;
+//import com.testify.ecfeed.junit.OnlineRunner;
+//import com.testify.ecfeed.junit.annotations.EcModel;
+//import com.testify.ecfeed.junit.annotations.Generator;
 
 import junit.framework.TestCase;
 
-@RunWith(OnlineRunner.class)
-@EcModel("SimpleCalcEct.ect")
-@Generator(CartesianProductGenerator.class)
+//@RunWith(OnlineRunner.class)
+//@EcModel("SimpleCalcEct.ect")
+//@Generator(CartesianProductGenerator.class)
 public class FormattingValidation extends TestCase {
 
 	ResultFormatter resultFormatter = new ResultFormatter();
