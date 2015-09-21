@@ -2,11 +2,12 @@ package com.mamlambo.article.simplecalc.test;
 
 import org.junit.Test;
 
-import com.mamlambo.article.simplecalc.ResultFormatter;
 //import com.testify.ecfeed.generators.CartesianProductGenerator;
 //import com.testify.ecfeed.junit.OnlineRunner;
 //import com.testify.ecfeed.junit.annotations.EcModel;
 //import com.testify.ecfeed.junit.annotations.Generator;
+
+import com.testify.ecfeed.sample.simplecalc.ResultFormatter;
 
 import junit.framework.TestCase;
 

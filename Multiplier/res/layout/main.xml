@@ -1,17 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="fill_parent"
-    android:layout_height="fill_parent" android:id="@+id/mainLayout">
-    <LinearLayout android:id="@+id/LinearLayout03"
-        android:layout_height="wrap_content" android:layout_width="fill_parent">
-    </LinearLayout>
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
 
     <EditText
         android:id="@+id/val1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:hint="Value 1" >
+        android:hint="@string/val" >
 
         <requestFocus />
     </EditText>
@@ -21,33 +19,41 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:hint="Value 2" />
+        android:hint="@string/val" />
 
     <EditText
         android:id="@+id/val3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:hint="Value 3" />
+        android:hint="@string/val" />
 
     <EditText
         android:id="@+id/val4"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:hint="Value 4" />
+        android:hint="@string/val" />
 
     <Button
         android:id="@+id/multiplyButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Multiply" />
+        android:text="@string/multiply" />
 
     <EditText
         android:id="@+id/result"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:hint="result" />
+        android:hint="@string/res" />
+
+    <EditText
+        android:id="@+id/comment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="@string/comment"
+        android:inputType="textMultiLine" />
 
 </LinearLayout>

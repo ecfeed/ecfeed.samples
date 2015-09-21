@@ -14,16 +14,14 @@ public final class R {
         public static final int icon=0x7f020000;
     }
     public static final class id {
-        public static final int FrameLayout01=0x7f050003;
-        public static final int LinearLayout02=0x7f050004;
-        public static final int LinearLayout03=0x7f050007;
-        public static final int addValues=0x7f050008;
+        public static final int LinearLayout03=0x7f050001;
         public static final int mainLayout=0x7f050000;
-        public static final int multiplyValues=0x7f050009;
-        public static final int result=0x7f050006;
-        public static final int resultLabel=0x7f050005;
-        public static final int value1=0x7f050001;
-        public static final int value2=0x7f050002;
+        public static final int multiplyButton=0x7f050006;
+        public static final int result=0x7f050007;
+        public static final int val1=0x7f050002;
+        public static final int val2=0x7f050003;
+        public static final int val3=0x7f050004;
+        public static final int val4=0x7f050005;
     }
     public static final class layout {
         public static final int main=0x7f030000;

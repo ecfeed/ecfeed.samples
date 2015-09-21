@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Multiplier</string>
+    <string name="val">Multiplied value</string>
+    <string name="action_settings">Settings</string>
+    <string name="res">Result</string>
+    <string name="multiply">Multiply</string>
+    <string name="comment">Comment</string>
+
+</resources>
