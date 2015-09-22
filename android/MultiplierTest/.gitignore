@@ -3,3 +3,5 @@
 /AndroidManifest.xml
 /proguard-project.txt
 /project.properties
+/gen/
+/bin/
