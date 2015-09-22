@@ -36,7 +36,7 @@ public class MainActivity extends Activity {
         			if((value1.getText().length() == 0) || (value2.getText().length() == 0) || 
         					(value3.getText().length() == 0) || (value4.getText().length() == 0)){
         				result.setText("ERROR");
-        				comment.setText("No imput can stay blank");
+        				comment.setText("No input can stay blank");
         			}
         			else{
         				try{
