@@ -4,7 +4,7 @@ import android.widget.EditText;
 
 import com.testify.multiplier.MainActivity;
 import com.testify.multiplier.R;
-import com.testify.multiplier.test.ecFeed.android.EcFeedTest;
+import com.testify.multiplier.test.ecfeed.android.EcFeedTest;
 
 public class TestClass extends EcFeedTest{
 
