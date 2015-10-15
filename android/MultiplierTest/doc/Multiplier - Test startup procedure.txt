@@ -27,6 +27,7 @@ What should be installed before you start:
 
 - Import MultiplierTest project: 
 	File > Import > Android > Existing Android Code into Workspace > Next > Root directory (select your_repository/ecfeed.samples/android/MultiplierTest) > Ok > Finish
+	After the import, project shows compilation errors because some generated packages are missing. This is OK as the packages will be implemented in the next step.
 
 - Implement necessary Android code:
 	In Package Explorer select: MultiplierTest > src > multiplier.ect (double click)
