@@ -2,11 +2,15 @@
 * Multiplier - Test startup procedure *
 ---------------------------------------
 
-What should be installed before you start:
-	- Eclipse
-	- Android support (updated Android SDK Manager)
-	- EcFeedForAndroid plugin
+- Install Eclipse
 
+- Install or update Android SDK Manager
+
+- Install EcFeedForAndroid plugin
+
+- Add path to android-sdks/tools and android-sdks/platform-tools to your .profile file. 
+	Example: 
+	  	PATH="$HOME/android-sdks/tools:$HOME/android-sdks/platform-tools:$PATH"
 
 - Create virtual Android device: 
 	Android Virtual Device Manager > button Create... > fill parameters > button OK
