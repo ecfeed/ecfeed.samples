@@ -150,6 +150,63 @@
                     <ExpectedValueStatement parameter="expectedResult" value="NaN"/>
                 </Consequence>
             </Constraint>
+            <TestCase testSuite="default\ssuite">
+                <TestParameter choice="valid:non-zero:positive"/>
+                <TestParameter choice="addition"/>
+                <TestParameter choice="valid:non-zero:positive"/>
+                <ExpectedValue value="11"/>
+                <ExpectedValue value=""/>
+            </TestCase>
+            <TestCase testSuite="default\ssuite">
+                <TestParameter choice="valid:non-zero:positive"/>
+                <TestParameter choice="addition"/>
+                <TestParameter choice="valid:non-zero:negative"/>
+                <ExpectedValue value="2.5"/>
+                <ExpectedValue value=""/>
+            </TestCase>
+            <TestCase testSuite="default\ssuite">
+                <TestParameter choice="valid:non-zero:positive"/>
+                <TestParameter choice="subtraction"/>
+                <TestParameter choice="valid:non-zero:positive"/>
+                <ExpectedValue value="0"/>
+                <ExpectedValue value=""/>
+            </TestCase>
+            <TestCase testSuite="default\ssuite">
+                <TestParameter choice="valid:non-zero:positive"/>
+                <TestParameter choice="subtraction"/>
+                <TestParameter choice="valid:non-zero:negative"/>
+                <ExpectedValue value="8.5"/>
+                <ExpectedValue value=""/>
+            </TestCase>
+            <TestCase testSuite="default\ssuite">
+                <TestParameter choice="valid:non-zero:positive"/>
+                <TestParameter choice="multiplication"/>
+                <TestParameter choice="valid:non-zero:positive"/>
+                <ExpectedValue value="30.25"/>
+                <ExpectedValue value=""/>
+            </TestCase>
+            <TestCase testSuite="default\ssuite">
+                <TestParameter choice="valid:non-zero:positive"/>
+                <TestParameter choice="multiplication"/>
+                <TestParameter choice="valid:non-zero:negative"/>
+                <ExpectedValue value="-16.5"/>
+                <ExpectedValue value=""/>
+            </TestCase>
+            <TestCase testSuite="default\ssuite">
+                <TestParameter choice="valid:non-zero:positive"/>
+                <TestParameter choice="division"/>
+                <TestParameter choice="valid:non-zero:positive"/>
+                <ExpectedValue value="1"/>
+                <ExpectedValue value=""/>
+            </TestCase>
+            <TestCase testSuite="default\ssuite">
+                <TestParameter choice="valid:non-zero:positive"/>
+                <TestParameter choice="division"/>
+                <TestParameter choice="valid:non-zero:negative"/>
+                <ExpectedValue value="-1.8333333333333333"/>
+                <ExpectedValue value=""/>
+            </TestCase>
         </Method>
     </Class>
+    <Class name="com.example.test.TestClass" runOnAndroid="false"/>
 </Model>

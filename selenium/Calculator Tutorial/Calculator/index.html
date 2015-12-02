@@ -71,7 +71,7 @@ function setErrorWithComment(comment) {
 }
 
 function setResult() {
-	Calc.result.value = eval(Calc.input1.value + Calc.operation.value + Calc.input2.value);
+	Calc.result.value = eval( '(' + Calc.input1.value + ')' + Calc.operation.value + '(' + Calc.input2.value + ')' );
 	Calc.comment.value = "";	
 } 
 
