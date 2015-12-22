@@ -1,0 +1,49 @@
+INSTALLATION PROCEDURE --------------------------------------------------------------------------------------------------------------------------------------------------
+
+- Install HSQL in any directory e.g. ~/HSQL
+
+- Install Maven (current version was faulty - I had to install an older version: 325)
+  wget http://apache.arvixe.com/maven/maven-3/3.2.5/binaries/apache-maven-3.2.5-bin.tar.gz
+  tar -zxf apache-maven-3.2.5-bin.tar.gz
+  sudo cp -R apache-maven-3.2.5 /usr/local
+  sudo ln -s /usr/local/apache-maven-3.2.5/bin/mvn /usr/bin/mvn
+  mvn -version 
+
+- Add Maven setings and path to ~/.profile file
+  export M2_HOME=/usr/local/apache-maven-3.2.5
+  export M2=$M2_HOME/bin
+  export PATH=$M2:$PATH
+
+- Start HSQL Server from directory where hsqldb.jar lays e.g.  ~/HSQL/hsqldb-2.3.3/hsqldb/lib  issue command:
+ java -cp hsqldb.jar org.hsqldb.server.Server --database.0 /home/marekq/EclipseForSelenium/workspace/eclipse-workspace/DemoSite/site/data/broadleaf --dbname.0 broadleaf
+
+- Install Eclipse and ecFeed plugin.
+
+- Install Broadleaf Commerce site according to the tutorial. 
+  As DemoSite zip use: DemoSite-4.0.5-GA-eclipse-workspace.zip
+  There are some errors after loading the DemoSite project - use Automatic Quick fix to correct them. There are also many warnings.
+  Set maven.home w DemoSite/build.properties as: maven.home=/usr/local/apache-maven-3.2.5
+
+- To start Broadleaf application:
+  - Package Explorer > MavenParents > DemoSite > Run as > Maven install
+  - Ant script viewer (should be on the right side of Eclipse) > site > double click tomcat (this initiates SQL database)
+
+- When all is installed and ready: 
+  paste the address http://localhost:8080/ in Mozzilla Firefox. A Heat Clinic website should be visible.
+
+- Check that the website uses HSQL as database:
+  - Register any user.
+  - Run SQL Manager: 
+    from directory: ~/HSQL/hsqldb-2.3.3/hsqldb/lib issue a command: java -cp hsqldb.jar org.hsqldb.util.DatabaseManagerSwing 
+    Connection properties in Connect dialog: 
+	Type: HSQL Database Engine Server
+	Driver: org.hsqldb.jdbcDriver
+	URL: jdbc:hsqldb:hsql://localhost/broadleaf
+	User: SA
+	Password: (empty)
+  - In the SQL Window paste: SELECT * FROM "PUBLIC"."BLC_CUSTOMER" click Execute SQL button. One user record with previously registered login and password should be visible.
+
+- From git load ExternalTestsProject. Configure BuildPath to add ecfeed.jar with the same version as ecFeed plugin which was previously installed. 
+  It may be necessary to correct some test source files to match the installed version of ecfeed.jar.
+
+
