@@ -102,7 +102,7 @@ public class TestRegister extends UserDataTest{
 	 * success or failure. It doesn't check if proper warnings etc. appear.
 	 */
 	@Test
-	@TestSuites("Testing")
+	@TestSuites("Passed")
 	public void testRegisterUser(String email, String first_name, String last_name, String password, String password_confirm,
 			boolean valid_data) throws Exception{
 		try{
@@ -116,18 +116,23 @@ public class TestRegister extends UserDataTest{
 			if(valid_data){
 				mainPage = registerPage.registerExpectSuccess();
 				mainPage.isLoaded();
+				
 				if(mainPage.isLoggedIn()){
 					mainPage = ((AccountMenuLoggedIn)(mainPage.getAccountMenu())).navigateLogout();
 				}
+				Assert.assertFalse("User should be successfully logged out.", mainPage.isLoggedIn());
+				
 				mainPage = loginExpectSuccess(email, password, (LoginPage)mainPage.navigateLogin());
-				Assert.assertTrue("should be successfully logged on.", mainPage.isLoggedIn());
+				Assert.assertTrue("User should be successfully logged in.", mainPage.isLoggedIn());
 				mainPage = ((AccountMenuLoggedIn)(mainPage.getAccountMenu())).navigateLogout();
-
 			} else{
 				registerPage.registerExpectFailure();
-				Assert.assertTrue("Registration should have failed", (registerPage.getRegisterForm().hasError()) || registerPage.isLoaded());
-				mainPage = loginExpectFailure(email, password, mainPage.navigateLogin());
-				Assert.assertTrue("shouldn't be successfully logged on.", mainPage.isLoggedIn());
+				boolean registrationFailed = (registerPage.getRegisterForm().hasError()) || registerPage.isLoaded();
+				Assert.assertTrue("Registration should have failed.", registrationFailed );
+				
+				LoginPage loginPage = loginExpectFailure(email, password, mainPage.navigateLogin());
+				boolean loggedIn = loginPage.isLoggedIn();
+				Assert.assertFalse("User shouldn't be successfully logged in.", loggedIn);
 			}
 		} finally{
 			cleanUpUserTable(email);

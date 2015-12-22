@@ -1,5 +1,6 @@
 package pages.elements;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -61,5 +62,16 @@ public class RegisterForm extends FormElement{
 		fElements.put(PASSWORD_CONFIRM_TEXT, new EditableTextElement(passwordConfirmText));
 		fElements.put(REGISTER_BUTTON, new ButtonElement(registerButton));
 	}
-
+	
+	@Override
+	public boolean hasError(){
+		if(fElement == null){
+			return false;
+		}
+		WebElement errorElement = fDriver.findElement(By.className("error"));
+		if (errorElement == null) {
+			return false;
+		}
+		return true;
+	}
 }
