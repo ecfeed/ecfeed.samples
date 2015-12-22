@@ -11,9 +11,9 @@ import pages.RegisterPage;
 import pages.elements.AccountMenuLoggedIn;
 import tools.PageAddress;
 
-import com.testify.ecfeed.runner.StaticRunner;
-import com.testify.ecfeed.runner.annotations.EcModel;
-import com.testify.ecfeed.runner.annotations.TestSuites;
+import com.testify.ecfeed.junit.StaticRunner;
+import com.testify.ecfeed.junit.annotations.EcModel;
+import com.testify.ecfeed.junit.annotations.TestSuites;
 
 @RunWith(StaticRunner.class)
 @EcModel("src/model.ect")

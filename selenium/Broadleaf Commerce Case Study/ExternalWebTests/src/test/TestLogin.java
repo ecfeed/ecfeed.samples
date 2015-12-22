@@ -8,8 +8,8 @@ import org.openqa.selenium.By;
 import tools.PageAddress;
 import tools.DBUtils;
 
-import com.testify.ecfeed.runner.StaticRunner;
-import com.testify.ecfeed.runner.annotations.EcModel;
+import com.testify.ecfeed.junit.StaticRunner;
+import com.testify.ecfeed.junit.annotations.EcModel;
 
 @RunWith(StaticRunner.class)
 @EcModel("src/model.ect")

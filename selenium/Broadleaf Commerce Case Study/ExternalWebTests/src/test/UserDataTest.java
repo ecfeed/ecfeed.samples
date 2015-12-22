@@ -19,10 +19,12 @@ public class UserDataTest extends ParentTest{
 	protected long insertCustomer(String email, String password, String firstName, String lastName){
 		long id = DBUtils.getNextMaxValue("PUBLIC.blc_customer", "CUSTOMER_ID");
 		connection.tryUpdate("DELETE FROM PUBLIC.blc_customer WHERE USER_NAME='" + DBUtils.escapeString(email) + "';");
+
 		int outcome = connection.tryUpdate("INSERT INTO BLC_CUSTOMER VALUES(" + id + "," + id
-						+ ",'2014-08-20 11:22:49.263000',NULL,NULL,NULL,FALSE,'" + DBUtils.escapeString(email) + "','"
-						+ DBUtils.escapeString(firstName) + "','" + DBUtils.escapeString(lastName) + "','" + DBUtils.escapeString(password)
-						+ "{" + id + "}',FALSE,NULL,TRUE,TRUE,NULL,'" + DBUtils.escapeString(email) + "',NULL,NULL)");
+				+ ",'2014-08-20 11:22:49.263000',NULL,NULL,NULL,FALSE,'" + DBUtils.escapeString(email) + "','"
+				+ DBUtils.escapeString(firstName) + "','" + DBUtils.escapeString(lastName) + "','" + DBUtils.escapeString(password)
+				+ "',FALSE,NULL,TRUE,TRUE,NULL,'"
+				+ DBUtils.escapeString(email) + "',NULL,NULL)");
 
 		if(outcome == -1){
 			return -1;
@@ -63,7 +65,7 @@ public class UserDataTest extends ParentTest{
 		String is_active = (isActive ? "TRUE" : "FALSE");
 
 		int outcome = connection.tryUpdate("INSERT INTO BLC_PHONE VALUES(" + phoneId + "," + is_active + ","
-						+ is_default + ",'" + DBUtils.escapeString(phone) + "');");
+				+ is_default + ",'" + DBUtils.escapeString(phone) + "');");
 
 		if(outcome == -1){
 			return false;
@@ -112,20 +114,32 @@ public class UserDataTest extends ParentTest{
 		}
 	}
 
-	protected void login(String email, String password){
+	private void tryLogin(String email, String password) {
 		driver.get(PageAddress.LOGIN);
 		driver.findElement(By.name("j_username")).sendKeys(email);
 		driver.findElement(By.name("j_password")).clear();
 		driver.findElement(By.name("j_password")).sendKeys(password);
-		driver.findElement(By.xpath("//input[@value='Login']")).click();
+		driver.findElement(By.xpath("//input[@value='Login']")).click();		
 	}
-	
+
+	protected void login(String email, String password){
+		final int MAX_ATTEMPTS = 3;
+
+		for (int cnt = 0; cnt < MAX_ATTEMPTS; cnt++) {
+			tryLogin(email, password);
+
+			if (isElementPresent(By.linkText("Logout"))) {
+				break;
+			}
+		}
+	}
+
 	protected MainPage loginExpectSuccess(String email, String password, LoginPage loginPage){
 		loginPage.fillUsername(email);
 		loginPage.fillPassword(password);
 		return loginPage.loginExpectSuccess();
 	}
-	
+
 	protected LoginPage loginExpectFailure(String email, String password, LoginPage loginPage){
 		loginPage.fillUsername(email);
 		loginPage.fillPassword(password);
