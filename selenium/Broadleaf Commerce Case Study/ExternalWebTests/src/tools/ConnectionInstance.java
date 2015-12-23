@@ -51,6 +51,9 @@ public class ConnectionInstance{
 	}
 	
 	public void close(){
+		if (connection == null) {
+			return;
+		}
 		try{
 			connection.close();
 		} catch(Exception e){

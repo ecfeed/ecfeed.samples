@@ -12,8 +12,8 @@ public class LoginPage extends MainPage{
 	
 	public static final String LOGIN_FORM_ID = "login";
 	@FindBy(how = How.ID, using = LOGIN_FORM_ID)
-	private WebElement loginForm;
-	private LoginForm loginFormElement;
+	private WebElement fLoginForm;
+	private LoginForm fLoginFormElement;
 	
 	public LoginPage(WebDriver driver){
 		super(driver, tools.PageAddress.LOGIN);
@@ -21,28 +21,28 @@ public class LoginPage extends MainPage{
 	}
 	
 	public void fillUsername(String username){
-		loginFormElement.fillUsername(username);
+		fLoginFormElement.fillUsername(username);
 	}
 	
 	public void fillPassword(String password){
-		loginFormElement.fillPassword(password);
+		fLoginFormElement.fillPassword(password);
 	}
 	
 	public LoginPage loginExpectFailure(){
-		loginFormElement.submit();
+		fLoginFormElement.submit();
 		initialiseElements();
 		return this;
 	}
 	
 	public MainPage loginExpectSuccess(){
-		loginFormElement.submit();
+		fLoginFormElement.submit();
 		return new MainPage(fDriver);
 	}
 
 	@Override
 	protected void initialiseElements(){
 		PageFactory.initElements(fDriver, this);
-		loginFormElement = new LoginForm(fDriver, loginForm);
+		fLoginFormElement = new LoginForm(fDriver, fLoginForm);
 	}
 
 }

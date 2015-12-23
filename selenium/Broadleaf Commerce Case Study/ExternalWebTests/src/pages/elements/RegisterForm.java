@@ -22,17 +22,17 @@ public class RegisterForm extends FormElement{
 	public final static String REGISTER_BUTTON = "register_button";
 
 	@FindBy(how = How.ID, using = EMAIL_ADDRESS_TEXT)
-	private WebElement emailText;
+	private WebElement fEmailText;
 	@FindBy(how = How.ID, using = FIRST_NAME_TEXT)
-	private WebElement firstNameText;
+	private WebElement fFirstNameText;
 	@FindBy(how = How.ID, using = LAST_NAME_TEXT)
-	private WebElement lastNameText;
+	private WebElement fLastNameText;
 	@FindBy(how = How.ID, using = PASSWORD_TEXT)
-	private WebElement passwordText;
+	private WebElement fPasswordText;
 	@FindBy(how = How.ID, using = PASSWORD_CONFIRM_TEXT)
-	private WebElement passwordConfirmText;
+	private WebElement fPasswordConfirmText;
 	@FindBy(how = How.CLASS_NAME, using = REGISTER_BUTTON)
-	private WebElement registerButton;
+	private WebElement fRegisterButton;
 
 	public RegisterForm(WebDriver driver, WebElement element){
 		super(driver, element);
@@ -55,12 +55,12 @@ public class RegisterForm extends FormElement{
 	@Override
 	protected void initialiseElements(){
 		PageFactory.initElements(fElementLocatorFactory, this);
-		fElements.put(EMAIL_ADDRESS_TEXT, new EditableTextElement(emailText));
-		fElements.put(FIRST_NAME_TEXT, new EditableTextElement(firstNameText));
-		fElements.put(LAST_NAME_TEXT, new EditableTextElement(lastNameText));
-		fElements.put(PASSWORD_TEXT, new EditableTextElement(passwordText));
-		fElements.put(PASSWORD_CONFIRM_TEXT, new EditableTextElement(passwordConfirmText));
-		fElements.put(REGISTER_BUTTON, new ButtonElement(registerButton));
+		fElements.put(EMAIL_ADDRESS_TEXT, new EditableTextElement(fEmailText));
+		fElements.put(FIRST_NAME_TEXT, new EditableTextElement(fFirstNameText));
+		fElements.put(LAST_NAME_TEXT, new EditableTextElement(fLastNameText));
+		fElements.put(PASSWORD_TEXT, new EditableTextElement(fPasswordText));
+		fElements.put(PASSWORD_CONFIRM_TEXT, new EditableTextElement(fPasswordConfirmText));
+		fElements.put(REGISTER_BUTTON, new ButtonElement(fRegisterButton));
 	}
 	
 	@Override

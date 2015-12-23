@@ -14,8 +14,8 @@ public class RegisterPage extends PageObject{
 	public static final String registrationFormId = "registrationForm";
 
 	@FindBy(how = How.ID, using = registrationFormId)
-	private WebElement registerForm;
-	private RegisterForm registerFormElement;
+	private WebElement fRegisterForm;
+	private RegisterForm fRegisterFormElement;
 
 	public enum ErrorElements{
 		EMAIL_IN_USE("address is already in use"), EMAIL_INVALID("address is invalid"), EMAIL_EMPTY("enter your email address"), FIRSTNAME_EMPTY(
@@ -44,29 +44,29 @@ public class RegisterPage extends PageObject{
 	}
 
 	public void fillRegisterForm(String email, String first, String last, String password, String password_confirm){
-		registerFormElement.fillForm(email, first, last, password, password_confirm);
+		fRegisterFormElement.fillForm(email, first, last, password, password_confirm);
 
 	}
 
 	public MainPage registerExpectSuccess(){
-		registerFormElement.submit();
+		fRegisterFormElement.submit();
 		return new MainPage(fDriver);
 	}
 
 	public RegisterPage registerExpectFailure(){
-		registerFormElement.submit();
+		fRegisterFormElement.submit();
 		initialiseElements();
 		return this;
 	}
 
 	public RegisterForm getRegisterForm(){
-		return registerFormElement;
+		return fRegisterFormElement;
 	}
 
 	@Override
 	protected void initialiseElements(){
 		PageFactory.initElements(fDriver, this);
-		registerFormElement = new RegisterForm(fDriver, registerForm);
+		fRegisterFormElement = new RegisterForm(fDriver, fRegisterForm);
 	}
 
 }

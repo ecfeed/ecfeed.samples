@@ -22,19 +22,19 @@ public class MainMenu extends MenuElement {
 	public static final String FAQ_LINK = "FAQs";
 	
 	@FindBy(how = How.LINK_TEXT, using = HOME_LINK)
-	private WebElement homeLink;
+	private WebElement fHomeLink;
 	
 	@FindBy(how = How.LINK_TEXT, using = HOT_SAUCES_LINK)
-	private WebElement hotSaucesLink;
+	private WebElement fHotSaucesLink;
 	
 	@FindBy(how = How.LINK_TEXT, using = CLEARANCE_LINK)
-	private WebElement clearanceLink;
+	private WebElement fClearanceLink;
 	
 	@FindBy(how = How.LINK_TEXT, using = MERCHANDISE_LINK)
-	private WebElement merchandiseLink;
+	private WebElement fMerchandiseLink;
 	
 	@FindBy(how = How.LINK_TEXT, using = FAQ_LINK)
-	private WebElement faqLink;
+	private WebElement fFaqLink;
 
 	public MainMenu(WebElement element, WebDriver driver){
 		super(element, driver);
@@ -64,11 +64,11 @@ public class MainMenu extends MenuElement {
 	@Override
 	protected void initialiseElements(){
 		PageFactory.initElements(fElementLocatorFactory, this);
-		fElements.put(HOME_LINK, new ButtonElement(homeLink));
-		fElements.put(MERCHANDISE_LINK, new ButtonElement(merchandiseLink));
-		fElements.put(CLEARANCE_LINK, new ButtonElement(clearanceLink));
-		fElements.put(NEW_TO_HOT_SAUCE_LINK, new ButtonElement(hotSaucesLink));
-		fElements.put(FAQ_LINK, new ButtonElement(faqLink));
+		fElements.put(HOME_LINK, new ButtonElement(fHomeLink));
+		fElements.put(MERCHANDISE_LINK, new ButtonElement(fMerchandiseLink));
+		fElements.put(CLEARANCE_LINK, new ButtonElement(fClearanceLink));
+		fElements.put(NEW_TO_HOT_SAUCE_LINK, new ButtonElement(fHotSaucesLink));
+		fElements.put(FAQ_LINK, new ButtonElement(fFaqLink));
 	}
 
 }

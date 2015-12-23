@@ -16,10 +16,10 @@ public class AccountMenuLoggedOut extends AccountMenu{
 	public final static String REGISTER_LINK = "Register";
 
 	@FindBy(how = How.LINK_TEXT, using = LOGIN_LINK)
-	private WebElement loginButton;
+	private WebElement fLoginButton;
 
 	@FindBy(how = How.LINK_TEXT, using = REGISTER_LINK)
-	private WebElement registerButton;
+	private WebElement fRegisterButton;
 
 	public AccountMenuLoggedOut(WebElement element, WebDriver driver){
 		super(element, driver);
@@ -30,8 +30,8 @@ public class AccountMenuLoggedOut extends AccountMenu{
 	@Override
 	public void initialiseElements(){
 		PageFactory.initElements(fElementLocatorFactory, this);
-		fElements.put(LOGIN_LINK, new ButtonElement(loginButton));
-		fElements.put(REGISTER_LINK, new ButtonElement(registerButton));
+		fElements.put(LOGIN_LINK, new ButtonElement(fLoginButton));
+		fElements.put(REGISTER_LINK, new ButtonElement(fRegisterButton));
 	}
 
 	public RegisterPage navigateRegister(){
@@ -47,7 +47,7 @@ public class AccountMenuLoggedOut extends AccountMenu{
 	@Override
 	public boolean isLoggedIn(){
 		try{
-			loginButton.getLocation();
+			fLoginButton.getLocation();
 			return false;
 		} catch(Exception e){
 			return true;

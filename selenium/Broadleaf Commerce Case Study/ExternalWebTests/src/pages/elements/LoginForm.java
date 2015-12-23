@@ -17,11 +17,11 @@ public class LoginForm extends FormElement{
 	public final static String LOGIN_BUTTON = "login_button";
 	
 	@FindBy(how = How.NAME, using = USERNAME_TEXT)
-	private WebElement usernameText;
+	private WebElement fUsernameText;
 	@FindBy(how = How.NAME, using = PASSWORD_TEXT)
-	private WebElement passwordText;
+	private WebElement fPasswordText;
 	@FindBy(how = How.CLASS_NAME, using = LOGIN_BUTTON)
-	private WebElement loginButton;
+	private WebElement fLoginButton;
 
 	public LoginForm(WebDriver driver, WebElement element){
 		super(driver, element);
@@ -36,9 +36,9 @@ public class LoginForm extends FormElement{
 	@Override
 	protected void initialiseElements(){
 		PageFactory.initElements(fElementLocatorFactory, this);
-		fElements.put(USERNAME_TEXT, new EditableTextElement(usernameText));
-		fElements.put(PASSWORD_TEXT, new EditableTextElement(passwordText));
-		fElements.put(LOGIN_BUTTON, new ButtonElement(loginButton));	
+		fElements.put(USERNAME_TEXT, new EditableTextElement(fUsernameText));
+		fElements.put(PASSWORD_TEXT, new EditableTextElement(fPasswordText));
+		fElements.put(LOGIN_BUTTON, new ButtonElement(fLoginButton));	
 	}
 
 	public void fillUsername(String username){

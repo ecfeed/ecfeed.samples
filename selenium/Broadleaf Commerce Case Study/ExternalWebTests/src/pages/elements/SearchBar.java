@@ -16,9 +16,9 @@ public class SearchBar extends FormElement{
 	public final static String SEARCH_BUTTON = "search_button";
 	
 	@FindBy(how = How.CLASS_NAME, using = SEARCH_TEXT)
-	private WebElement searchText;
+	private WebElement fSearchText;
 	@FindBy(how = How.ID, using = SEARCH_BUTTON)
-	private WebElement searchButton;
+	private WebElement fSearchButton;
 
 	public SearchBar(WebElement element, WebDriver driver){
 		super(driver, element);
@@ -36,8 +36,8 @@ public class SearchBar extends FormElement{
 
 	@Override
 	protected void initialiseElements(){
-		fElements.put(SEARCH_TEXT, new EditableTextElement(searchText));
-		fElements.put(SEARCH_BUTTON, new ButtonElement(searchButton));
+		fElements.put(SEARCH_TEXT, new EditableTextElement(fSearchText));
+		fElements.put(SEARCH_BUTTON, new ButtonElement(fSearchButton));
 		PageFactory.initElements(fElementLocatorFactory, this);
 	}
 

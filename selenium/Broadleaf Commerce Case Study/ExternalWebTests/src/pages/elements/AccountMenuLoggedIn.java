@@ -16,10 +16,10 @@ public class AccountMenuLoggedIn extends AccountMenu{
 	public final static String LOGOUT_LINK = "Logout";
 
 	@FindBy(how = How.LINK_TEXT, using = LOGOUT_LINK)
-	private WebElement logoutButton;
+	private WebElement fLogoutButton;
 
 	@FindBy(how = How.CLASS_NAME, using = ACCOUNT_LINK)
-	private WebElement accountButton;
+	private WebElement fAccountButton;
 
 	public AccountMenuLoggedIn(WebElement element, WebDriver driver){
 		super(element, driver);
@@ -30,12 +30,12 @@ public class AccountMenuLoggedIn extends AccountMenu{
 	@Override
 	public void initialiseElements(){
 		PageFactory.initElements(fElementLocatorFactory, this);
-		fElements.put(ACCOUNT_LINK, new ButtonElement(accountButton));
-		fElements.put(LOGOUT_LINK, new ButtonElement(logoutButton));
+		fElements.put(ACCOUNT_LINK, new ButtonElement(fAccountButton));
+		fElements.put(LOGOUT_LINK, new ButtonElement(fLogoutButton));
 	}
 
 	public String getUserName(){
-		return accountButton.getText();
+		return fAccountButton.getText();
 	}
 
 	public MainPage navigateLogout(){
@@ -51,7 +51,7 @@ public class AccountMenuLoggedIn extends AccountMenu{
 	@Override
 	public boolean isLoggedIn(){
 		try{
-			logoutButton.getLocation();
+			fLogoutButton.getLocation();
 			return true;
 		} catch(Exception e){
 			return false;

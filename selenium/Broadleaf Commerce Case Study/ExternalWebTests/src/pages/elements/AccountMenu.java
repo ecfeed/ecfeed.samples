@@ -16,10 +16,10 @@ public abstract class AccountMenu extends MenuElement{
 	public final static String CART_ITEM_COUNT_TEXT = "headerCartItemsCount";
 	
 	@FindBy(how = How.LINK_TEXT, using = CART_LINK)
-	private WebElement cartButton;
+	private WebElement fCartButton;
 	
 	@FindBy(how = How.CLASS_NAME, using = CART_ITEM_COUNT_TEXT)
-	private WebElement cartItemCount;
+	private WebElement fCartItemCount;
 
 	public AccountMenu(WebElement element, WebDriver driver){
 		super(element, driver);
@@ -37,8 +37,8 @@ public abstract class AccountMenu extends MenuElement{
 	@Override
 	protected void initialiseElements(){
 		PageFactory.initElements(fElementLocatorFactory, this);
-		fElements.put(CART_LINK, new ButtonElement(cartButton));
-		fElements.put(CART_ITEM_COUNT_TEXT, new ButtonElement(cartItemCount));
+		fElements.put(CART_LINK, new ButtonElement(fCartButton));
+		fElements.put(CART_ITEM_COUNT_TEXT, new ButtonElement(fCartItemCount));
 	}
 	
 	public abstract boolean isLoggedIn();

@@ -20,12 +20,12 @@ public class MainPage extends PageObject{
 	public final static String ACCOUNT_MENU = "id('cart_info')";
 
 	@FindBy(how = How.XPATH, using = MAIN_MENU)
-	private WebElement mainMenu;
+	private WebElement fMainMenu;
 	@FindBy(how = How.XPATH, using = ACCOUNT_MENU)
-	private WebElement accountMenu;
+	private WebElement fAccountMenu;
 	@FindBy(how = How.NAME, using = SEARCH_BAR)
-	private WebElement searchBar;
-	protected boolean isLoggedOn;
+	private WebElement fSearchBar;
+	protected boolean fIsLoggedOn;
 
 	public MainPage(WebDriver driver){
 		super(driver, tools.PageAddress.BASE);
@@ -75,16 +75,16 @@ public class MainPage extends PageObject{
 	}
 	
 	public boolean isLoggedIn(){
-		AccountMenuLoggedIn accMenu = new AccountMenuLoggedIn(accountMenu, fDriver);
+		AccountMenuLoggedIn accMenu = new AccountMenuLoggedIn(fAccountMenu, fDriver);
 		if(accMenu.isLoggedIn()){
 			fElements.put(ACCOUNT_MENU, accMenu);
-			return isLoggedOn = true;
+			return fIsLoggedOn = true;
 		}
 
-		AccountMenuLoggedOut accMenu2 = new AccountMenuLoggedOut(accountMenu, fDriver);
+		AccountMenuLoggedOut accMenu2 = new AccountMenuLoggedOut(fAccountMenu, fDriver);
 		if(!accMenu2.isLoggedIn()){
 			fElements.put(ACCOUNT_MENU, accMenu2);
-			return isLoggedOn = false;
+			return fIsLoggedOn = false;
 		}
 		return false;
 	}
@@ -93,8 +93,8 @@ public class MainPage extends PageObject{
 	protected void initialiseElements(){
 		PageFactory.initElements(fDriver, this);
 		isLoggedIn();
-		fElements.put(MAIN_MENU, new MainMenu(mainMenu, fDriver));
-		fElements.put(SEARCH_BAR, new SearchBar(searchBar, fDriver));
+		fElements.put(MAIN_MENU, new MainMenu(fMainMenu, fDriver));
+		fElements.put(SEARCH_BAR, new SearchBar(fSearchBar, fDriver));
 	}
 
 }
