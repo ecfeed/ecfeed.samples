@@ -59,8 +59,15 @@ public class UserDataTest extends ParentTest{
 		return true;
 	}
 
-	protected boolean insertPhone(long phoneId, boolean isActive, boolean isDefault, String phone){
+	protected void deleteAllAdresses() {
+		try{
+			fConnectionInstance.tryUpdate("DELETE FROM PUBLIC.BLC_CUSTOMER_ADDRESS;");
+		} catch(Exception e){
+			throw new Error("Can not delete all addresses. Cause: " + e.getMessage());
+		}
+	}
 
+	protected boolean insertPhone(long phoneId, boolean isActive, boolean isDefault, String phone){
 		String is_default = (isDefault ? "TRUE" : "FALSE");
 		String is_active = (isActive ? "TRUE" : "FALSE");
 
@@ -77,18 +84,18 @@ public class UserDataTest extends ParentTest{
 		try{
 			fConnectionInstance.tryUpdate("DELETE FROM PUBLIC.blc_customer;");
 		} catch(Exception e){
-			throw new Error("Database connection failed");
+			throw new Error("Can not delete all customers. Cause: " + e.getMessage());
 		}
 	}
-	
+
 	protected void deleteCustomer(String email){
 		try{
 			fConnectionInstance.tryUpdate("DELETE FROM PUBLIC.blc_customer WHERE USER_NAME='" + DBUtils.escapeString(email) + "';");
 		} catch(Exception e){
-			throw new Error("Database connection failed");
+			throw new Error("Can not delete customer: " + email + ". Cause: " + e.getMessage());
 		}
 	}
-	
+
 	protected void deleteCustomerSafe(String email) {
 		try{
 			deleteCustomer(email);
@@ -129,7 +136,7 @@ public class UserDataTest extends ParentTest{
 			throw new Error("Database connection failed");
 		}
 	}
-	
+
 	protected void deleteCustomerSafe(long id){
 		try {
 			deleteCustomer(id);
