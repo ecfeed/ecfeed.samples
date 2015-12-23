@@ -10,22 +10,26 @@ import tools.DriverFactory;
 
 public class ParentTest{
 	protected WebDriver driver;
-	protected ConnectionInstance connection;
+	protected ConnectionInstance connectionInstance;
 	protected String baseUrl;
 
 	protected void setUp(){
 		try{
-			connection = new ConnectionInstance(DataSourceFactory.getHSQLDataSource());
+			connectionInstance = new ConnectionInstance(DataSourceFactory.getHSQLDataSource());
 		} catch(Exception e){
 			e.printStackTrace();
-			throw new Error("Failed to initialize database connection");
+			throw new Error("Failed to initialize database connection.");
+		}
+		
+		if (connectionInstance.connection == null) {
+			throw new Error("No database connection.");
 		}
 
 		try{
 			driver = DriverFactory.getDriver();
 			driver.manage().window().maximize();
 		} catch(Exception e){
-			throw new Error("Failed to initialize Selenium driver");
+			throw new Error("Failed to initialize Selenium driver.");
 		}
 
 	}
@@ -34,8 +38,8 @@ public class ParentTest{
 		if(driver != null){
 			driver.quit();
 		}
-		if(connection != null){
-			connection.close();
+		if(connectionInstance != null){
+			connectionInstance.close();
 		}
 	}
 	

@@ -37,7 +37,7 @@ public class TestLogin extends UserDataTest {
 				Assert.assertTrue("Login failed", isElementPresent(By.linkText("Login")));
 			}
 		} finally {
-			cleanUpUserTable(email);
+			cleanUpUserTableSafe(email);
 			tearDown();
 		}
 	}
@@ -64,7 +64,7 @@ public class TestLogin extends UserDataTest {
 				Assert.assertTrue("Login failed", isElementPresent(By.linkText("Login")));
 			}
 		} finally {
-			cleanUpUserTable(email);
+			cleanUpUserTableSafe(email);
 			tearDown();
 		}
 	}
@@ -91,7 +91,7 @@ public class TestLogin extends UserDataTest {
 				Assert.assertTrue(isElementPresent(By.xpath("//*[contains(.,'" + ErrorMessage.LoginNotFound + "')]")));
 			}
 		} finally {
-			cleanUpUserTable(email);
+			cleanUpUserTableSafe(email);
 			tearDown();
 		}
 	}

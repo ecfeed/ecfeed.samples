@@ -3,7 +3,6 @@ package test;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.openqa.selenium.By;
 
 import pages.LoginPage;
 import pages.MainPage;
@@ -54,7 +53,7 @@ public class TestRegister extends UserDataTest{
 //						&& !isElementPresent(By.xpath("//*[contains(.,'" + ErrorMessage.EnterAddress + "')]")));
 //			}
 		} finally{
-			cleanUpUserTable(email);
+			cleanUpUserTableSafe(email);
 			tearDown();
 		}
 	}
@@ -107,6 +106,7 @@ public class TestRegister extends UserDataTest{
 			boolean valid_data) throws Exception{
 		try{
 			setUp();
+			cleanUpUserTable();
 			MainPage mainPage = new MainPage(driver);
 			mainPage.get();
 			RegisterPage registerPage = mainPage.navigateRegister();
@@ -135,7 +135,7 @@ public class TestRegister extends UserDataTest{
 				Assert.assertFalse("User shouldn't be successfully logged in.", loggedIn);
 			}
 		} finally{
-			cleanUpUserTable(email);
+			cleanUpUserTableSafe(email);
 			tearDown();
 		}
 	}

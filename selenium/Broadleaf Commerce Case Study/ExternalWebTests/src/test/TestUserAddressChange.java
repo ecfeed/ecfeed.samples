@@ -14,6 +14,7 @@ import tools.PageAddress;
 
 import com.testify.ecfeed.junit.StaticRunner;
 import com.testify.ecfeed.junit.annotations.EcModel;
+import com.testify.ecfeed.junit.annotations.TestSuites;
 import com.testify.ecfeed.junit.annotations.expected;
 
 @RunWith(StaticRunner.class)
@@ -25,6 +26,7 @@ public class TestUserAddressChange extends UserDataTest{
 	}
 	
 	@Test
+	@TestSuites("Failed")
 	public void testAddAddress(String firstName,String lastName, String phone, String addr1, String addr2, String city, 
 											State state, String postal, String addrName, boolean isDefault, @expected boolean valid_data) throws Exception{
 		String email = "standard.email@address.com";
@@ -35,6 +37,7 @@ public class TestUserAddressChange extends UserDataTest{
 		
 		try{
 			setUp();
+			cleanUpUserTable();
 			user_id = insertCustomer(email, password, name, surname);
 			login(email, password);
 			
@@ -102,7 +105,7 @@ public class TestUserAddressChange extends UserDataTest{
 			}
 		}
 		finally{
-			cleanUpUser(user_id);
+			cleanUpUserSafe(user_id);
 			tearDown();
 		}
 		
