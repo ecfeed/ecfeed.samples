@@ -73,6 +73,14 @@ public class UserDataTest extends ParentTest{
 		return true;
 	}
 
+	protected void cleanUpUserTable(){
+		try{
+			connection.tryUpdate("DELETE FROM PUBLIC.blc_customer;");
+		} catch(Exception e){
+			throw new Error("Database connection failed");
+		}
+	}
+	
 	protected void cleanUpUserTable(String email){
 		try{
 			connection.tryUpdate("DELETE FROM PUBLIC.blc_customer WHERE USER_NAME='" + DBUtils.escapeString(email) + "';");

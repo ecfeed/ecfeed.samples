@@ -14,8 +14,20 @@ INSTALLATION PROCEDURE ---------------------------------------------------------
   export M2=$M2_HOME/bin
   export PATH=$M2:$PATH
 
-- Start HSQL Server from directory where hsqldb.jar lays e.g.  ~/HSQL/hsqldb-2.3.3/hsqldb/lib  issue command:
- java -cp hsqldb.jar org.hsqldb.server.Server --database.0 /home/marekq/EclipseForSelenium/workspace/eclipse-workspace/DemoSite/site/data/broadleaf --dbname.0 broadleaf
+- Start HSQL Server:
+  cd ~/HSQL/hsqldb-2.3.3/hsqldb/lib
+  java -cp hsqldb.jar org.hsqldb.server.Server --database.0 /home/marekq/EclipseForSelenium/workspace/eclipse-workspace/DemoSite/site/data/broadleaf --dbname.0 broadleaf
+
+- Run SQL Manager: 
+  cd ~/HSQL/hsqldb-2.3.3/hsqldb/lib 
+  java -cp hsqldb.jar org.hsqldb.util.DatabaseManagerSwing 
+
+  Connection properties in Connect dialog: 
+	Type: HSQL Database Engine Server
+	Driver: org.hsqldb.jdbcDriver
+	URL: jdbc:hsqldb:hsql://localhost/broadleaf
+	User: SA
+	Password: (empty)
 
 - Install Eclipse and ecFeed plugin.
 
@@ -32,18 +44,15 @@ INSTALLATION PROCEDURE ---------------------------------------------------------
   paste the address http://localhost:8080/ in Mozzilla Firefox. A Heat Clinic website should be visible.
 
 - Check that the website uses HSQL as database:
-  - Register any user.
-  - Run SQL Manager: 
-    from directory: ~/HSQL/hsqldb-2.3.3/hsqldb/lib issue a command: java -cp hsqldb.jar org.hsqldb.util.DatabaseManagerSwing 
-    Connection properties in Connect dialog: 
-	Type: HSQL Database Engine Server
-	Driver: org.hsqldb.jdbcDriver
-	URL: jdbc:hsqldb:hsql://localhost/broadleaf
-	User: SA
-	Password: (empty)
+  - Register any user in the site.
   - In the SQL Window paste: SELECT * FROM "PUBLIC"."BLC_CUSTOMER" click Execute SQL button. One user record with previously registered login and password should be visible.
 
 - From git load ExternalTestsProject. Configure BuildPath to add ecfeed.jar with the same version as ecFeed plugin which was previously installed. 
   It may be necessary to correct some test source files to match the installed version of ecfeed.jar.
+
+- Run tests from ecFeed. Remarks:
+  - Before running the test, database must be in its initial state (empty). 
+  - It is not recommended to cancel a running test under debugger because the database would not be cleaned then.
+
 
 

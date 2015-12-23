@@ -45,6 +45,7 @@ public class TestAccountInformationChange extends UserDataTest{
 		try{
 			String name = "Firstname";
 			setUp();
+			cleanUpUserTable();
 			insertCustomer(email, "password", name, "LastName");
 			
 			login(email, "password");
@@ -55,9 +56,9 @@ public class TestAccountInformationChange extends UserDataTest{
 			driver.findElement(By.cssSelector("input.medium.red")).click();
 			driver.get(baseUrl);
 			if(valid_data){
-				Assert.assertTrue("email address doesn't match.", driver.findElement(By.id("emailAddress")).getAttribute("value").equals(newEmail));
+				Assert.assertTrue("Email address doesn't match.", driver.findElement(By.id("emailAddress")).getAttribute("value").equals(newEmail));
 			} else{
-				Assert.assertTrue("email address doesn't match.", driver.findElement(By.id("emailAddress")).getAttribute("value").equals(email));
+				Assert.assertTrue("Email address doesn't match.", driver.findElement(By.id("emailAddress")).getAttribute("value").equals(email));
 			}
 		} finally{
 			cleanUpUserTable(email);
