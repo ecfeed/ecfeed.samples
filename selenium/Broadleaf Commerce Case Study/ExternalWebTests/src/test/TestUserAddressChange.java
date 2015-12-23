@@ -37,7 +37,7 @@ public class TestUserAddressChange extends UserDataTest{
 		
 		try{
 			setUp();
-			cleanUpUserTable();
+			deleteAllCustomers();
 			user_id = insertCustomer(email, password, name, surname);
 			login(email, password);
 			
@@ -105,7 +105,7 @@ public class TestUserAddressChange extends UserDataTest{
 			}
 		}
 		finally{
-			cleanUpUserSafe(user_id);
+			deleteCustomerSafe(user_id);
 			tearDown();
 		}
 		

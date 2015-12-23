@@ -4879,6 +4879,32 @@
                 <TestParameter choice="false"/>
                 <ExpectedValue value="false"/>
             </TestCase>
+            <TestCase testSuite="Pairwise">
+                <TestParameter choice="valid:Normal"/>
+                <TestParameter choice="valid:val_name"/>
+                <TestParameter choice="valid:normal\sphone"/>
+                <TestParameter choice="valid:normal"/>
+                <TestParameter choice="valid:any\sstring"/>
+                <TestParameter choice="valid:normal"/>
+                <TestParameter choice="NONE"/>
+                <TestParameter choice="valid:normal"/>
+                <TestParameter choice="valid:normal"/>
+                <TestParameter choice="false"/>
+                <ExpectedValue value="true"/>
+            </TestCase>
+            <TestCase testSuite="Failed">
+                <TestParameter choice="valid:Normal"/>
+                <TestParameter choice="valid:val_name"/>
+                <TestParameter choice="invalid:whitespaces"/>
+                <TestParameter choice="valid:normal"/>
+                <TestParameter choice="valid:empty"/>
+                <TestParameter choice="invalid:whitespaces"/>
+                <TestParameter choice="WY"/>
+                <TestParameter choice="invalid:whitespaces"/>
+                <TestParameter choice="valid:normal"/>
+                <TestParameter choice="false"/>
+                <ExpectedValue value="false"/>
+            </TestCase>
         </Method>
     </Class>
     <Class name="test.TestSauceSearch" runOnAndroid="false">

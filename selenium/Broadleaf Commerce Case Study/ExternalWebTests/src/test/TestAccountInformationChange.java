@@ -23,7 +23,7 @@ public class TestAccountInformationChange extends UserDataTest{
 	public void testInitialFill(String email, String name, String lastName) throws Exception {
 		try{
 			setUp();
-			cleanUpUserTable();
+			deleteAllCustomers();
 			insertCustomer(email, "password", name, lastName);
 			
 			login(email, "password");
@@ -36,7 +36,7 @@ public class TestAccountInformationChange extends UserDataTest{
 
 			fDriver.findElement(By.linkText("Logout")).click();
 		} finally{
-			cleanUpUserTableSafe(email);
+			deleteCustomerSafe(email);
 			tearDown();
 		}
 	}
@@ -46,7 +46,7 @@ public class TestAccountInformationChange extends UserDataTest{
 		try{
 			String name = "Firstname";
 			setUp();
-			cleanUpUserTable();
+			deleteAllCustomers();
 			insertCustomer(email, "password", name, "LastName");
 			
 			login(email, "password");
@@ -62,7 +62,7 @@ public class TestAccountInformationChange extends UserDataTest{
 				Assert.assertTrue("Email address doesn't match.", fDriver.findElement(By.id("emailAddress")).getAttribute("value").equals(email));
 			}
 		} finally{
-			cleanUpUserTableSafe(email);
+			deleteCustomerSafe(email);
 			tearDown();
 		}
 	}
@@ -72,7 +72,7 @@ public class TestAccountInformationChange extends UserDataTest{
 		String email = "standard.email@address.com";
 		try{
 			setUp();
-			cleanUpUserTable();
+			deleteAllCustomers();
 			insertCustomer(email, "password", name, "LastName");
 			
 			login(email, "password");
@@ -90,7 +90,7 @@ public class TestAccountInformationChange extends UserDataTest{
 				Assert.assertTrue("first name doesn't match.", fDriver.findElement(By.id("firstName")).getAttribute("value").equals(name));
 			}
 		} finally{
-			cleanUpUserTableSafe(email);
+			deleteCustomerSafe(email);
 			tearDown();
 		}
 	}
@@ -101,7 +101,7 @@ public class TestAccountInformationChange extends UserDataTest{
 		String firstName = "Firstname";
 		try{
 			setUp();
-			cleanUpUserTable();
+			deleteAllCustomers();
 			insertCustomer(email, "password", firstName, name);
 			
 			login(email, "password");
@@ -119,7 +119,7 @@ public class TestAccountInformationChange extends UserDataTest{
 				Assert.assertTrue("last name doesn't match.", fDriver.findElement(By.id("lastName")).getAttribute("value").equals(name));
 			}
 		} finally{
-			cleanUpUserTableSafe(email);
+			deleteCustomerSafe(email);
 			tearDown();
 		}
 	}
@@ -129,7 +129,7 @@ public class TestAccountInformationChange extends UserDataTest{
 	public void testAccountInfoChangeSuccess(String email, String newEmail, String name, String newName, String lastName, String newLastName, boolean valid_data) throws Exception {	
 		try{
 			setUp();
-			cleanUpUserTable();
+			deleteAllCustomers();
 			insertCustomer(email, "password", name, lastName);
 			
 			login(email, "password");
@@ -156,7 +156,7 @@ public class TestAccountInformationChange extends UserDataTest{
 				Assert.assertTrue("last name doesn't match.", fDriver.findElement(By.id("lastName")).getAttribute("value").equals(lastName));
 			}
 		} finally{
-			cleanUpUserTableSafe(email);
+			deleteCustomerSafe(email);
 			tearDown();
 		}
 	}
@@ -165,7 +165,7 @@ public class TestAccountInformationChange extends UserDataTest{
 	public void testSuccessNotification(String email, String newEmail, String name, String newName, String lastName, String newLastName, boolean valid_data) throws Exception {	
 		try{
 			setUp();
-			cleanUpUserTable();
+			deleteAllCustomers();
 			insertCustomer(email, "password", name, lastName);
 			
 			login(email, "password");
@@ -187,7 +187,7 @@ public class TestAccountInformationChange extends UserDataTest{
 				Assert.assertTrue(!isElementPresent(By.className("success")));
 			}
 		} finally{
-			cleanUpUserTableSafe(email);
+			deleteCustomerSafe(email);
 			tearDown();
 		}
 	}

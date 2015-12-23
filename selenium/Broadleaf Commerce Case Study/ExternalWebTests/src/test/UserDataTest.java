@@ -73,7 +73,7 @@ public class UserDataTest extends ParentTest{
 		return true;
 	}
 
-	protected void cleanUpUserTable(){
+	protected void deleteAllCustomers(){
 		try{
 			fConnectionInstance.tryUpdate("DELETE FROM PUBLIC.blc_customer;");
 		} catch(Exception e){
@@ -81,7 +81,7 @@ public class UserDataTest extends ParentTest{
 		}
 	}
 	
-	protected void cleanUpUserTable(String email){
+	protected void deleteCustomer(String email){
 		try{
 			fConnectionInstance.tryUpdate("DELETE FROM PUBLIC.blc_customer WHERE USER_NAME='" + DBUtils.escapeString(email) + "';");
 		} catch(Exception e){
@@ -89,9 +89,9 @@ public class UserDataTest extends ParentTest{
 		}
 	}
 	
-	protected void cleanUpUserTableSafe(String email) {
+	protected void deleteCustomerSafe(String email) {
 		try{
-			cleanUpUserTable(email);
+			deleteCustomer(email);
 		} catch(Throwable ex){
 			System.out.println(ex.getMessage());
 		}
@@ -101,7 +101,7 @@ public class UserDataTest extends ParentTest{
 	 * @param id id of user to be completely wiped from database, along with all
 	 * correlated data. This method will be complemented with each added module;
 	 */
-	protected void cleanUpUser(long id){
+	protected void deleteCustomer(long id){
 		try{
 			fConnectionInstance.tryUpdate("DELETE FROM PUBLIC.blc_customer WHERE CUSTOMER_ID=" + id + ";");
 			ArrayList<Long> addrList = new ArrayList<>();
@@ -130,9 +130,9 @@ public class UserDataTest extends ParentTest{
 		}
 	}
 	
-	protected void cleanUpUserSafe(long id){
+	protected void deleteCustomerSafe(long id){
 		try {
-			cleanUpUser(id);
+			deleteCustomer(id);
 		}
 		catch (Throwable ex) {
 			System.out.println(ex.getMessage());

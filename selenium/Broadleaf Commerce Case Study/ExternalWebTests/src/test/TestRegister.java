@@ -53,7 +53,7 @@ public class TestRegister extends UserDataTest{
 //						&& !isElementPresent(By.xpath("//*[contains(.,'" + ErrorMessage.EnterAddress + "')]")));
 //			}
 		} finally{
-			cleanUpUserTableSafe(email);
+			deleteCustomerSafe(email);
 			tearDown();
 		}
 	}
@@ -106,7 +106,7 @@ public class TestRegister extends UserDataTest{
 			boolean valid_data) throws Exception{
 		try{
 			setUp();
-			cleanUpUserTable();
+			deleteAllCustomers();
 			MainPage mainPage = new MainPage(fDriver);
 			mainPage.get();
 			RegisterPage registerPage = mainPage.navigateRegister();
@@ -135,7 +135,7 @@ public class TestRegister extends UserDataTest{
 				Assert.assertFalse("User shouldn't be successfully logged in.", loggedIn);
 			}
 		} finally{
-			cleanUpUserTableSafe(email);
+			deleteCustomerSafe(email);
 			tearDown();
 		}
 	}

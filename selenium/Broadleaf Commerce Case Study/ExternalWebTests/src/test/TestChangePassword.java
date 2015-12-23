@@ -37,7 +37,7 @@ public class TestChangePassword extends UserDataTest {
 				Assert.assertFalse("Shouldn't be logged in!", isElementPresent(By.linkText(first_name)));
 			}
 		} finally{
-			cleanUpUserTableSafe(email);
+			deleteCustomerSafe(email);
 			tearDown();
 		}
 
@@ -72,7 +72,7 @@ public class TestChangePassword extends UserDataTest {
 				Assert.assertTrue("Expected error here!", isElementPresent(By.className("error")));
 			}						
 		} finally {
-			cleanUpUserTableSafe(email);
+			deleteCustomerSafe(email);
 			tearDown();
 		}
 	
