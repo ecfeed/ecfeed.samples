@@ -17,7 +17,7 @@ import com.testify.ecfeed.junit.annotations.TestSuites;
 @RunWith(StaticRunner.class)
 @EcModel("src/model.ect")
 public class TestRegister extends UserDataTest{
-	private String registerUrl = PageAddress.REGISTER;
+	private String fRegisterUrl = PageAddress.REGISTER;
 	/*
 	 * This tests checks and warnings for email field.
 	 */
@@ -25,7 +25,7 @@ public class TestRegister extends UserDataTest{
 	public void testRegisterEmail(String email, boolean expected_result) throws Exception{
 		try{
 			setUp();
-			MainPage mainPage = new MainPage(driver);
+			MainPage mainPage = new MainPage(fDriver);
 			RegisterPage registerPage = mainPage.navigateRegister();
 			
 			registerPage.fillRegisterForm(email, "first", "last", "password", "password");
@@ -107,7 +107,7 @@ public class TestRegister extends UserDataTest{
 		try{
 			setUp();
 			cleanUpUserTable();
-			MainPage mainPage = new MainPage(driver);
+			MainPage mainPage = new MainPage(fDriver);
 			mainPage.get();
 			RegisterPage registerPage = mainPage.navigateRegister();
 			registerPage.isLoaded();

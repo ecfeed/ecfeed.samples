@@ -9,25 +9,25 @@ import tools.DataSourceFactory;
 import tools.DriverFactory;
 
 public class ParentTest{
-	protected WebDriver driver;
-	protected ConnectionInstance connectionInstance;
-	protected String baseUrl;
+	protected WebDriver fDriver;
+	protected ConnectionInstance fConnectionInstance;
+	protected String fBaseUrl;
 
 	protected void setUp(){
 		try{
-			connectionInstance = new ConnectionInstance(DataSourceFactory.getHSQLDataSource());
+			fConnectionInstance = new ConnectionInstance(DataSourceFactory.getHSQLDataSource());
 		} catch(Exception e){
 			e.printStackTrace();
 			throw new Error("Failed to initialize database connection.");
 		}
 		
-		if (connectionInstance.connection == null) {
+		if (fConnectionInstance.fConnection == null) {
 			throw new Error("No database connection.");
 		}
 
 		try{
-			driver = DriverFactory.getDriver();
-			driver.manage().window().maximize();
+			fDriver = DriverFactory.getDriver();
+			fDriver.manage().window().maximize();
 		} catch(Exception e){
 			throw new Error("Failed to initialize Selenium driver.");
 		}
@@ -35,17 +35,17 @@ public class ParentTest{
 	}
 	
 	protected void tearDown() throws Exception{
-		if(driver != null){
-			driver.quit();
+		if(fDriver != null){
+			fDriver.quit();
 		}
-		if(connectionInstance != null){
-			connectionInstance.close();
+		if(fConnectionInstance != null){
+			fConnectionInstance.close();
 		}
 	}
 	
 	protected boolean isElementPresent(By by){
 		try{
-			driver.findElement(by);
+			fDriver.findElement(by);
 			return true;
 		} catch(NoSuchElementException e){
 			return false;

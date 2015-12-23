@@ -16,7 +16,7 @@ import com.testify.ecfeed.junit.annotations.EcModel;
 public class TestLogin extends UserDataTest {
 
 	public TestLogin(){
-		baseUrl = PageAddress.LOGIN;
+		fBaseUrl = PageAddress.LOGIN;
 	}
 
   	/*
@@ -26,7 +26,7 @@ public class TestLogin extends UserDataTest {
 	public void testLoginSuccess(String email, String password, String input_email, String input_password) throws Exception {
 		try {
 			setUp();
-			driver.get(baseUrl);
+			fDriver.get(fBaseUrl);
 			insertCustomer(email, password, "FirstName", "LastName");
 
 			login(input_email, input_password);
@@ -51,7 +51,7 @@ public class TestLogin extends UserDataTest {
 		String password = "mypassword";
 		try {
 			setUp();
-			driver.get(baseUrl);
+			fDriver.get(fBaseUrl);
 			insertCustomer(email, password, "FirstName", "LastName");
 
 			login(input_email, password);
@@ -82,7 +82,7 @@ public class TestLogin extends UserDataTest {
 			setUp();
 			insertCustomer(email, escaped_password, "firstName", "lastName");
 			
-			driver.get(baseUrl);
+			fDriver.get(fBaseUrl);
 			login(email, input_password);
 
 			if (expected_result) {

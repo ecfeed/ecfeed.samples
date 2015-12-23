@@ -22,7 +22,7 @@ import com.testify.ecfeed.junit.annotations.expected;
 public class TestUserAddressChange extends UserDataTest{
 
 	public TestUserAddressChange(){
-		baseUrl = PageAddress.ADDRESS_INFO;
+		fBaseUrl = PageAddress.ADDRESS_INFO;
 	}
 	
 	@Test
@@ -42,31 +42,31 @@ public class TestUserAddressChange extends UserDataTest{
 			login(email, password);
 			
 			Assert.assertTrue("Not logged in!", isElementPresent(By.linkText(name)));
-			driver.get(baseUrl);	
+			fDriver.get(fBaseUrl);	
 			
-			 driver.findElement(By.id("address.firstName")).clear();
-			 driver.findElement(By.id("address.firstName")).sendKeys(firstName);
-			 driver.findElement(By.id("address.lastName")).clear();
-			 driver.findElement(By.id("address.lastName")).sendKeys(lastName);
-			 driver.findElement(By.id("address.phonePrimary")).clear();
-			 driver.findElement(By.id("address.phonePrimary")).sendKeys(phone);
-			 driver.findElement(By.id("address.addressLine1")).clear();
-			 driver.findElement(By.id("address.addressLine1")).sendKeys(addr1);
-			 driver.findElement(By.id("address.addressLine2")).clear();
-			 driver.findElement(By.id("address.addressLine2")).sendKeys(addr2);
-			 driver.findElement(By.id("address.city")).clear();
-			 driver.findElement(By.id("address.city")).sendKeys(city);
-			 new Select(driver.findElement(By.id("state"))).selectByVisibleText(state.toString());
-			 driver.findElement(By.id("address.postalCode")).clear();
-			 driver.findElement(By.id("address.postalCode")).sendKeys(postal);
-			 driver.findElement(By.id("addressName")).clear();
-			 driver.findElement(By.id("addressName")).sendKeys(addrName);
-			 driver.findElement(By.id("address.default1")).click();
-			 driver.findElement(By.cssSelector("input.medium.red")).click();
+			 fDriver.findElement(By.id("address.firstName")).clear();
+			 fDriver.findElement(By.id("address.firstName")).sendKeys(firstName);
+			 fDriver.findElement(By.id("address.lastName")).clear();
+			 fDriver.findElement(By.id("address.lastName")).sendKeys(lastName);
+			 fDriver.findElement(By.id("address.phonePrimary")).clear();
+			 fDriver.findElement(By.id("address.phonePrimary")).sendKeys(phone);
+			 fDriver.findElement(By.id("address.addressLine1")).clear();
+			 fDriver.findElement(By.id("address.addressLine1")).sendKeys(addr1);
+			 fDriver.findElement(By.id("address.addressLine2")).clear();
+			 fDriver.findElement(By.id("address.addressLine2")).sendKeys(addr2);
+			 fDriver.findElement(By.id("address.city")).clear();
+			 fDriver.findElement(By.id("address.city")).sendKeys(city);
+			 new Select(fDriver.findElement(By.id("state"))).selectByVisibleText(state.toString());
+			 fDriver.findElement(By.id("address.postalCode")).clear();
+			 fDriver.findElement(By.id("address.postalCode")).sendKeys(postal);
+			 fDriver.findElement(By.id("addressName")).clear();
+			 fDriver.findElement(By.id("addressName")).sendKeys(addrName);
+			 fDriver.findElement(By.id("address.default1")).click();
+			 fDriver.findElement(By.cssSelector("input.medium.red")).click();
 			
-			driver.get(baseUrl);
+			fDriver.get(fBaseUrl);
 			boolean addressPresent = false;
-			List<WebElement> dropDownList = driver.findElements(By.cssSelector("option"));
+			List<WebElement> dropDownList = fDriver.findElements(By.cssSelector("option"));
 			for(WebElement element : dropDownList){
 				if(element.getText().equals(addrName + " (" + addr1 + ")")){
 					addressPresent = true;
@@ -78,26 +78,26 @@ public class TestUserAddressChange extends UserDataTest{
 			if(valid_data){
 				Assert.assertTrue("Cannot find address!", addressPresent);
 
-				new Select(driver.findElement(By.cssSelector("select"))).selectByVisibleText(addrName + " (" + addr1 + ")");
+				new Select(fDriver.findElement(By.cssSelector("select"))).selectByVisibleText(addrName + " (" + addr1 + ")");
 
 				Assert.assertTrue("First name doesn't match",
-						driver.findElement(By.id("address.firstName")).getAttribute("value").equals(firstName));
+						fDriver.findElement(By.id("address.firstName")).getAttribute("value").equals(firstName));
 				Assert.assertTrue("Last name doesn't match",
-						driver.findElement(By.id("address.lastName")).getAttribute("value").equals(lastName));
+						fDriver.findElement(By.id("address.lastName")).getAttribute("value").equals(lastName));
 				Assert.assertTrue("Phone doesn't match",
-						driver.findElement(By.id("address.phonePrimary")).getAttribute("value").equals(phone));
-				Assert.assertTrue("Address 1 doesn't match", driver.findElement(By.id("address.addressLine1")).getAttribute("value")
+						fDriver.findElement(By.id("address.phonePrimary")).getAttribute("value").equals(phone));
+				Assert.assertTrue("Address 1 doesn't match", fDriver.findElement(By.id("address.addressLine1")).getAttribute("value")
 						.equals(addr1));
-				Assert.assertTrue("Address 2 doesn't match", driver.findElement(By.id("address.addressLine2")).getAttribute("value")
+				Assert.assertTrue("Address 2 doesn't match", fDriver.findElement(By.id("address.addressLine2")).getAttribute("value")
 						.equals(addr2));
-				Assert.assertTrue("City doesn't match", driver.findElement(By.id("address.city")).getAttribute("value").equals(city));
+				Assert.assertTrue("City doesn't match", fDriver.findElement(By.id("address.city")).getAttribute("value").equals(city));
 				Assert.assertTrue("Postal doesn't match",
-						driver.findElement(By.id("address.postalCode")).getAttribute("value").equals(postal));
+						fDriver.findElement(By.id("address.postalCode")).getAttribute("value").equals(postal));
 				if(state.equals(State.NONE)){
-					Assert.assertTrue("State doesn't match", driver.findElement(By.id("state")).getAttribute("value").equals(""));
+					Assert.assertTrue("State doesn't match", fDriver.findElement(By.id("state")).getAttribute("value").equals(""));
 				} else{
 					Assert.assertTrue("State doesn't match",
-							driver.findElement(By.id("state")).getAttribute("value").equals(state.toString()));
+							fDriver.findElement(By.id("state")).getAttribute("value").equals(state.toString()));
 				}
 
 			} else{

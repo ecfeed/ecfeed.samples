@@ -18,9 +18,9 @@ public class UserDataTest extends ParentTest{
 	 */
 	protected long insertCustomer(String email, String password, String firstName, String lastName){
 		long id = DBUtils.getNextMaxValue("PUBLIC.blc_customer", "CUSTOMER_ID");
-		connectionInstance.tryUpdate("DELETE FROM PUBLIC.blc_customer WHERE USER_NAME='" + DBUtils.escapeString(email) + "';");
+		fConnectionInstance.tryUpdate("DELETE FROM PUBLIC.blc_customer WHERE USER_NAME='" + DBUtils.escapeString(email) + "';");
 
-		int outcome = connectionInstance.tryUpdate("INSERT INTO BLC_CUSTOMER VALUES(" + id + "," + id
+		int outcome = fConnectionInstance.tryUpdate("INSERT INTO BLC_CUSTOMER VALUES(" + id + "," + id
 				+ ",'2014-08-20 11:22:49.263000',NULL,NULL,NULL,FALSE,'" + DBUtils.escapeString(email) + "','"
 				+ DBUtils.escapeString(firstName) + "','" + DBUtils.escapeString(lastName) + "','" + DBUtils.escapeString(password)
 				+ "',FALSE,NULL,TRUE,TRUE,NULL,'"
@@ -39,14 +39,14 @@ public class UserDataTest extends ParentTest{
 		long addressId = DBUtils.getNextMaxValue("BLC_ADDRESS", "ADDRESS_ID");
 		long phoneId = DBUtils.getNextMaxValue("BLC_PHONE", "PHONE_ID");
 		int outcome =
-				connectionInstance.tryUpdate("INSERT INTO BLC_CUSTOMER_ADDRESS VALUES(" + addrNumber + ",'" + addrName + "'," + addressId + ","
+				fConnectionInstance.tryUpdate("INSERT INTO BLC_CUSTOMER_ADDRESS VALUES(" + addrNumber + ",'" + addrName + "'," + addressId + ","
 						+ customerId + ");");
 
 		String is_default = (isDefault ? "TRUE" : "FALSE");
 
 		if(outcome != -1){
 			outcome =
-					connectionInstance.tryUpdate("INSERT INTO BLC_ADDRESS VALUES(" + addressId + ",'" + DBUtils.escapeString(line1) + "','"
+					fConnectionInstance.tryUpdate("INSERT INTO BLC_ADDRESS VALUES(" + addressId + ",'" + DBUtils.escapeString(line1) + "','"
 							+ DBUtils.escapeString(line2) + "',NULL,'" + DBUtils.escapeString(city) + "',NULL,NULL,NULL,NULL,'"
 							+ DBUtils.escapeString(firstName) + "',TRUE,FALSE," + is_default + ",'" + lastName + "','" + postal
 							+ "',NULL,NULL,FALSE,NULL,NULL,NULL,'US',NULL," + phoneId + ",NULL,'" + state.name() + "');");
@@ -64,7 +64,7 @@ public class UserDataTest extends ParentTest{
 		String is_default = (isDefault ? "TRUE" : "FALSE");
 		String is_active = (isActive ? "TRUE" : "FALSE");
 
-		int outcome = connectionInstance.tryUpdate("INSERT INTO BLC_PHONE VALUES(" + phoneId + "," + is_active + ","
+		int outcome = fConnectionInstance.tryUpdate("INSERT INTO BLC_PHONE VALUES(" + phoneId + "," + is_active + ","
 				+ is_default + ",'" + DBUtils.escapeString(phone) + "');");
 
 		if(outcome == -1){
@@ -75,7 +75,7 @@ public class UserDataTest extends ParentTest{
 
 	protected void cleanUpUserTable(){
 		try{
-			connectionInstance.tryUpdate("DELETE FROM PUBLIC.blc_customer;");
+			fConnectionInstance.tryUpdate("DELETE FROM PUBLIC.blc_customer;");
 		} catch(Exception e){
 			throw new Error("Database connection failed");
 		}
@@ -83,7 +83,7 @@ public class UserDataTest extends ParentTest{
 	
 	protected void cleanUpUserTable(String email){
 		try{
-			connectionInstance.tryUpdate("DELETE FROM PUBLIC.blc_customer WHERE USER_NAME='" + DBUtils.escapeString(email) + "';");
+			fConnectionInstance.tryUpdate("DELETE FROM PUBLIC.blc_customer WHERE USER_NAME='" + DBUtils.escapeString(email) + "';");
 		} catch(Exception e){
 			throw new Error("Database connection failed");
 		}
@@ -103,25 +103,25 @@ public class UserDataTest extends ParentTest{
 	 */
 	protected void cleanUpUser(long id){
 		try{
-			connectionInstance.tryUpdate("DELETE FROM PUBLIC.blc_customer WHERE CUSTOMER_ID=" + id + ";");
+			fConnectionInstance.tryUpdate("DELETE FROM PUBLIC.blc_customer WHERE CUSTOMER_ID=" + id + ";");
 			ArrayList<Long> addrList = new ArrayList<>();
-			connectionInstance.tryQuery("SELECT * FROM PUBLIC.blc_customer_address WHERE CUSTOMER_ID=" + id + ";");
+			fConnectionInstance.tryQuery("SELECT * FROM PUBLIC.blc_customer_address WHERE CUSTOMER_ID=" + id + ";");
 
-			ResultSet rs = connectionInstance.result;
+			ResultSet rs = fConnectionInstance.fResult;
 
 			while(rs.next()){
 				addrList.add(rs.getLong(3));
 			}
-			connectionInstance.tryUpdate("DELETE FROM PUBLIC.blc_customer_address WHERE CUSTOMER_ID=" + id + ";");
+			fConnectionInstance.tryUpdate("DELETE FROM PUBLIC.blc_customer_address WHERE CUSTOMER_ID=" + id + ";");
 
 			for(long l : addrList){
-				connectionInstance.tryQuery("SELECT * FROM PUBLIC.blc_address WHERE ADDRESS_ID=" + l + ";");
-				rs = connectionInstance.result;
+				fConnectionInstance.tryQuery("SELECT * FROM PUBLIC.blc_address WHERE ADDRESS_ID=" + l + ";");
+				rs = fConnectionInstance.fResult;
 				while(rs.next()){
 					long phoneId = rs.getLong(24);
-					connectionInstance.tryUpdate("DELETE FROM PUBLIC.blc_phone WHERE PHONE_ID=" + phoneId + ";");
+					fConnectionInstance.tryUpdate("DELETE FROM PUBLIC.blc_phone WHERE PHONE_ID=" + phoneId + ";");
 				}
-				connectionInstance.tryUpdate("DELETE FROM PUBLIC.blc_address WHERE ADDRESS_ID=" + l + ";");
+				fConnectionInstance.tryUpdate("DELETE FROM PUBLIC.blc_address WHERE ADDRESS_ID=" + l + ";");
 			}
 
 		} catch(Exception e){
@@ -140,11 +140,11 @@ public class UserDataTest extends ParentTest{
 	}
 
 	private void tryLogin(String email, String password) {
-		driver.get(PageAddress.LOGIN);
-		driver.findElement(By.name("j_username")).sendKeys(email);
-		driver.findElement(By.name("j_password")).clear();
-		driver.findElement(By.name("j_password")).sendKeys(password);
-		driver.findElement(By.xpath("//input[@value='Login']")).click();		
+		fDriver.get(PageAddress.LOGIN);
+		fDriver.findElement(By.name("j_username")).sendKeys(email);
+		fDriver.findElement(By.name("j_password")).clear();
+		fDriver.findElement(By.name("j_password")).sendKeys(password);
+		fDriver.findElement(By.xpath("//input[@value='Login']")).click();		
 	}
 
 	protected void login(String email, String password){

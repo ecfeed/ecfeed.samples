@@ -15,7 +15,7 @@ import com.testify.ecfeed.junit.annotations.EcModel;
 public class TestChangePassword extends UserDataTest {
 
 	public TestChangePassword(){
-		baseUrl = PageAddress.LOGIN;
+		fBaseUrl = PageAddress.LOGIN;
 	}
 	
 	@Test
@@ -26,7 +26,7 @@ public class TestChangePassword extends UserDataTest {
 		try{
 			setUp();
 			tryLoginAndChangePassword(email, first_name, password, currentpsswd, newpassword, confnewpsswd);
-			driver.findElement(By.linkText("Logout")).click();
+			fDriver.findElement(By.linkText("Logout")).click();
 			Assert.assertTrue("Not logged out!", isElementPresent(By.linkText("Login")));
 
 			login(email, newpassword);
@@ -85,15 +85,15 @@ public class TestChangePassword extends UserDataTest {
 		login(email, password);	
 		Assert.assertTrue("Not logged in!", isElementPresent(By.linkText(first_name)));
 		
-		driver.findElement(By.linkText(first_name)).click();
-		driver.findElement(By.linkText("Change Password")).click();
-		driver.findElement(By.id("currentPassword")).clear();
-		driver.findElement(By.id("currentPassword")).sendKeys(currentpsswd);
-		driver.findElement(By.id("newPassword")).clear();
-		driver.findElement(By.id("newPassword")).sendKeys(newpassword);
-		driver.findElement(By.id("newPasswordConfirm")).clear();
-		driver.findElement(By.id("newPasswordConfirm")).sendKeys(confnewpsswd);
-		driver.findElement(By.cssSelector("input.medium.red")).click();
+		fDriver.findElement(By.linkText(first_name)).click();
+		fDriver.findElement(By.linkText("Change Password")).click();
+		fDriver.findElement(By.id("currentPassword")).clear();
+		fDriver.findElement(By.id("currentPassword")).sendKeys(currentpsswd);
+		fDriver.findElement(By.id("newPassword")).clear();
+		fDriver.findElement(By.id("newPassword")).sendKeys(newpassword);
+		fDriver.findElement(By.id("newPasswordConfirm")).clear();
+		fDriver.findElement(By.id("newPasswordConfirm")).sendKeys(confnewpsswd);
+		fDriver.findElement(By.cssSelector("input.medium.red")).click();
 	}
 
 }

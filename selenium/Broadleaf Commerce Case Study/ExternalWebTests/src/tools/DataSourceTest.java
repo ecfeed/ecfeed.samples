@@ -36,9 +36,9 @@ public class DataSourceTest{
 		
 		try{
 			con.tryQuery("SELECT * FROM PUBLIC.blc_customer;");
-			while(con.result.next()){
-				System.out.println("Customer ID=" + con.result.getInt("CUSTOMER_ID") + ", " + con.result.getString("FIRST_NAME") + ", " +
-						con.result.getString("EMAIL_ADDRESS") + ", " + con.result.getString("PASSWORD"));
+			while(con.fResult.next()){
+				System.out.println("Customer ID=" + con.fResult.getInt("CUSTOMER_ID") + ", " + con.fResult.getString("FIRST_NAME") + ", " +
+						con.fResult.getString("EMAIL_ADDRESS") + ", " + con.fResult.getString("PASSWORD"));
 			}
 			// #################################
 			con.tryUpdate("DELETE FROM PUBLIC.blc_customer WHERE FIRST_NAME='vname';");
@@ -46,9 +46,9 @@ public class DataSourceTest{
 			System.out.println("After deletion:");
 
 			con.tryQuery("SELECT * FROM PUBLIC.blc_customer;");
-			while(con.result.next()){
-				System.out.println("Customer ID=" + con.result.getInt("CUSTOMER_ID") + ", " + con.result.getString("FIRST_NAME") + ", " +
-						con.result.getString("EMAIL_ADDRESS") + ", " + con.result.getString("PASSWORD"));
+			while(con.fResult.next()){
+				System.out.println("Customer ID=" + con.fResult.getInt("CUSTOMER_ID") + ", " + con.fResult.getString("FIRST_NAME") + ", " +
+						con.fResult.getString("EMAIL_ADDRESS") + ", " + con.fResult.getString("PASSWORD"));
 				}
 			System.out.println("\nDone.");
 			// ##################################

@@ -20,17 +20,17 @@ import com.testify.ecfeed.junit.annotations.EcModel;
 public class TestSauceSearch extends ParentTest{
 	
 	public TestSauceSearch(){
-		baseUrl = PageAddress.BASE;
+		fBaseUrl = PageAddress.BASE;
 	}
 
 	@Test
 	public void testSearchSuccess(String keywords, boolean expected) throws Exception {
 		try {
 			setUp();
-			driver.get(baseUrl);
-			driver.findElement(By.name("q")).clear();
-			driver.findElement(By.name("q")).sendKeys(keywords);
-			driver.findElement(By.id("search_button")).click();
+			fDriver.get(fBaseUrl);
+			fDriver.findElement(By.name("q")).clear();
+			fDriver.findElement(By.name("q")).sendKeys(keywords);
+			fDriver.findElement(By.id("search_button")).click();
 			
 			if(expected){
 				assertTrue("Expected results, found nothing", isElementPresent(By.xpath("id('products')/li[1]/div[1]/a")) 
@@ -48,11 +48,11 @@ public class TestSauceSearch extends ParentTest{
 	public void testSearchKeywords(String keywords) throws Exception {
 		try {
 			setUp();
-			driver.get(baseUrl);
+			fDriver.get(fBaseUrl);
 
-			driver.findElement(By.name("q")).clear();
-			driver.findElement(By.name("q")).sendKeys(keywords);
-			driver.findElement(By.id("search_button")).click();
+			fDriver.findElement(By.name("q")).clear();
+			fDriver.findElement(By.name("q")).sendKeys(keywords);
+			fDriver.findElement(By.id("search_button")).click();
 			
 			int page = 1;
 			int position = 1;
@@ -60,11 +60,11 @@ public class TestSauceSearch extends ParentTest{
 				while(position > 0){
 					if(isElementPresent(By.xpath("id('products')/li["+position+"]/div[1]/a"))){
 						assertTrue("not found any keyword in resulting page!",
-								openInNewTabAndScanForKeywords(driver.findElement(By.xpath("id('products')/li["+position+"]/div[1]/a")), keywords));
+								openInNewTabAndScanForKeywords(fDriver.findElement(By.xpath("id('products')/li["+position+"]/div[1]/a")), keywords));
 						position +=1;
 					} else if(isElementPresent(By.xpath("id('products')/li["+position+"]/div[2]/a"))){
 						assertTrue("not found any keyword in resulting page!",
-								openInNewTabAndScanForKeywords(driver.findElement(By.xpath("id('products')/li["+position+"]/div[2]/a")), keywords));
+								openInNewTabAndScanForKeywords(fDriver.findElement(By.xpath("id('products')/li["+position+"]/div[2]/a")), keywords));
 						position +=1;
 					} else {
 						position = 1;
@@ -73,7 +73,7 @@ public class TestSauceSearch extends ParentTest{
 					}	
 				}
 				if(isElementPresent(By.xpath("id('left_column')/div/ul/li["+page+"]/a"))){
-					driver.findElement(By.xpath("id('left_column')/div/ul/li["+page+"]/a")).click();
+					fDriver.findElement(By.xpath("id('left_column')/div/ul/li["+page+"]/a")).click();
 					position = 1;
 				} else{
 					break;

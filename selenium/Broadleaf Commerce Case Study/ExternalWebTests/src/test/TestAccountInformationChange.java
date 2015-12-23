@@ -16,7 +16,7 @@ import com.testify.ecfeed.junit.annotations.expected;
 public class TestAccountInformationChange extends UserDataTest{
 	
 	public TestAccountInformationChange(){
-		baseUrl = PageAddress.ACCOUNT_INFO;
+		fBaseUrl = PageAddress.ACCOUNT_INFO;
 	}
 	
 	@Test
@@ -28,13 +28,13 @@ public class TestAccountInformationChange extends UserDataTest{
 			
 			login(email, "password");
 			Assert.assertTrue("Not logged in!", isElementPresent(By.linkText(name)));
-			driver.get(baseUrl);
+			fDriver.get(fBaseUrl);
 			
-			Assert.assertTrue("email address doesn't match.", driver.findElement(By.id("emailAddress")).getAttribute("value").equals(email));
-			Assert.assertTrue("first name doesn't match.", driver.findElement(By.id("firstName")).getAttribute("value").equals(name));
-			Assert.assertTrue("last name doesn't match.", driver.findElement(By.id("lastName")).getAttribute("value").equals(lastName));
+			Assert.assertTrue("email address doesn't match.", fDriver.findElement(By.id("emailAddress")).getAttribute("value").equals(email));
+			Assert.assertTrue("first name doesn't match.", fDriver.findElement(By.id("firstName")).getAttribute("value").equals(name));
+			Assert.assertTrue("last name doesn't match.", fDriver.findElement(By.id("lastName")).getAttribute("value").equals(lastName));
 
-			driver.findElement(By.linkText("Logout")).click();
+			fDriver.findElement(By.linkText("Logout")).click();
 		} finally{
 			cleanUpUserTableSafe(email);
 			tearDown();
@@ -51,15 +51,15 @@ public class TestAccountInformationChange extends UserDataTest{
 			
 			login(email, "password");
 			Assert.assertTrue("Not logged in!", isElementPresent(By.linkText(name)));
-			driver.get(baseUrl);	
-			driver.findElement(By.id("emailAddress")).clear();
-			driver.findElement(By.id("emailAddress")).sendKeys(newEmail);
-			driver.findElement(By.cssSelector("input.medium.red")).click();
-			driver.get(baseUrl);
+			fDriver.get(fBaseUrl);	
+			fDriver.findElement(By.id("emailAddress")).clear();
+			fDriver.findElement(By.id("emailAddress")).sendKeys(newEmail);
+			fDriver.findElement(By.cssSelector("input.medium.red")).click();
+			fDriver.get(fBaseUrl);
 			if(valid_data){
-				Assert.assertTrue("Email address doesn't match.", driver.findElement(By.id("emailAddress")).getAttribute("value").equals(newEmail));
+				Assert.assertTrue("Email address doesn't match.", fDriver.findElement(By.id("emailAddress")).getAttribute("value").equals(newEmail));
 			} else{
-				Assert.assertTrue("Email address doesn't match.", driver.findElement(By.id("emailAddress")).getAttribute("value").equals(email));
+				Assert.assertTrue("Email address doesn't match.", fDriver.findElement(By.id("emailAddress")).getAttribute("value").equals(email));
 			}
 		} finally{
 			cleanUpUserTableSafe(email);
@@ -77,17 +77,17 @@ public class TestAccountInformationChange extends UserDataTest{
 			
 			login(email, "password");
 			Assert.assertTrue("Not logged in!", isElementPresent(By.linkText(name)));
-			driver.get(baseUrl);	
+			fDriver.get(fBaseUrl);	
 			
-			driver.findElement(By.id("firstName")).clear();
-			driver.findElement(By.id("firstName")).sendKeys(newName);
-			driver.findElement(By.cssSelector("input.medium.red")).click();
+			fDriver.findElement(By.id("firstName")).clear();
+			fDriver.findElement(By.id("firstName")).sendKeys(newName);
+			fDriver.findElement(By.cssSelector("input.medium.red")).click();
 			
-			driver.get(baseUrl);
+			fDriver.get(fBaseUrl);
 			if(valid_data){
-				Assert.assertTrue("first name doesn't match.", driver.findElement(By.id("firstName")).getAttribute("value").equals(newName));
+				Assert.assertTrue("first name doesn't match.", fDriver.findElement(By.id("firstName")).getAttribute("value").equals(newName));
 			} else{
-				Assert.assertTrue("first name doesn't match.", driver.findElement(By.id("firstName")).getAttribute("value").equals(name));
+				Assert.assertTrue("first name doesn't match.", fDriver.findElement(By.id("firstName")).getAttribute("value").equals(name));
 			}
 		} finally{
 			cleanUpUserTableSafe(email);
@@ -106,17 +106,17 @@ public class TestAccountInformationChange extends UserDataTest{
 			
 			login(email, "password");
 			Assert.assertTrue("Not logged in!", isElementPresent(By.linkText(firstName)));
-			driver.get(baseUrl);	
+			fDriver.get(fBaseUrl);	
 			
-			driver.findElement(By.id("lastName")).clear();
-			driver.findElement(By.id("lastName")).sendKeys(newName);
-			driver.findElement(By.cssSelector("input.medium.red")).click();
+			fDriver.findElement(By.id("lastName")).clear();
+			fDriver.findElement(By.id("lastName")).sendKeys(newName);
+			fDriver.findElement(By.cssSelector("input.medium.red")).click();
 			
-			driver.get(baseUrl);
+			fDriver.get(fBaseUrl);
 			if(valid_data){
-				Assert.assertTrue("last name doesn't match.", driver.findElement(By.id("lastName")).getAttribute("value").equals(newName));
+				Assert.assertTrue("last name doesn't match.", fDriver.findElement(By.id("lastName")).getAttribute("value").equals(newName));
 			} else{
-				Assert.assertTrue("last name doesn't match.", driver.findElement(By.id("lastName")).getAttribute("value").equals(name));
+				Assert.assertTrue("last name doesn't match.", fDriver.findElement(By.id("lastName")).getAttribute("value").equals(name));
 			}
 		} finally{
 			cleanUpUserTableSafe(email);
@@ -134,26 +134,26 @@ public class TestAccountInformationChange extends UserDataTest{
 			
 			login(email, "password");
 			Assert.assertTrue("Not logged in!", isElementPresent(By.linkText(name)));
-			driver.get(baseUrl);	
+			fDriver.get(fBaseUrl);	
 			
-			driver.findElement(By.id("emailAddress")).clear();
-			driver.findElement(By.id("emailAddress")).sendKeys(newEmail);
-			driver.findElement(By.id("firstName")).clear();
-			driver.findElement(By.id("firstName")).sendKeys(newName);
-			driver.findElement(By.id("lastName")).clear();
-			driver.findElement(By.id("lastName")).sendKeys(newLastName);
+			fDriver.findElement(By.id("emailAddress")).clear();
+			fDriver.findElement(By.id("emailAddress")).sendKeys(newEmail);
+			fDriver.findElement(By.id("firstName")).clear();
+			fDriver.findElement(By.id("firstName")).sendKeys(newName);
+			fDriver.findElement(By.id("lastName")).clear();
+			fDriver.findElement(By.id("lastName")).sendKeys(newLastName);
 
-			driver.findElement(By.cssSelector("input.medium.red")).click();
+			fDriver.findElement(By.cssSelector("input.medium.red")).click();
 			
-			driver.get(baseUrl);
+			fDriver.get(fBaseUrl);
 			if(valid_data){
-				Assert.assertTrue("email address doesn't match.", driver.findElement(By.id("emailAddress")).getAttribute("value").equals(newEmail));
-				Assert.assertTrue("first name doesn't match.", driver.findElement(By.id("firstName")).getAttribute("value").equals(newName));
-				Assert.assertTrue("last name doesn't match.", driver.findElement(By.id("lastName")).getAttribute("value").equals(newLastName));
+				Assert.assertTrue("email address doesn't match.", fDriver.findElement(By.id("emailAddress")).getAttribute("value").equals(newEmail));
+				Assert.assertTrue("first name doesn't match.", fDriver.findElement(By.id("firstName")).getAttribute("value").equals(newName));
+				Assert.assertTrue("last name doesn't match.", fDriver.findElement(By.id("lastName")).getAttribute("value").equals(newLastName));
 			} else{
-				Assert.assertTrue("email address doesn't match.", driver.findElement(By.id("emailAddress")).getAttribute("value").equals(email));
-				Assert.assertTrue("first name doesn't match.", driver.findElement(By.id("firstName")).getAttribute("value").equals(name));
-				Assert.assertTrue("last name doesn't match.", driver.findElement(By.id("lastName")).getAttribute("value").equals(lastName));
+				Assert.assertTrue("email address doesn't match.", fDriver.findElement(By.id("emailAddress")).getAttribute("value").equals(email));
+				Assert.assertTrue("first name doesn't match.", fDriver.findElement(By.id("firstName")).getAttribute("value").equals(name));
+				Assert.assertTrue("last name doesn't match.", fDriver.findElement(By.id("lastName")).getAttribute("value").equals(lastName));
 			}
 		} finally{
 			cleanUpUserTableSafe(email);
@@ -170,16 +170,16 @@ public class TestAccountInformationChange extends UserDataTest{
 			
 			login(email, "password");
 			Assert.assertTrue("Not logged in!", isElementPresent(By.linkText(name)));
-			driver.get(baseUrl);	
+			fDriver.get(fBaseUrl);	
 			
-			driver.findElement(By.id("emailAddress")).clear();
-			driver.findElement(By.id("emailAddress")).sendKeys(newEmail);
-			driver.findElement(By.id("firstName")).clear();
-			driver.findElement(By.id("firstName")).sendKeys(newName);
-			driver.findElement(By.id("lastName")).clear();
-			driver.findElement(By.id("lastName")).sendKeys(newLastName);
+			fDriver.findElement(By.id("emailAddress")).clear();
+			fDriver.findElement(By.id("emailAddress")).sendKeys(newEmail);
+			fDriver.findElement(By.id("firstName")).clear();
+			fDriver.findElement(By.id("firstName")).sendKeys(newName);
+			fDriver.findElement(By.id("lastName")).clear();
+			fDriver.findElement(By.id("lastName")).sendKeys(newLastName);
 
-			driver.findElement(By.cssSelector("input.medium.red")).click();
+			fDriver.findElement(By.cssSelector("input.medium.red")).click();
 
 			if(valid_data){
 				Assert.assertTrue(isElementPresent(By.className("success")));

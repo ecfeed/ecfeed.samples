@@ -9,14 +9,14 @@ import javax.sql.DataSource;
 
 
 public class ConnectionInstance{
-	public Connection connection = null;
-	public Statement statement = null;
-	public ResultSet result = null;
+	public Connection fConnection = null;
+	public Statement fStatement = null;
+	public ResultSet fResult = null;
 	
 	public ConnectionInstance(DataSource dataSource){
 		try{
-			connection = dataSource.getConnection();
-			statement = connection.createStatement();
+			fConnection = dataSource.getConnection();
+			fStatement = fConnection.createStatement();
 		} catch(Exception e){
 			e.printStackTrace();
 		}
@@ -24,13 +24,13 @@ public class ConnectionInstance{
 	
 	public ResultSet tryQuery(String query){
 		try{
-			result = statement.executeQuery(query);
-			return result;
+			fResult = fStatement.executeQuery(query);
+			return fResult;
 		} catch(Exception e){
 			System.out.println(e.getMessage());
 			System.out.println("While executing query: ");
 			System.out.println(query);
-			result = null;
+			fResult = null;
 			return null;
 		}		
 	}
@@ -38,9 +38,9 @@ public class ConnectionInstance{
 	public int tryUpdate(String query){
 		int outcome = -1;
 		try{
-			statement.executeQuery("SET DATABASE REFERENTIAL INTEGRITY FALSE;");
-			outcome = statement.executeUpdate(query);
-			statement.executeQuery("SET DATABASE REFERENTIAL INTEGRITY TRUE;");
+			fStatement.executeQuery("SET DATABASE REFERENTIAL INTEGRITY FALSE;");
+			outcome = fStatement.executeUpdate(query);
+			fStatement.executeQuery("SET DATABASE REFERENTIAL INTEGRITY TRUE;");
 			return outcome;
 		} catch(Exception e){
 			System.out.println(e.getMessage());
@@ -51,11 +51,11 @@ public class ConnectionInstance{
 	}
 	
 	public void close(){
-		if (connection == null) {
+		if (fConnection == null) {
 			return;
 		}
 		try{
-			connection.close();
+			fConnection.close();
 		} catch(Exception e){
 			e.printStackTrace();
 		}
