@@ -1,0 +1,6 @@
+- 1) The testRegisterUser fails when First name is valid:Long(255 characters).  
+- 2) The testPurchaseItem for shirts does not pass. After selecting shirt's color and size (and typing personalized name) 
+  and clicking the button BUY NOW!, Broadleaf displays an error: An error occurred while processing your request.
+
+
+

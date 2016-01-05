@@ -28,7 +28,13 @@ import com.testify.ecfeed.junit.annotations.TestSuites;
 // REMARKS. 
 // Refactoring of this file is still needed: 
 //   WebElements should be placed in PageObjects. 
-//   Similar funcionality should be extracted to common functions.
+//   Similar functionality should be extracted to common functions.
+//   Randomization existing in methods - to be discussed if this is the right approach
+//  
+//   Found Broadleaf issues:
+//     -  The testPurchaseItem for shirts does not pass. After selecting shirt's color and size (and typing personalized name) 
+//        and clicking the button BUY NOW!, Broadleaf displays an error: An error occurred while processing your request.
+
 
 @RunWith(StaticRunner.class)
 @EcModel("src/model.ect")
@@ -117,12 +123,15 @@ public class TestGuestShoppingCart extends ParentTest{
 		Assert.assertTrue("No items found.", itemCount > 0 && isElementPresent(By.cssSelector("input.addToCart")));
 
 		int itemNumber  = getRandomItemNumber(itemCount);
-		selectItem(itemNumber);
-		Assert.assertEquals("The cart should be empty.", "0", getCartItemsCount().getText());
-
-		addItemToCart();	
+		selectAndAddItemToCart(itemNumber);
 	}
 
+	private void selectAndAddItemToCart(int itemNumber) {
+		selectItem(itemNumber);
+		Assert.assertEquals("The cart should be empty.", "0", getCartItemsCount().getText());
+		addItemToCart();		
+	}
+	
 	private int getRandomItemNumber(int itemCount) {
 		Random random = new Random(System.currentTimeMillis());
 		int index = random.nextInt(itemCount) +1;
@@ -420,10 +429,10 @@ public class TestGuestShoppingCart extends ParentTest{
 	}
 	
 	private void checkSelectedItemsCount(int selectedItems) {
+		sleepMilliseconds(100);
 		WebElement cartItemsCountHeader = fDriver.findElement(By.cssSelector("span.headerCartItemsCount"));
 		String headerText = cartItemsCountHeader.getText();
 		String message = "Item count doesn't match: selected " + selectedItems + ", found " + cartItemsCountHeader.getText() + ".";
-		
 		Assert.assertTrue(message, (Integer.toString(selectedItems)).equals(headerText));
 	}
 	
@@ -455,30 +464,6 @@ public class TestGuestShoppingCart extends ParentTest{
 		return count-1;
 	}
 
-	private boolean tryAddGadgetToCart(){
-		if(!isElementPresent(By.id("simplemodal-container"))){
-			return false;
-		}
-		Random random = new Random(System.currentTimeMillis());
-		int attributeCount = getAttributeCount();
-
-		for(int i = 1; i <= attributeCount+1; i++){
-			if(i == attributeCount +1) {
-				fDriver.findElement(By.xpath("id('simplemodal-container')//div/ul/li[" + (i-1) + "]")).sendKeys(Keys.END);				
-				fDriver.findElement(By.xpath("id('simplemodal-container')//input[@class='addToCart']")).click();
-				break;
-			}
-			try {
-				int optionCount = fDriver.findElements(By.xpath("id('simplemodal-container')//div/ul/li[1]/ul/li")).size();
-				int index = random.nextInt(optionCount) + 1;
-				fDriver.findElement(By.xpath("id('simplemodal-container')//div/ul/li["+ i +"]/ul/li[" + index + "]/div/a")).click();
-			} catch(Exception e){
-
-			}
-		}
-		return true;
-	}
-
 	private void addRandomItemsToCart(Set<Item> items){
 		Random random = new Random(System.currentTimeMillis());
 		int itemCount = itemsCount();
@@ -487,14 +472,86 @@ public class TestGuestShoppingCart extends ParentTest{
 		while(items.size() < itemsInCart){
 			int itemNumber = random.nextInt(itemCount) + 1;
 			Item newItem = createItem(itemNumber);
+			
 			if(items.add(newItem)){
 				WebElement addToCartButton = fDriver.findElement(By.xpath("//ul[@id='products']/li["+ itemNumber +"]//input[4]"));  
 				addToCartButton.sendKeys(Keys.ENTER);
+				if (modalWindowDisplayed()) {
+					selectRandomOptionsModal();
+					addItemWithOptionsToCartModal();
+				}
 				sleepMilliseconds(100);
 			}
 		}
 		checkSelectedItemsCount(itemsInCart);
 	}
+	
+	private boolean modalWindowDisplayed() {
+		if (1 == fDriver.findElements(By.xpath("//div[@class='product-options modal simplemodal-data']")).size()) {
+			return true;
+		}
+		return false;
+	}
+	
+	private void addItemWithOptionsToCartModal() {
+		WebElement element = fDriver.findElement(By.xpath("//div[@class='product-options modal simplemodal-data']//input[@class='addToCart']"));
+		element.click();
+	}
+	
+	private void  selectRandomOptionsModal() {
+		Random random = new Random(System.currentTimeMillis());
+		int attributeCount = getAttributeCountModal();
+
+		for (int attributeNumber = 1; attributeNumber <= attributeCount;  attributeNumber++) {
+			int optionCount = getOptionCountModal(attributeNumber);
+			int index = random.nextInt(optionCount) + 1;
+			WebElement element = getOptionElementModal(attributeNumber, index);
+			element.click();
+		}
+	}
+	
+	private int getAttributeCountModal(){
+		int attributeCount = 0;
+
+		try {
+			attributeCount = fDriver.findElements(By.xpath("//div[@class='product-options modal simplemodal-data']/div/ul/li")).size();
+		}  catch(Exception ex) {
+			return 0;
+		}
+
+		if (getPersonalizedNameModal() != null) {
+			attributeCount--;
+		}
+
+		return attributeCount;
+	}	
+	
+	private WebElement getPersonalizedNameModal() {
+		WebElement inputElement;
+		try {
+			int cnt = fDriver.findElements(By.xpath("//div[@class='product-options modal simplemodal-data']//input[@name='itemAttributes[NAME]']")).size();
+
+			if (cnt == 0) {
+				return null;
+			}
+
+			inputElement = fDriver.findElement(By.xpath("//div[@class='product-options modal simplemodal-data']//input[@name='itemAttributes[NAME]']"));
+		} catch (NoSuchElementException ex) {
+			return null;
+		}
+		return inputElement;
+	}	
+	
+	private int getOptionCountModal(int attribute) {
+		String xpath = "//div[@class='product-options modal simplemodal-data']/div/ul/li[" + attribute + "]/ul/li";
+		return fDriver.findElements(By.xpath(xpath)).size();
+	}
+	
+	private WebElement getOptionElementModal(int attribute, int attributeIndex) {
+		String xpath = "//div[@class='product-options modal simplemodal-data']/div/ul/li[" + attribute + "]/ul/li[" + attributeIndex + "]/div/a";
+		WebElement element = fDriver.findElement(By.xpath(xpath));
+		return element;
+	}	
 	
 	private Item createItem(int itemNumber) {
 		String itemTitle = fDriver.findElement(By.xpath("//ul[@id='products']/li["+ itemNumber +"]//div[@class='title']")).getText();

@@ -2,7 +2,7 @@ INSTALLATION PROCEDURE ---------------------------------------------------------
 
 - Install HSQL in any directory e.g. ~/HSQL
 
-- Install Maven (current version was faulty - I had to install an older version: 325)
+- Install Maven (current version was faulty - an older version: 325 works)
   wget http://apache.arvixe.com/maven/maven-3/3.2.5/binaries/apache-maven-3.2.5-bin.tar.gz
   tar -zxf apache-maven-3.2.5-bin.tar.gz
   sudo cp -R apache-maven-3.2.5 /usr/local
@@ -31,12 +31,12 @@ INSTALLATION PROCEDURE ---------------------------------------------------------
 
 - Install Eclipse and ecFeed plugin.
 
-- Install Broadleaf Commerce site according to the tutorial. 
-  As DemoSite zip use: DemoSite-4.0.5-GA-eclipse-workspace.zip
+- Install Broadleaf Commerce site according to the tutorial (downloaded from git repository): ecfeed.samples/selenium/Broadleaf Commerce Case Study/Doc/Broadleaf - Getting Started.odt. 
+  As DemoSite zip use: ecfeed.samples/selenium/Broadleaf Commerce Case Study/DemoSiteWorkspace/DemoSite-4.0.5-GA-eclipse-workspace.zip
   There are some errors after loading the DemoSite project - use Automatic Quick fix to correct them. There are also many warnings.
   Set maven.home w DemoSite/build.properties as: maven.home=/usr/local/apache-maven-3.2.5
 
-- To start Broadleaf application:
+- Start Broadleaf application:
   - Package Explorer > MavenParents > DemoSite > Run as > Maven install
   - Ant script viewer (should be on the right side of Eclipse) > site > double click tomcat (this initiates SQL database)
 
@@ -53,6 +53,10 @@ INSTALLATION PROCEDURE ---------------------------------------------------------
 - Run tests from ecFeed. Remarks:
   - Before running the test, database must be in its initial state (empty). 
   - It is not recommended to cancel a running test under debugger because the database would not be cleaned then.
+
+To restart the site after shutdown:
+- Start HSQL Server.
+- Start Broadleaf application (as described above).
 
 
 
