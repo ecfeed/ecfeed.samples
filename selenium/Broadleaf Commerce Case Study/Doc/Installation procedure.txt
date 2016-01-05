@@ -47,7 +47,7 @@ INSTALLATION PROCEDURE ---------------------------------------------------------
   - Register any user in the site.
   - In the SQL Window paste: SELECT * FROM "PUBLIC"."BLC_CUSTOMER" click Execute SQL button. One user record with previously registered login and password should be visible.
 
-- From git load ExternalTestsProject. Configure BuildPath to add ecfeed.jar with the same version as ecFeed plugin which was previously installed. 
+- Load ExternalWebTests project from git. Configure BuildPath to add ecfeed.jar with the same version as ecFeed plugin which was previously installed. 
   It may be necessary to correct some test source files to match the installed version of ecfeed.jar.
 
 - Run tests from ecFeed. Remarks:
