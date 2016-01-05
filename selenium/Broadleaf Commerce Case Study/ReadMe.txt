@@ -1,0 +1,2 @@
+- To install Broadleaf Commerce Site and Tests follow: ./Doc/Installation procedure.txt
+- Some issues have been found in Broadleaf Commerce Site. They are described in ./Doc/Found issues/Found issues.txt and jpegs
