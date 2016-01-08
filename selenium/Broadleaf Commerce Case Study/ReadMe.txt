@@ -1,2 +1,2 @@
-- To install Broadleaf Commerce Site and Tests follow: ./Doc/Installation procedure.txt
-- Some issues have been found in Broadleaf Commerce Site. They are described in ./Doc/Found issues/Found issues.txt and jpegs
+- To install Broadleaf Commerce Site and Tests follow: ./doc/readme.txt
+- Some issues have been found in Broadleaf Commerce Site. They are described in ./doc/Found issues/Found issues.txt and jpegs
