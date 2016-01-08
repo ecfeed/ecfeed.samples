@@ -1,40 +1,59 @@
-INSTALLATION PROCEDURE --------------------------------------------------------------------------------------------------------------------------------------------------
+INSTALLATION PROCEDURE OF ECFEED AUTOMATED TESTS OF BROADLEAF COMMERCE DEMO SITE
+It includes:
+	- Setting Broadleaf Commerce Demo Site with the use of HSQL as database.
+	- Running tests controlled by ecFeed, with the use of Selenium driver as automation interface.
 
-- Install HSQL in any directory e.g. ~/HSQL
-
-- Install Maven (current version was faulty - an older version: 325 works)
-  wget http://apache.arvixe.com/maven/maven-3/3.2.5/binaries/apache-maven-3.2.5-bin.tar.gz
-  tar -zxf apache-maven-3.2.5-bin.tar.gz
-  sudo cp -R apache-maven-3.2.5 /usr/local
-  sudo ln -s /usr/local/apache-maven-3.2.5/bin/mvn /usr/bin/mvn
-  mvn -version 
-
-- Add Maven setings and path to ~/.profile file
-  export M2_HOME=/usr/local/apache-maven-3.2.5
-  export M2=$M2_HOME/bin
-  export PATH=$M2:$PATH
-
-- Start HSQL Server:
-  cd ~/HSQL/hsqldb-2.3.3/hsqldb/lib
-  java -cp hsqldb.jar org.hsqldb.server.Server --database.0 /home/marekq/EclipseForSelenium/workspace/eclipse-workspace/DemoSite/site/data/broadleaf --dbname.0 broadleaf
-
-- Run SQL Manager: 
-  cd ~/HSQL/hsqldb-2.3.3/hsqldb/lib 
-  java -cp hsqldb.jar org.hsqldb.util.DatabaseManagerSwing 
-
-  Connection properties in Connect dialog: 
-	Type: HSQL Database Engine Server
-	Driver: org.hsqldb.jdbcDriver
-	URL: jdbc:hsqldb:hsql://localhost/broadleaf
-	User: SA
-	Password: (empty)
 
 - Install Eclipse and ecFeed plugin.
 
-- Install Broadleaf Commerce site according to the tutorial (downloaded from git repository): ecfeed.samples/selenium/Broadleaf Commerce Case Study/Doc/Broadleaf - Getting Started.odt. 
-  As DemoSite zip use: ecfeed.samples/selenium/Broadleaf Commerce Case Study/DemoSiteWorkspace/DemoSite-4.0.5-GA-eclipse-workspace.zip
-  There are some errors after loading the DemoSite project - use Automatic Quick fix to correct them. There are also many warnings.
-  Set maven.home w DemoSite/build.properties as: maven.home=/usr/local/apache-maven-3.2.5
+- Download and unzip HSQL in any directory 
+	For example: download and unzip hsqldb-2.3.3.zip into ~/HSQL directory
+
+- Install Maven (recent version 3.3.9 did not work properly with broadleaf - an older version: 3.2.5 works)
+	Example how to install maven 3.2.5 on Linux, in the directory: /usr/local/apache-maven-3.2.5
+	  wget http://apache.arvixe.com/maven/maven-3/3.2.5/binaries/apache-maven-3.2.5-bin.tar.gz
+	  tar -zxf apache-maven-3.2.5-bin.tar.gz
+	  sudo cp -R apache-maven-3.2.5 /usr/local
+	  sudo ln -s /usr/local/apache-maven-3.2.5/bin/mvn /usr/bin/mvn
+	  mvn -version 
+
+- Set environment variables required by Broadleaf
+  - Add evironment variable: M2_HOME - this should be the directory, where maven is installed
+  - Add environment variable: M2 - this should be a bin subdirectory of M2_HOME directory
+  - Update PATH variable to include M2 path.
+  	Example: For Linux, when path to installed maven is: /usr/local/apache-maven-3.2.5, add the following lines to your ~/.profile file:
+		export M2_HOME=/usr/local/apache-maven-3.2.5
+		export M2=$M2_HOME/bin
+		export PATH=$M2:$PATH
+
+- Install Broadleaf Commerce site according to the tutorial (downloaded from git repository): ecfeed.samples/selenium/broadleaf/doc/Broadleaf - Getting Started.odt. 
+  Before installing take into account the following remarks:
+   - Do not download demo site workspace from Broadleaf site. Instead use: ecfeed.samples/selenium/broadleaf/demo/DemoSite-4.0.5-GA-eclipse-workspace.zip
+   - Broadleaf database files are located in the subdirectory: eclipse-workspace/DemoSite/site/data/broadleaf, where zip was unpacked.
+   - There are some errors after loading the DemoSite project - use Automatic Quick fix to correct them. There are also many warnings.
+   - Set maven.home in DemoSite/build.properties as: maven.home=[path_to_apache_maven]
+	Example: maven.home=/usr/local/apache-maven-3.2.5
+   - Do not start Broadleaf site - HSQL server should be started first.
+
+- Start HSQL Server:
+	- change current directory to [hsql_installation_directory]/hsqldb/lib
+	  	Example: cd ~/HSQL/hsqldb-2.3.3/hsqldb/lib
+	- start the server with Broadleaf database.
+  		Example: java -cp hsqldb.jar org.hsqldb.server.Server --database.0 [path_to_unzipped_workspace]/eclipse-workspace/DemoSite/site/data/broadleaf --dbname.0 broadleaf
+
+- Optionally run SQL Manager: 
+	- change current directory to [hsql_installation_directory]/hsqldb/lib
+		Example: cd ~/HSQL/hsqldb-2.3.3/hsqldb/lib 
+	- start the manager 
+	  	Example: java -cp hsqldb.jar org.hsqldb.util.DatabaseManagerSwing 
+
+  	Example of Connection properties in Connect dialog of SQL Manager: 
+		Type: HSQL Database Engine Server
+		Driver: org.hsqldb.jdbcDriver
+		URL: jdbc:hsqldb:hsql://localhost/broadleaf
+		User: SA
+		Password: (empty)
+
 
 - Start Broadleaf application:
   - Package Explorer > MavenParents > DemoSite > Run as > Maven install
@@ -47,7 +66,8 @@ INSTALLATION PROCEDURE ---------------------------------------------------------
   - Register any user in the site.
   - In the SQL Window paste: SELECT * FROM "PUBLIC"."BLC_CUSTOMER" click Execute SQL button. One user record with previously registered login and password should be visible.
 
-- Load ExternalWebTests project from git. Configure BuildPath to add ecfeed.jar with the same version as ecFeed plugin which was previously installed. 
+- Load ExternalWebTests project from git (ecfeed.samples/selenium/broadleaf/test). 
+- Configure BuildPath to add ecfeed.jar with the same version as ecFeed plugin which was previously installed. 
   It may be necessary to correct some test source files to match the installed version of ecfeed.jar.
 
 - Run tests from ecFeed. Remarks:
@@ -57,6 +77,5 @@ INSTALLATION PROCEDURE ---------------------------------------------------------
 To restart the site after shutdown:
 - Start HSQL Server.
 - Start Broadleaf application (as described above).
-
 
 
