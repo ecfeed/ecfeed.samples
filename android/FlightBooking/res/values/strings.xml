@@ -8,6 +8,7 @@
     <string name="multiply">Multiply</string>
     <string name="comment">Comment</string>
     <string name="labelFrom">From:</string>
+    <string name="labelTo">To:</string>
     
 	<string-array name="airports_array">
 	    <item> </item>

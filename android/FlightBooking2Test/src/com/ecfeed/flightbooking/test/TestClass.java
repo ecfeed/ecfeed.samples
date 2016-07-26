@@ -25,11 +25,14 @@ public class TestClass extends EcFeedTest {
 			String expectedResult, String expectedComment){
 		
 		String airportFrom = "ATL";
+		String airportTo = "JFK";
 		
-		fMainActivity.setAirportFrom("ATL");
+		fMainActivity.setAirportFrom(airportFrom);
+		fMainActivity.setAirportTo(airportTo);
 		sleep(2000);          
 		
 		assertEquals(airportFrom, fMainActivity.getAirportFrom());
+		assertEquals(airportTo, fMainActivity.getAirportTo());
 
 //		final EditText result = (EditText) fMainActivity.findViewById(R.id.result);
 //		final EditText comment = (EditText) fMainActivity.findViewById(R.id.comment);

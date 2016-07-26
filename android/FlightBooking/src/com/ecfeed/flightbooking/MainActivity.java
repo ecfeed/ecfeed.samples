@@ -24,7 +24,8 @@ public class MainActivity extends Activity {
         setContentView(R.layout.main);
         
         createAirportsAdapter();
-        populateAirportFromSpinner();
+        airportFromSpinnerSetAdapter();
+        airportToSpinnerSetAdapter();
 
         final EditText value1 = (EditText) findViewById(R.id.val1);
         final EditText value2 = (EditText) findViewById(R.id.val2);
@@ -76,13 +77,13 @@ public class MainActivity extends Activity {
     	fAirportsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
     }
     
-    private void populateAirportFromSpinner() {
+    private void airportFromSpinnerSetAdapter() {
     	Spinner spinner = (Spinner) findViewById(R.id.from_spinner);
     	spinner.setAdapter(fAirportsAdapter);
     }
     
     public void setAirportFrom(String airportFrom) {
-    	AirportFromSetter airportFromSetter = new AirportFromSetter(airportFrom);
+    	AirportSetter airportFromSetter = new AirportSetter(airportFrom, R.id.from_spinner);
     	airportFromSetter.execute("");
     }
 
@@ -90,15 +91,31 @@ public class MainActivity extends Activity {
     	Spinner mySpinner=(Spinner) findViewById(R.id.from_spinner);
     	return mySpinner.getSelectedItem().toString();
     }
-
     
-    private class AirportFromSetter extends AsyncTask<String, Void, Void> {
+    private void airportToSpinnerSetAdapter() {
+    	Spinner spinner = (Spinner) findViewById(R.id.to_spinner);
+    	spinner.setAdapter(fAirportsAdapter);
+    }
+    
+    public void setAirportTo(String airportFrom) {
+    	AirportSetter airportFromSetter = new AirportSetter(airportFrom, R.id.to_spinner);
+    	airportFromSetter.execute("");
+    }
 
-    	String fAirportFrom;
+    public String getAirportTo() {
+    	Spinner mySpinner=(Spinner) findViewById(R.id.to_spinner);
+    	return mySpinner.getSelectedItem().toString();
+    }
+    
+    private class AirportSetter extends AsyncTask<String, Void, Void> {
+
+    	String fAirport;
+    	int fId;
     	
-    	public AirportFromSetter(String airportFrom) {
+    	public AirportSetter(String airportFrom, int id) {
     		super();
-    		fAirportFrom = airportFrom;
+    		fAirport = airportFrom;
+    		fId = id;
     	}
     	
 		@Override
@@ -108,12 +125,17 @@ public class MainActivity extends Activity {
 		
 		@Override
 		protected void onPostExecute(Void result) {
-	    	Spinner spinner = (Spinner) findViewById(R.id.from_spinner);
+			Spinner spinner = (Spinner) findViewById(fId);
+			
+			if (spinner == null) {
+	    		Log.d("ecFeed", "Invalid spinner id.");
+	    		return;				
+			}
 	    	
-	    	int index = fAirportsAdapter.getPosition(fAirportFrom);
+	    	int index = fAirportsAdapter.getPosition(fAirport);
 	    	
 	    	if (index == -1) {
-	    		Log.d("ecFeed", "Can not select airport from as: " + fAirportFrom);
+	    		Log.d("ecFeed", "Can not select airport from as: " + fAirport);
 	    		return;
 	    	}
 	    	
