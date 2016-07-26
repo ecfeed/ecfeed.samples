@@ -1,7 +1,12 @@
 package com.ecfeed.flightbooking.test;
 
 
+import android.os.AsyncTask;
+import android.util.Log;
+import android.widget.Spinner;
+
 import com.ecfeed.flightbooking.MainActivity;
+import com.ecfeed.flightbooking.R;
 import com.ecfeed.flightbooking.test.ecfeed.android.EcFeedTest;
 
 public class TestClass extends EcFeedTest {
@@ -16,35 +21,18 @@ public class TestClass extends EcFeedTest {
 	}
 
 	public void testMethod() {
-		// TODO Auto-generated method stub
 		android.util.Log.d("ecFeed", "testMethod()");
-		testMethodWithParams("1", "1", "1", "1", "1", "");
+		testMethodWithParams("ATL", "JFK");
 	}
 
-	public void testMethodWithParams(String val1, String val2, String val3, String val4, 
-			String expectedResult, String expectedComment){
+	public void testMethodWithParams(String airportFrom, String airportTo) {
+		setAirportFrom(airportFrom);
+		setAirportTo(airportTo);
 		
-		String airportFrom = "ATL";
-		String airportTo = "JFK";
-		
-		fMainActivity.setAirportFrom(airportFrom);
-		fMainActivity.setAirportTo(airportTo);
 		sleep(2000);          
 		
-		assertEquals(airportFrom, fMainActivity.getAirportFrom());
-		assertEquals(airportTo, fMainActivity.getAirportTo());
-
-//		final EditText result = (EditText) fMainActivity.findViewById(R.id.result);
-//		final EditText comment = (EditText) fMainActivity.findViewById(R.id.comment);
-
-//		String resultText = result.getText().toString(); 
-//		String commentText = comment.getText().toString();
-//
-//		assertEquals("Actual comment differs from expected.", expectedComment, commentText);
-//
-//		if(expectedResult.equals("irrelevant") == false){
-//			assertEquals("Actual result differs from expected.", expectedResult, resultText);
-//		}
+		assertEquals(airportFrom, getAirportFrom());
+		assertEquals(airportTo, getAirportTo());
 	}
 	
 	private void sleep(int milliseconds) {
@@ -54,4 +42,68 @@ public class TestClass extends EcFeedTest {
 			e.printStackTrace();
 		}
 	}
+	
+    private void setAirportFrom(String airport) {
+    	setAirport(airport, R.id.from_spinner);
+    }
+    
+    private void setAirportTo(String airport) {
+    	setAirport(airport, R.id.to_spinner);
+    }
+
+    private void setAirport(String airport, int spinnerId) {
+    	AirportSetter airportFromSetter = new AirportSetter(airport, spinnerId);
+    	airportFromSetter.execute("");
+    }
+    
+    private String getAirportFrom() {
+    	return getAirport(R.id.from_spinner);
+    }
+
+    private String getAirportTo() {
+    	return getAirport(R.id.to_spinner);
+    }
+    
+    private String getAirport(int spinnerId) {
+    	Spinner mySpinner=(Spinner)fMainActivity.findViewById(spinnerId);
+    	return mySpinner.getSelectedItem().toString();
+    }
+    
+    private class AirportSetter extends AsyncTask<String, Void, Void> {
+
+    	String fAirport;
+    	int fId;
+    	
+    	public AirportSetter(String airportFrom, int id) {
+    		super();
+    		fAirport = airportFrom;
+    		fId = id;
+    	}
+    	
+		@Override
+		protected Void doInBackground(String... params) {
+			return null;
+		}
+		
+		@Override
+		protected void onPostExecute(Void result) {
+			Spinner spinner = (Spinner)fMainActivity.findViewById(fId);
+			
+			if (spinner == null) {
+	    		Log.d("ecFeed", "Invalid spinner id.");
+	    		return;				
+			}
+	    	
+	    	int index = fMainActivity.getAirportsAdapter().getPosition(fAirport);
+	    	
+	    	if (index == -1) {
+	    		Log.d("ecFeed", "Can not select airport from as: " + fAirport);
+	    		return;
+	    	}
+	    	
+	    	spinner.setSelection(index);
+		}
+    	
+    }
+
 }
