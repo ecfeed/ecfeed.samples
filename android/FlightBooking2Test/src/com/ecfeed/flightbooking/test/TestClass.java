@@ -1,10 +1,7 @@
 package com.ecfeed.flightbooking.test;
 
 
-import android.widget.EditText;
-
 import com.ecfeed.flightbooking.MainActivity;
-import com.ecfeed.flightbooking.R;
 import com.ecfeed.flightbooking.test.ecfeed.android.EcFeedTest;
 
 public class TestClass extends EcFeedTest {
@@ -26,32 +23,32 @@ public class TestClass extends EcFeedTest {
 
 	public void testMethodWithParams(String val1, String val2, String val3, String val4, 
 			String expectedResult, String expectedComment){
-		try {
-			sendKeys(val1 + " TAB");
-			Thread.sleep(1000);
-			sendKeys(val2 + " TAB");
-			Thread.sleep(1000);
-			sendKeys(val3 + " TAB");
-			Thread.sleep(1000);
-			sendKeys(val4 + " TAB");
-			Thread.sleep(1000);
+		
+		String airportFrom = "ATL";
+		
+		fMainActivity.setAirportFrom("ATL");
+		sleep(2000);          
+		
+		assertEquals(airportFrom, fMainActivity.getAirportFrom());
 
-			sendKeys("ENTER");
-			Thread.sleep(1000);          
+//		final EditText result = (EditText) fMainActivity.findViewById(R.id.result);
+//		final EditText comment = (EditText) fMainActivity.findViewById(R.id.comment);
+
+//		String resultText = result.getText().toString(); 
+//		String commentText = comment.getText().toString();
+//
+//		assertEquals("Actual comment differs from expected.", expectedComment, commentText);
+//
+//		if(expectedResult.equals("irrelevant") == false){
+//			assertEquals("Actual result differs from expected.", expectedResult, resultText);
+//		}
+	}
+	
+	private void sleep(int milliseconds) {
+		try {
+			Thread.sleep(2000);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		final EditText result = (EditText) fMainActivity.findViewById(R.id.result);
-		final EditText comment = (EditText) fMainActivity.findViewById(R.id.comment);
-
-		String resultText = result.getText().toString(); 
-		String commentText = comment.getText().toString();
-
-		assertEquals("Actual comment differs from expected.", expectedComment, commentText);
-
-		if(expectedResult.equals("irrelevant") == false){
-			assertEquals("Actual result differs from expected.", expectedResult, resultText);
-		}
 	}
-	
 }

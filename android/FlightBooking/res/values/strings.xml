@@ -7,5 +7,17 @@
     <string name="res">Result</string>
     <string name="multiply">Multiply</string>
     <string name="comment">Comment</string>
+    <string name="labelFrom">From:</string>
+    
+	<string-array name="airports_array">
+	    <item> </item>
+        <item>CDG</item>
+        <item>FRA</item>
+        <item>DEL</item>
+        <item>NRT</item>
+        <item>ATL</item>
+        <item>JFK</item>
+    </string-array>
+    
 
 </resources>
