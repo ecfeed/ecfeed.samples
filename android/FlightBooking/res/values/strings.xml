@@ -9,6 +9,8 @@
     <string name="comment">Comment</string>
     <string name="labelFrom">From:</string>
     <string name="labelTo">To:</string>
+    <string name="labelFlyOut">Fly out:</string>
+    <string name="labelReturn">Return:</string>
     
 	<string-array name="airports_array">
 	    <item> </item>
