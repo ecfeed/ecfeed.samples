@@ -28,13 +28,17 @@ public final class R {
         public static final int ic_launcher=0x7f020000;
     }
     public static final class id {
-        public static final int action_settings=0x7f090008;
-        public static final int editText1=0x7f090005;
-        public static final int editText2=0x7f090007;
+        public static final int action_settings=0x7f09000c;
+        public static final int editTextFlyOut=0x7f090008;
+        public static final int editTextReturn=0x7f09000b;
         public static final int from_spinner=0x7f090001;
-        public static final int textView1=0x7f090006;
+        public static final int linearLayoutReturnDate=0x7f090009;
+        public static final int radioGroupOneWayReturn=0x7f090004;
+        public static final int radioOneWay=0x7f090005;
+        public static final int radioReturn=0x7f090006;
+        public static final int textViewFlyOut=0x7f090007;
+        public static final int textViewReturn=0x7f09000a;
         public static final int to_spinner=0x7f090003;
-        public static final int txFlyOut=0x7f090004;
         public static final int txFrom=0x7f090000;
         public static final int txTo=0x7f090002;
     }
@@ -53,6 +57,8 @@ public final class R {
         public static final int labelReturn=0x7f050009;
         public static final int labelTo=0x7f050007;
         public static final int multiply=0x7f050004;
+        public static final int radioOneWay=0x7f05000a;
+        public static final int radioReturn=0x7f05000b;
         public static final int res=0x7f050003;
         public static final int val=0x7f050001;
     }
