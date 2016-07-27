@@ -23,8 +23,8 @@ public class MainActivity extends Activity {
 
 	private ArrayAdapter<CharSequence> fAirportsAdapter;
 	private RadioGroup fRadioGroup;
-	private EditText fFlyOut;
-	private EditText fReturn;
+	private EditText fFlyOutDate;
+	private EditText fReturnDate;
 	private LinearLayout fLayoutReturnDate;
 
 	@Override
@@ -84,18 +84,30 @@ public class MainActivity extends Activity {
 	}
 
 	private void configureFlyOutDate() {
-		fFlyOut = (EditText)findViewById(R.id.editTextFlyOut);
-		fFlyOut.setOnClickListener(
+		fFlyOutDate = (EditText)findViewById(R.id.editTextFlyOut);
+		fFlyOutDate.setOnClickListener(
 				new OnClickListener() {
 
 					@Override
 					public void onClick(View v) {
-						onClickFlyOutDate();
+						onClickDateField(fFlyOutDate);
 					}
 				});
 	}
 
-	private void onClickFlyOutDate() {
+	private void configureReturnDate() {
+		fReturnDate = (EditText)findViewById(R.id.editTextReturn);
+		fReturnDate.setOnClickListener(
+				new OnClickListener() {
+
+					@Override
+					public void onClick(View v) {
+						onClickDateField(fReturnDate);
+					}
+				});
+	}
+	
+	private void onClickDateField(final EditText editText) {
 		Calendar newCalendar = Calendar.getInstance();
 		DatePickerDialog flyOutDatePickerDialog = 
 				new DatePickerDialog(
@@ -104,7 +116,7 @@ public class MainActivity extends Activity {
 
 							@Override
 							public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-								onFlyOutDateSet(year, monthOfYear, dayOfMonth);
+								setDateInField(editText, year, monthOfYear, dayOfMonth);
 							}
 						},
 						newCalendar.get(Calendar.YEAR), 
@@ -114,16 +126,12 @@ public class MainActivity extends Activity {
 		flyOutDatePickerDialog.show();
 	}
 
-	private void onFlyOutDateSet(int year, int monthOfYear, int dayOfMonth) {
+	private void setDateInField(EditText editText, int year, int monthOfYear, int dayOfMonth) {
 		Calendar calendar = Calendar.getInstance();
 		calendar.set(year, monthOfYear, dayOfMonth);
-
+		
 		SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
-		fFlyOut.setText(dateFormatter.format(calendar.getTime()));
-	}
-
-	private void configureReturnDate() {
-		fReturn = (EditText)findViewById(R.id.editTextReturn);
+		editText.setText(dateFormatter.format(calendar.getTime()));
 	}
 
 	private void configureReturnDateLayout() {
