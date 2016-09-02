@@ -212,22 +212,14 @@ var CForm = function() {
             CFormHelper.appendRowWithOneCell(table, singleJourneyTable2);
         }
 
-        var testText = this.htmlToElement('<table class="minMaxPrices"><tr><td><p id="minPriceLabel" >Min price:</p></td><td id="minPrice"></td>' + 
-                                                                '<td><p id="maxPriceLabel" >Max price:</p></td><td id="maxPrice"></td></tr></table>'); 
+        var testText = CFormHelper.htmlToElement(
+                                    '<table class="minMaxPrices"><tr><td><p id="minPriceLabel" >Min price:</p></td><td id="minPrice"></td>' + 
+                                    '<td><p id="maxPriceLabel" >Max price:</p></td><td id="maxPrice"></td></tr></table>'); 
         CFormHelper.appendRowWithOneCell(table, testText);
         this.setMinMaxPrice(priceRange);
     }
     
-    this.htmlToElement = function(html) {
-        var div = document.createElement('div');
-        div.innerHTML = html;
-        return div.firstChild;
-    }
-
     this.setMinMaxPrice = function(priceRange) {
-        document.getElementById("minPriceLabel").style.display = "block"; // XYX TODO
-        document.getElementById("maxPriceLabel").style.display = "block";
-    
         document.getElementById("minPrice").innerHTML = priceRange.minPrice;
         document.getElementById("maxPrice").innerHTML = priceRange.maxPrice;
     }
@@ -293,6 +285,12 @@ var CPriceRange = function() {
 var CFormHelper = function() {
 };
 
+CFormHelper.htmlToElement = function(html) {
+    var div = document.createElement('div');
+    div.innerHTML = html;
+    return div.firstChild;
+}
+    
 CFormHelper.addOneSelectOption = function(selectTag, optionText) {
     selectTag.options[selectTag.options.length] = new Option(optionText, optionText);
 }
