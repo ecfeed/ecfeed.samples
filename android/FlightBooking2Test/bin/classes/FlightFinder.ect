@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Model name="FlightFinder" version="1">
+    <Class name="com.ecfeed.test.FlightFinderTest" runOnAndroid="false">
+        <Method name="findFlightsTest">
+            <Parameter name="airportFrom" type="String" isExpected="false" expected="0" linked="true" link="airport">
+                <Choice name="Europe" value="">
+                    <Choice name="FrankfurtAmMain" value="FRA"/>
+                    <Choice name="Paris_CharlesDeGaulle" value="CDG"/>
+                </Choice>
+                <Choice name="America" value="">
+                    <Choice name="NewYork_JFK" value="JFK"/>
+                    <Choice name="Atlanta" value="ATL"/>
+                </Choice>
+                <Choice name="Asia" value="">
+                    <Choice name="Tokyo_Narita" value="NRT"/>
+                    <Choice name="Delhi" value="DEL"/>
+                </Choice>
+            </Parameter>
+            <Parameter name="airportTo" type="String" isExpected="false" expected="0" linked="true" link="airport">
+                <Choice name="Europe" value="">
+                    <Choice name="FrankfurtAmMain" value="FRA"/>
+                    <Choice name="Paris_CharlesDeGaulle" value="CDG"/>
+                </Choice>
+                <Choice name="America" value="">
+                    <Choice name="NewYork_JFK" value="JFK"/>
+                    <Choice name="Atlanta" value="ATL"/>
+                </Choice>
+                <Choice name="Asia" value="">
+                    <Choice name="Tokyo_Narita" value="NRT"/>
+                    <Choice name="Delhi" value="DEL"/>
+                </Choice>
+            </Parameter>
+            <Parameter name="flyOutDate" type="String" isExpected="false" expected="0" linked="false" link="journeyDate">
+                <Comments>
+                    <TypeComments/>
+                </Comments>
+                <Choice name="today" value="TODAY"/>
+                <Choice name="tomorrow" value="TOMORROW"/>
+                <Choice name="inTwoDays" value="IN_TWO_DAYS"/>
+            </Parameter>
+            <Parameter name="isReturnJourney" type="boolean" isExpected="false" expected="false" linked="false">
+                <Comments>
+                    <TypeComments/>
+                </Comments>
+                <Choice name="false" value="false"/>
+                <Choice name="true" value="true"/>
+            </Parameter>
+            <Parameter name="daysBetweenFlights" type="int" isExpected="false" expected="0" linked="false">
+                <Comments>
+                    <TypeComments/>
+                </Comments>
+                <Choice name="0" value="0"/>
+                <Choice name="1" value="1"/>
+                <Choice name="2" value="2"/>
+            </Parameter>
+            <Parameter name="ticketClass" type="com.ecfeed.test.TicketClass" isExpected="false" expected="ECONOMY" linked="false">
+                <Comments>
+                    <TypeComments/>
+                </Comments>
+                <Choice name="economy" value="ECONOMY">
+                    <Label label="ext_economy"/>
+                </Choice>
+                <Choice name="premiumEconomy" value="PREMIUM_ECONOMY">
+                    <Label label="ext_economy"/>
+                </Choice>
+                <Choice name="business" value="BUSINESS"/>
+                <Choice name="premium" value="PREMIUM"/>
+            </Parameter>
+            <Parameter name="maxPrice" type="float" isExpected="true" expected="0.0" linked="false">
+                <Comments>
+                    <TypeComments/>
+                </Comments>
+                <Choice name="min\svalue" value="MIN_VALUE"/>
+                <Choice name="max\svalue" value="MAX_VALUE"/>
+            </Parameter>
+            <Constraint name="oneWayJourney">
+                <Premise>
+                    <Statement choice="false" parameter="isReturnJourney" relation="="/>
+                </Premise>
+                <Consequence>
+                    <Statement choice="0" parameter="daysBetweenFlights" relation="="/>
+                </Consequence>
+            </Constraint>
+            <Constraint name="returnJourney">
+                <Premise>
+                    <Statement choice="true" parameter="isReturnJourney" relation="="/>
+                </Premise>
+                <Consequence>
+                    <Statement choice="0" parameter="daysBetweenFlights" relation="≠"/>
+                </Consequence>
+            </Constraint>
+            <Constraint name="maxPrice">
+                <Premise>
+                    <StatementArray operator="and">
+                        <Statement choice="Europe" parameter="airportFrom" relation="="/>
+                        <Statement choice="Europe" parameter="airportTo" relation="="/>
+                        <Statement choice="economy" parameter="ticketClass" relation="="/>
+                    </StatementArray>
+                </Premise>
+                <Consequence>
+                    <StaticStatement value="true"/>
+                </Consequence>
+            </Constraint>
+        </Method>
+    </Class>
+    <Parameter name="airport" type="String">
+        <Comments>
+            <TypeComments/>
+        </Comments>
+        <Choice name="Europe" value="">
+            <Choice name="FrankfurtAmMain" value="FRA"/>
+            <Choice name="Paris_CharlesDeGaulle" value="CDG"/>
+        </Choice>
+        <Choice name="America" value="">
+            <Choice name="NewYork_JFK" value="JFK"/>
+            <Choice name="Atlanta" value="ATL"/>
+        </Choice>
+        <Choice name="Asia" value="">
+            <Choice name="Tokyo_Narita" value="NRT"/>
+            <Choice name="Delhi" value="DEL"/>
+        </Choice>
+    </Parameter>
+</Model>
