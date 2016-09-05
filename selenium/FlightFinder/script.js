@@ -194,58 +194,62 @@ var CForm = function() {
 
     this.fillResultsTable = function() {
         var table = document.getElementById("mainResultsTable");
-        
         var airportCodeFrom = CFormHelper.getSelectedText("airportFrom");
         var airportCodeTo = CFormHelper.getSelectedText("airportTo");
         var ticketClass = CFormHelper.getSelectedText("ticketClass");
 
         var priceRange = new CPriceRange();
         priceRange.initalized = false;
-
-        var departureDate1 = CFormHelper.createDate("dateFlyOutYear", "dateFlyOutMonth", "dateFlyOutDay");
-        var singleJourneyTable1 = this.createSingleJourneyTable(airportCodeFrom, airportCodeTo, departureDate1, ticketClass, priceRange);
-        CFormHelper.appendRowWithOneCell(table, singleJourneyTable1);
-
+        
+        var flightArray = new CFlightArray();
+        var date1 = CFormHelper.createDate("dateFlyOutYear", "dateFlyOutMonth", "dateFlyOutDay");
+        var availableFlightsArray1 = flightArray.createAvailableFlightArray(airportCodeFrom, airportCodeTo, date1, ticketClass, priceRange);        
+        
+        if (availableFlightsArray1.length > 0) {
+            this.appendRowWithJourneyTable(date1, airportCodeFrom, airportCodeTo, ticketClass, table, availableFlightsArray1, priceRange);
+        } else {
+            this.appendRowNoFlights(airportCodeFrom, airportCodeTo, table);
+        }
+        
         if (CFormHelper.isRadioChecked("radioReturn")) {
-            var departureDate2 = CFormHelper.createDate("dateReturnYear", "dateReturnMonth", "dateReturnDay");
-            var singleJourneyTable2 = this.createSingleJourneyTable(airportCodeTo, airportCodeFrom, departureDate2, ticketClass, priceRange);
-            CFormHelper.appendRowWithOneCell(table, singleJourneyTable2);
+            var date2 = CFormHelper.createDate("dateReturnYear", "dateReturnMonth", "dateReturnDay");
+            var availableFlightsArray2 = flightArray.createAvailableFlightArray(airportCodeFrom, airportCodeTo, date2, ticketClass, priceRange);
+            
+            if (availableFlightsArray2.length > 0) {
+                this.appendRowWithJourneyTable(date2, airportCodeTo, airportCodeFrom, ticketClass, table, availableFlightsArray2, priceRange);
+            } else {
+                this.appendRowNoFlights(airportCodeTo, airportCodeFrom, table);
+            }
         }
 
-        var testText = CFormHelper.htmlToElement(
-                                    '<table class="minMaxPrices"><tr><td><p id="minPriceLabel" >Min price:</p></td><td id="minPrice"></td>' + 
-                                    '<td><p id="maxPriceLabel" >Max price:</p></td><td id="maxPrice"></td></tr></table>'); 
-        CFormHelper.appendRowWithOneCell(table, testText);
-        this.setMinMaxPrice(priceRange);
+        this.appendRowWithPriceRange(priceRange, table);
     }
     
-    this.setMinMaxPrice = function(priceRange) {
-        document.getElementById("minPrice").innerHTML = priceRange.minPrice;
-        document.getElementById("maxPrice").innerHTML = priceRange.maxPrice;
+    this.appendRowWithJourneyTable = function(departureDate, airportCodeFrom, airportCodeTo, ticketClass, table, availableFlightsArray, priceRange) {
+        var singleJourneyTable = this.createSingleJourneyTable(airportCodeFrom, airportCodeTo, departureDate, ticketClass, priceRange, availableFlightsArray);
+        CFormHelper.appendRowWithOneCell(table, singleJourneyTable); 
     }
     
-    this.createSingleJourneyTable = function(airportCodeFrom, airportCodeTo, departureDate, ticketClass, priceRange) {
+    this.createSingleJourneyTable = function(airportCodeFrom, airportCodeTo, departureDate, ticketClass, priceRange, availableFlightsArray) {
         var table = document.createElement("table");
         table.className = "single_journey";
 
-        var journeyTitleNode = document.createTextNode("From: \xa0\xa0\xa0" + airportCodeFrom + "\xa0\xa0\xa0 to: \xa0\xa0\xa0" + airportCodeTo);
+        var journeyTitleNode = document.createTextNode("From: \xa0\xa0\xa0" + airportCodeFrom + "\xa0\xa0\xa0 to: \xa0\xa0\xa0" + airportCodeTo); // TODO similar exists
         CFormHelper.appendRowWithOneCell(table, journeyTitleNode);
 
-        var availableFlightsTable = this.createAvailableFlightsTable(airportCodeFrom, airportCodeTo, departureDate, ticketClass, priceRange);
+        var availableFlightsTable = this.createAvailableFlightsTable(airportCodeFrom, airportCodeTo, departureDate, ticketClass, priceRange, availableFlightsArray);
         CFormHelper.appendRowWithOneCell(table, availableFlightsTable);
 
         return table;
     }
 
-    this.createAvailableFlightsTable = function(airportCodeFrom, airportCodeTo, departureDate, ticketClass, priceRange) {
+    this.createAvailableFlightsTable = function(airportCodeFrom, airportCodeTo, departureDate, ticketClass, priceRange, availableFlightsArray) {
         var table = document.createElement("table");
         table.className = "available_flights";
 
         var headerArray = [ "Departure", "Arrival", "Duration", "Price" ];
         CFormHelper.appendTableHeaderWithCells(table, headerArray);
 
-        var flightArray = new CFlightArray();
-        var availableFlightsArray = flightArray.createAvailableFlightArray(airportCodeFrom, airportCodeTo, departureDate, ticketClass, priceRange);
         var cellContentArray;
         var availableFlight;
         var index;
@@ -258,6 +262,22 @@ var CForm = function() {
 
         return table;
     }
+    
+    this.appendRowNoFlights = function(airportCodeFrom, airportCodeTo, table) {
+        var txtFromTo = "From: \xa0\xa0\xa0" + airportCodeFrom + "\xa0\xa0\xa0 to: \xa0\xa0\xa0" + airportCodeTo;
+        var txt = CFormHelper.htmlToElement('<table><tr><td>' + txtFromTo + '</td><td>\xa0\xa0NO FLIGHTS FOUND\xa0\xa0</td></tr></table>'); 
+        CFormHelper.appendRowWithOneCell(table, txt);
+    }    
+    
+    this.appendRowWithPriceRange = function(priceRange, table) {
+        var txt = CFormHelper.htmlToElement(
+                                    '<table class="minMaxPrices"><tr><td><p id="minPriceLabel" >Min price:</p></td><td id="minPrice"></td>' + 
+                                    '<td><p id="maxPriceLabel" >Max price:</p></td><td id="maxPrice"></td></tr></table>'); 
+        CFormHelper.appendRowWithOneCell(table, txt);
+        
+        document.getElementById("minPrice").innerHTML = priceRange.minPrice;
+        document.getElementById("maxPrice").innerHTML = priceRange.maxPrice;
+    }    
 };
 
 // ****************************************************************************
