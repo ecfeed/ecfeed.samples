@@ -602,7 +602,7 @@ var CAirportArray = function() {
 // ****************************************************************************
 
 var CTicketClassArray = function() {
-    this.classes = [ "Economy", "Premium economy", "Business class", "FirstClass" ];
+    this.classes = [ "Economy", "Premium economy", "Business", "First" ];
 
     this.count = function() {
         return this.classes.length;
