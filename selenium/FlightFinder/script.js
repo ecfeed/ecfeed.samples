@@ -444,18 +444,15 @@ CDateHelper.createIncrementalDateStr = function(incrementalDateStr) {
     var newDate = new Date();
     newDate.setDate(newDate.getDate() + daysIncrement);
 
-    var fullYear = newDate.getFullYear();
-    var month = newDate.getMonth() + 1;
-    var day = newDate.getDate();
-
-    var newDateStr =
-        fullYear.toString() + "-" +
-        CStringHelper.createZeroFormattedString(month, 2) + "-" +
-        CStringHelper.createZeroFormattedString(day, 2);
-
+    var newDateStr = CDateHelper.convertDateToStr(newDate);
     var newTimeStr = CStringHelper.getTheLastItem(incrementalDateStr," ");
-
     return newDateStr + " " + newTimeStr;
+}
+
+CDateHelper.convertDateToStr = function(date) {
+         var monthStr = CStringHelper.createZeroFormattedString(date.getMonth() + 1, 2)
+         var dayStr = CStringHelper.createZeroFormattedString(date.getDate(), 2)
+         return date.getFullYear().toString() + "-" + monthStr + "-" + dayStr;
 }
 
 CDateHelper.createIncrementalDate = function(incrementalDateStr) {
@@ -504,97 +501,30 @@ CAvailableFlightHelper.flightToTextArray = function(availableFlight) {
 
 var CFlightArray = function() {
 
-    this.flights = [
-        {airportCodeFrom:"JFK", airportCodeTo:"ATL", departure:"1 9:30", arrival:"1 10:30", ticketClass:"Economy", freePlaces:"5", price:"280"},
-        {airportCodeFrom:"JFK", airportCodeTo:"ATL", departure:"1 9:30", arrival:"1 10:30", ticketClass:"Business class", freePlaces:"2", price:"800"},
-        {airportCodeFrom:"JFK", airportCodeTo:"ATL", departure:"1 19:30", arrival:"1 21:30", ticketClass:"Economy", freePlaces:"5", price:"300"},
-        {airportCodeFrom:"JFK", airportCodeTo:"ATL", departure:"1 19:30", arrival:"1 21:30", ticketClass:"Business class", freePlaces:"2", price:"800"},
-        {airportCodeFrom:"ATL", airportCodeTo:"JFK", departure:"1 10:30", arrival:"1 11:30", ticketClass:"Economy", freePlaces:"8", price:"310"},
-        {airportCodeFrom:"ATL", airportCodeTo:"JFK", departure:"1 10:30", arrival:"1 11:30", ticketClass:"Business class", freePlaces:"3", price:"800"},
-        {airportCodeFrom:"ATL", airportCodeTo:"JFK", departure:"1 20:30", arrival:"1 22:30", ticketClass:"Economy", freePlaces:"8", price:"330"},
-        {airportCodeFrom:"ATL", airportCodeTo:"JFK", departure:"1 20:30", arrival:"1 22:30", ticketClass:"Business class", freePlaces:"3", price:"800"},
-
-        {airportCodeFrom:"JFK", airportCodeTo:"ATL", departure:"2 9:45", arrival:"2 10:45", ticketClass:"Economy", freePlaces:"5", price:"300"},
-        {airportCodeFrom:"JFK", airportCodeTo:"ATL", departure:"2 9:45", arrival:"2 10:45", ticketClass:"Business class", freePlaces:"2", price:"800"},
-        {airportCodeFrom:"ATL", airportCodeTo:"JFK", departure:"2 10:30", arrival:"2 11:45", ticketClass:"Economy", freePlaces:"8", price:"305"},
-        {airportCodeFrom:"ATL", airportCodeTo:"JFK", departure:"2 10:30", arrival:"2 11:45", ticketClass:"Business class", freePlaces:"3", price:"800"},
-
-        {airportCodeFrom:"CDG", airportCodeTo:"FRA", departure:"1 08:30", arrival:"1 10:30", ticketClass:"Economy", freePlaces:"51", price:"200" },
-        {airportCodeFrom:"CDG", airportCodeTo:"FRA", departure:"1 08:30", arrival:"1 10:30", ticketClass:"Business class", freePlaces:"3", price:"600" },
-        {airportCodeFrom:"FRA", airportCodeTo:"CDG", departure:"1 08:50", arrival:"1 10:36", ticketClass:"Economy", freePlaces:"7", price:"200" },
-        {airportCodeFrom:"FRA", airportCodeTo:"CDG", departure:"1 08:50", arrival:"1 10:36", ticketClass:"Business class", freePlaces:"7", price:"600" },
-
-        {airportCodeFrom:"CDG", airportCodeTo:"FRA", departure:"2 08:30", arrival:"2 10:30", ticketClass:"Economy", freePlaces:"51", price:"200" },
-        {airportCodeFrom:"CDG", airportCodeTo:"FRA", departure:"2 08:30", arrival:"2 10:30", ticketClass:"Business class", freePlaces:"3", price:"600" },
-        {airportCodeFrom:"FRA", airportCodeTo:"CDG", departure:"2 08:50", arrival:"2 10:36", ticketClass:"Economy", freePlaces:"7", price:"200" },
-        {airportCodeFrom:"FRA", airportCodeTo:"CDG", departure:"2 08:50", arrival:"2 10:36", ticketClass:"Business class", freePlaces:"7", price:"600" },
-
-        {airportCodeFrom:"JFK", airportCodeTo:"FRA", departure:"1 9:30", arrival:"2 10:30", ticketClass:"Economy", freePlaces:"5", price:"1500"},
-        {airportCodeFrom:"JFK", airportCodeTo:"FRA", departure:"1 9:30", arrival:"2 10:30", ticketClass:"Business class", freePlaces:"2", price:"4000"},
-
-        ];
-
     this.createAvailableFlightArray = function(airportCodeFrom, airportCodeTo, departureDate, ticketClass, priceRange) {
         var flightArray = [];
-        var flight;
+        var departureHoursArray = [ "09.45", "11:00", "14:00"];
+        var arrivalHoursArray =      [ "10.45", "12:10", "15:25"];
+        var durationArray =           [ "1 h 0 min", "1 h 10 min", "1h 25 min"];
+        var pricesArray =               [ "250", "280", "290"];        
+        
+        var flightCount = this.createRandom(1, 3);
         var availableFlight;
-        var index;
-        var departureDateStr;
-        var arrivalDateStr;
-        var departureDate;
-        var arrivalDate;
-        var durationStr;
-
-        for (index = 0; index < this.flights.length; index++) {
-            flight = this.flights[index];
-
-            if (this.isFlightSelected(flight, airportCodeFrom, airportCodeTo, departureDate, ticketClass)) {
-                
-                departureDateStr = CDateHelper.createIncrementalDateStr(flight.departure);
-                arrivalDateStr = CDateHelper.createIncrementalDateStr(flight.arrival);
-
-                departureDate = new Date(departureDateStr);
-                arrivalDate = new Date(arrivalDateStr);
-
-                durationStr = CDateHelper.differenceInHoursAndMinutes(departureDate, arrivalDate);
-                availableFlight = new CAvailableFlight(departureDateStr, arrivalDateStr, durationStr, flight.price);
-                flightArray.push(availableFlight);
-                
-                 priceRange.calculateMinMax(flight.price);
-            }
-        }
-
+        
+        for(var counter = 0; counter < flightCount; counter++) {
+            var departureDateStr = CDateHelper.convertDateToStr(departureDate) + " " + departureHoursArray[counter];
+            var arrivalDateStr = CDateHelper.convertDateToStr(departureDate) + " " + arrivalHoursArray[counter];
+            availableFlight = new CAvailableFlight(departureDateStr, arrivalDateStr, durationArray[counter], pricesArray[counter]);
+            flightArray.push(availableFlight);
+            priceRange.calculateMinMax(pricesArray[counter]);
+        }        
+        
         return flightArray;
+    }    
+
+    this.createRandom = function(lowerLimit, upperLimit) {
+        return Math.floor((Math.random() * upperLimit) + lowerLimit);
     }
-
-    this.isFlightSelected = function(flight, airportCodeFrom, airportCodeTo, departureDate, ticketClass) {
-
-        if (flight.airportCodeFrom !== airportCodeFrom) {
-            return false;
-        }
-        if (flight.airportCodeTo !== airportCodeTo) {
-            return false;
-        }
-
-        var departureDateTime = CDateHelper.createIncrementalDate(flight.departure);
-
-        if (departureDate.getFullYear() !== departureDateTime.getFullYear()) {
-            return false;
-        }
-        if (departureDate.getMonth() !== departureDateTime.getMonth()) {
-            return false;
-        }
-        if (departureDate.getDate() !== departureDateTime.getDate()) {
-            return false;
-        }
-
-        if (flight.ticketClass !== ticketClass) {
-            return false;
-        }
-
-        return true;
-    }
-
 };
 
 // ****************************************************************************
