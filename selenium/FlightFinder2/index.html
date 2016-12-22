@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Flight finder</title>
+
+    <style>
+        body {
+			background-color: #C3DEE6;
+            color:#8B0000;
+            font-family:sans-serif;
+        }
+        
+        table {
+            background-color: #F3F7FA;
+			border-radius: 5px;
+        }
+
+        table.main {
+            margin-left: auto;
+            margin-right: auto;
+			border: 1px solid black;
+			width: 680px;
+        }
+		
+		table.single_journey {
+		    background-color: #F3F7FA;
+			width: 650px;
+			font-size: 20px;
+		}	
+
+		table.available_flights {
+			border: 1px solid black;
+			width: 630px;
+			font-size: 14px;
+		}
+        
+		table.minMaxPrices {
+			width: 630px;
+		}        
+
+		table.available_flights tr:nth-child(odd) {
+			background-color: #eee;
+		}		
+		
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        
+        select.full_width_selector {
+            min-width:98%;
+        }
+        
+        td.description_column {
+            width: 100px;
+        } 
+
+         td.data_column {
+            width: 200px;
+        } 
+        
+        .large_button {
+            font-size: 20px;
+            color:#8B0000;
+        }
+        
+    </style>
+</head>
+
+<body>
+    <form>
+        <br>
+        <table class="main">
+            <tr>
+                <td>
+                    <table">
+                        <tr>
+                            <td colspan="4">
+                                <h2>Flight finder</h2>
+                            </td>                        
+                        </tr>
+                        <tr>
+                            <td class="description_column">
+                                From
+                            </td>
+                            <td class="data_column">
+                                <select id="airportFrom" class="full_width_selector">
+                                    <option value="empty">&nbsp;</option>
+                                </select>
+                            </td>
+                            <td class="description_column">
+                                To
+                            </td>
+                            <td class="data_column">
+                                <select id="airportTo" class="full_width_selector">
+                                    <option value="empty">&nbsp;</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                One way
+                            </td>
+                            <td>                                    
+                                 <input id="radioOneWay" type="radio" name="direction" value="directionOneWay" onclick="onDirectionOneWayClicked()" checked> 
+                            </td>
+                            <td>
+                                Return
+                            </td>
+                            <td>
+                                <input id="radioReturn" type="radio" name="direction" value="directionReturn" onclick="onDirectionReturnClicked()"> 
+                            </td>                            
+                        </tr>
+                        <tr>
+                            <td>
+                                Fly out date
+                            </td>
+                            <td>
+                                <input id="dateFlyOut" type="text">
+                            </td>
+                            <td>
+                                <div id="labelReturn">Return date</div>
+                            </td>
+                            <td>
+                                <input id="dateReturn" type="text">
+                            </td>
+                        </tr>
+                        <tr>                                        
+                            <td>
+                                Class
+                            </td>
+                             <td>                   
+                                    <select id="ticketClass" class="full_width_selector">
+                                        <option value="empty">&nbsp;</option>
+                                    </select>
+                            </td>
+                            <td>
+                            </td>
+                            <td>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="4">
+                                <p id="message" >
+									&nbsp;
+								</p>
+                                <input id="searchFlights" class="button large_button" type="button" value="Search flights" onclick="onSearchFlightsClicked()">
+                            </td>
+                        </tr>
+                    </table>
+                </td>    
+            </tr>
+        </table>
+		
+		<br>
+		
+		<table class="main" id="mainResultsTable"style="display:none">
+		</table>
+	</form> 
+	
+<script src="script.js"></script>	
+<script src="CPriceRange.js"></script>	
+<script src="CAvailableFlight.js"></script>	
+<script src="CAvailableFlightHelper.js"></script>	
+<script src="CFlightArray.js"></script>	
+<script src="CAirportArray.js"></script>	
+<script src="CTicketClassArray.js"></script>	
+<script src="CFormHelper.js"></script>	
+<script src="CDateHelper.js"></script>	
+<script src="CStringHelper.js"></script>	
+
+<script>
+	initializeForm();
+</script>	
+
+</body>
+
+</html>

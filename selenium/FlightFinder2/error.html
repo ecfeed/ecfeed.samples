@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Flight finder error</title>
+</head>
+<body>
+ <br/>
+ <b>Error</b><br/>
+ <br/>
+ <b id="errorMessage"></b>
+ <br/>
+  </div>
+  
+  <script src="CStringHelper.js"></script>	
+  
+  <script>
+        var parameter = window.location.search.substring(1);
+        var message = CStringHelper.getTheSecondItem(parameter, "=");
+        var message = message.replace(/%20/g," ");
+        var message = message.replace(/%27/g,"'");
+        document.getElementById("errorMessage").innerHTML = message;
+  </script>
+  
+</body>
+</html>
