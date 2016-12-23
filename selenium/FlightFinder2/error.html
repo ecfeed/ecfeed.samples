@@ -3,24 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <title>Flight finder error</title>
+    <link rel="stylesheet" type="text/css" href="flightFinder.css">
 </head>
 <body>
- <br/>
- <b>Error</b><br/>
- <br/>
- <b id="errorMessage"></b>
- <br/>
-  </div>
+
+    <br/>
+ 	<table class="main">
+        <tr>
+            <th>Error</th>
+        </tr>
+
+        <tr>
+            <td id="errorMessage">&nbsp;</td>
+        </tr>
+	</table>
+
+    <script src="CStringHelper.js"></script>	
   
-  <script src="CStringHelper.js"></script>	
-  
-  <script>
+    <script>
         var parameter = window.location.search.substring(1);
         var message = CStringHelper.getTheSecondItem(parameter, "=");
         var message = message.replace(/%20/g," ");
         var message = message.replace(/%27/g,"'");
         document.getElementById("errorMessage").innerHTML = message;
-  </script>
+    </script>
   
 </body>
 </html>

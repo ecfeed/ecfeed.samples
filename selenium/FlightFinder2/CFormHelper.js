@@ -1,3 +1,5 @@
+"use strict";
+
 var CFormHelper = function() {
 };
 
@@ -119,10 +121,3 @@ CFormHelper.isRadioChecked = function(radioTag) {
     return false;
 }
 
-CFormHelper.createDate = function(yearId, monthId, dayId) {
-     var yearStr =  CFormHelper.getSelectedText(yearId);
-     var monthStr =  CFormHelper.getSelectedText(monthId);
-     var dayStr =  CFormHelper.getSelectedText(dayId);
-
-    return new Date(yearStr + "-" + monthStr + "-" + dayStr);
-}

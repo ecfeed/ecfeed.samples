@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Flight finder results</title>
+    <link rel="stylesheet" type="text/css" href="flightFinder.css">
+</head>
+<body>
+
+    <br>
+ 	<table class="main">
+        <tr>
+            <th>Results</th>
+        </tr>
+	</table>
+    <br>
+ 
+ 	<table class="main" id="mainResultsTable">
+	</table>
+  
+    <script src="CResultsPage.js"></script>	
+    <script src="CPriceRange.js"></script>	
+    <script src="CFlightArray.js"></script>	
+    <script src="CAvailableFlight.js"></script>	
+    <script src="CAvailableFlightHelper.js"></script>	
+    <script src="CFormHelper.js"></script>	
+    <script src="CStringHelper.js"></script>	
+    <script src="CDateHelper.js"></script>	
+    
+    <script>
+        var parameters = window.location.search.substring(1);
+        var resultsPage = new CResultsPage();
+        resultsPage.searchAndDisplayFlights(parameters);        
+    </script>
+  
+</body>
+</html>

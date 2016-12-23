@@ -1,3 +1,5 @@
+"use strict";
+
 var CStringHelper = function() {
 };
 
@@ -68,4 +70,22 @@ CStringHelper.getTheLastItem = function(str, separator) {
     }
 
     return (str.slice(index + 1)).trim();
+}
+
+CStringHelper.getFirstItemAndRemainder = function(str, separator) {
+    
+    if (CStringHelper.isStringEmpty(str)) {
+        return { fistItem: null, remainder: null };
+    }
+    
+    var index = str.indexOf(separator);
+    
+    if (index == -1) {
+        return { fistItem: str, remainder: null };
+    }
+
+    var firstItem = (str.slice(0, index)).trim();
+    var remainder = (str.slice(index+1)).trim();
+    
+    return { fistItem: firstItem, remainder: remainder };
 }

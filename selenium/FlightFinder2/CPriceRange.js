@@ -1,3 +1,5 @@
+"use strict";
+
 var CPriceRange = function() {
     var initialized = false;
     var minPrice = 0;

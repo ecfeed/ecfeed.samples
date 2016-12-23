@@ -1,3 +1,5 @@
+"use strict";
+
 var CAirportArray = function() {
     this.airports = [
         {city:"Atlanta", code:"ATL"},    

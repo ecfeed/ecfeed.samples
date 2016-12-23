@@ -1,3 +1,5 @@
+"use strict";
+
 var CTicketClassArray = function() {
     this.classes = [ "Economy", "Premium economy", "Business", "First" ];
 

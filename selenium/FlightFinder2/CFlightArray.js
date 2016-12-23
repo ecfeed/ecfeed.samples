@@ -1,3 +1,5 @@
+"use strict";
+
 var CFlightArray = function() {
 
     this.createAvailableFlightArray = function(airportCodeFrom, airportCodeTo, departureDate, ticketClass, priceRange) {
@@ -11,10 +13,13 @@ var CFlightArray = function() {
         var availableFlight;
         
         for(var counter = 0; counter < flightCount; counter++) {
+
             var departureDateStr = CDateHelper.convertDateToStr(departureDate) + " " + departureHoursArray[counter];
             var arrivalDateStr = CDateHelper.convertDateToStr(departureDate) + " " + arrivalHoursArray[counter];
+
             availableFlight = new CAvailableFlight(departureDateStr, arrivalDateStr, durationArray[counter], pricesArray[counter]);
             flightArray.push(availableFlight);
+
             priceRange.calculateMinMax(pricesArray[counter]);
         }        
         
