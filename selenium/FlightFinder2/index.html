@@ -4,69 +4,6 @@
     <meta charset="UTF-8">
     <title>Flight finder 2</title>
     <link rel="stylesheet" type="text/css" href="flightFinder.css">
-
-<!--     <style>
-        body {
-			background-color: #C3DEE6;
-            color:#8B0000;
-            font-family:sans-serif;
-        }
-        
-        table {
-            background-color: #F3F7FA;
-			border-radius: 5px;
-        }
-
-        table.main {
-            margin-left: auto;
-            margin-right: auto;
-			border: 1px solid black;
-			width: 680px;
-        }
-		
-		table.single_journey {
-		    background-color: #F3F7FA;
-			width: 650px;
-			font-size: 20px;
-		}	
-
-		table.available_flights {
-			border: 1px solid black;
-			width: 630px;
-			font-size: 14px;
-		}
-        
-		table.minMaxPrices {
-			width: 630px;
-		}        
-
-		table.available_flights tr:nth-child(odd) {
-			background-color: #eee;
-		}		
-		
-        th, td {
-            padding: 10px;
-            text-align: left;
-        }
-        
-        select.full_width_selector {
-            min-width:98%;
-        }
-        
-        td.description_column {
-            width: 100px;
-        } 
-
-         td.data_column {
-            width: 200px;
-        } 
-        
-        .large_button {
-            font-size: 20px;
-            color:#8B0000;
-        }
-        
-    </style> -->
 </head>
 
 <body>
@@ -78,7 +15,7 @@
                     <table">
                         <tr>
                             <td colspan="4">
-                                <h2>Flight finder 2</h2>
+                                <h2 id="pageTitle">Flight Finder 2</h2>
                             </td>                        
                         </tr>
                         <tr>
@@ -118,13 +55,13 @@
                                 Fly out date
                             </td>
                             <td>
-                                <input id="dateFlyOut" type="text">
+                                <input id="flyOutDate" type="text">
                             </td>
                             <td>
                                 <div id="labelReturn">Return date</div>
                             </td>
                             <td>
-                                <input id="dateReturn" type="text">
+                                <input id="returnDate" type="text">
                             </td>
                         </tr>
                         <tr>                                        
@@ -143,7 +80,7 @@
                         </tr>
                         <tr>
                             <td colspan="4">
-                                <input id="searchFlights" class="button large_button" type="button" value="Search flights" onclick="onSearchFlightsClicked()">
+                                <input id="searchFlightsButton" class="button large_button" type="button" value="Search flights" onclick="onSearchFlightsClicked()">
                             </td>
                         </tr>
                     </table>

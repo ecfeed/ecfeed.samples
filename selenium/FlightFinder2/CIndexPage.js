@@ -9,12 +9,12 @@ function initializeForm() {
 
 function onDirectionOneWayClicked() {
     document.getElementById("labelReturn").style.display = "none";
-    document.getElementById("dateReturn").style.display = "none";
+    document.getElementById("returnDate").style.display = "none";
 }
 
 function onDirectionReturnClicked() {
     document.getElementById("labelReturn").style.display = "block";
-    document.getElementById("dateReturn").style.display = "block";
+    document.getElementById("returnDate").style.display = "block";
 }
 
 function onSearchFlightsClicked() {
@@ -27,6 +27,7 @@ function onSearchFlightsClicked() {
 var CIndexPage = function() {
 
     this.initialize = function() {
+        
         this.initializeRadio();
         this.initilizeAirportFields();
         this.initializeTicketClass();
@@ -34,8 +35,8 @@ var CIndexPage = function() {
         CFormHelper.setSelectText("airportFrom", "ATL");
         CFormHelper.setSelectText("airportTo", "JFK");
         
-        document.getElementById("dateFlyOut").value = "2016-12-31";
-        document.getElementById("dateReturn").value = "2017-02-15";
+        document.getElementById("flyOutDate").value = "2016-12-31";
+        // document.getElementById("returnDate").value = "2017-02-15";
         
         CFormHelper.setSelectText("ticketClass", "Economy");
     }
@@ -77,9 +78,9 @@ var CIndexPage = function() {
 
     this.searchAndDisplayFlights = function() {
         
-    if (this.performBasicChecks()) {
-        this.goToResultsPage();
-        }
+        if (this.performBasicChecks()) {
+            this.goToResultsPage();
+            }
     }
 
     this.performBasicChecks = function() {
@@ -131,10 +132,24 @@ var CIndexPage = function() {
     }
 
     this.checkFlyOutDate = function() {
+        var date = document.getElementById("flyOutDate").value;
+        
+        if (CStringHelper.isStringEmpty(date)) {
+            this.showErrorMessage("'Fly out date' must not be the empty.");
+            return false;
+        }
+        
         return true;
     }
 
     this.checkReturnDate = function() {
+        var date = document.getElementById("returnDate").value;
+        
+        if (CStringHelper.isStringEmpty(date)) {
+            this.showErrorMessage("'Return date' must not be the empty.");
+            return false;
+        }
+        
         return true;
     }
     
@@ -160,9 +175,9 @@ var CIndexPage = function() {
         
         var isReturnParam = "isReturn=" + isReturn;
         
-        var flyOutDate = document.getElementById("dateFlyOut").value;
+        var flyOutDate = document.getElementById("flyOutDate").value;
         
-        var returnDate = document.getElementById("dateReturn").value;
+        var returnDate = document.getElementById("returnDate").value;
         
         var datesParam = "flyOutDate=" + flyOutDate + "&" + "returnDate=" + returnDate;
 
