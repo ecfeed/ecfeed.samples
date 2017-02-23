@@ -154,8 +154,13 @@ var CIndexPage = function() {
     }
     
     this.checkFlyOutReturn = function() {
-        var flyOutDate = new Date("2016-12-31");
-        var returnDate = new Date("2017-02-15");
+        var flyOutDate = document.getElementById("flyOutDate").value;
+        var returnDate = document.getElementById("returnDate").value;
+
+	if (returnDate <= flyOutDate) {
+            this.showErrorMessage("'Return date' must be later than 'Fly out date'.");
+            return false;
+	}
         
         return true;
     }
