@@ -1,0 +1,31 @@
+Country,Name,Address,Product,Color,Size,Quantity,Payment,Delivery,Phone,Email
+Poland,Patryk Chamuczynski,ul. Traugutta Romualda 29 81-384 Gdynia ,t-shirt,black,M,1,VISA,express,+48123456789,k.skorupski@testify.no
+Norway,Marek Kuczabinski,ul. Traugutta Romualda 29 81-384 Gdynia ,t-shirt,blue,S,2,cash on delivery,standard,+47123456789,p.chamuczynski@testify.no
+other,Krzysztof Skorupski,ul. Narutowicza Gabriela 30 20-004 Lublin ,hoodie,white,XL,3,bank transfer,standard,+48123456789,k.skorupski@testify.no
+Norway,Przemyslaw Uznanski,ul. Rowida Henryka 138 31-766 Krakow ,t-shirt,red,L,3,MASTERCARD,express,+47123456789,k.skorupski@testify.no
+other,Przemyslaw Uznanski,ul. Narutowicza Gabriela 30 20-004 Lublin ,t-shirt,green,XS,1,VISA,standard,+47123456789,p.chamuczynski@testify.no
+other,Patryk Chamuczynski,ul. Rowida Henryka 138 31-766 Krakow ,hoodie,black,M,2,MASTERCARD,standard,+47123456789,p.chamuczynski@testify.no
+Poland,Marek Kuczabinski,ul. Rowida Henryka 138 31-766 Krakow ,hoodie,white,XL,1,cash on delivery,express,+48123456789,p.chamuczynski@testify.no
+Poland,Krzysztof Skorupski,ul. Narutowicza Gabriela 30 20-004 Lublin ,t-shirt,green,S,2,bank transfer,express,+48123456789,k.skorupski@testify.no
+Poland,Przemyslaw Uznanski,ul. Traugutta Romualda 29 81-384 Gdynia ,t-shirt,blue,XS,3,MASTERCARD,express,+48123456789,k.skorupski@testify.no
+Poland,Patryk Chamuczynski,ul. Narutowicza Gabriela 30 20-004 Lublin ,t-shirt,green,L,3,cash on delivery,standard,+48123456789,p.chamuczynski@testify.no
+Norway,Krzysztof Skorupski,ul. Traugutta Romualda 29 81-384 Gdynia ,hoodie,black,L,1,bank transfer,standard,+47123456789,p.chamuczynski@testify.no
+other,Marek Kuczabinski,ul. Narutowicza Gabriela 30 20-004 Lublin ,hoodie,black,S,3,VISA,standard,+47123456789,k.skorupski@testify.no
+Norway,Przemyslaw Uznanski,ul. Traugutta Romualda 29 81-384 Gdynia ,t-shirt,white,XL,2,VISA,standard,+47123456789,k.skorupski@testify.no
+Norway,Przemyslaw Uznanski,ul. Narutowicza Gabriela 30 20-004 Lublin ,hoodie,black,XL,1,cash on delivery,standard,+47123456789,k.skorupski@testify.no
+other,Patryk Chamuczynski,ul. Traugutta Romualda 29 81-384 Gdynia ,t-shirt,red,XL,1,MASTERCARD,standard,+48123456789,p.chamuczynski@testify.no
+Norway,Marek Kuczabinski,ul. Narutowicza Gabriela 30 20-004 Lublin ,t-shirt,green,M,3,MASTERCARD,standard,+47123456789,k.skorupski@testify.no
+Poland,Marek Kuczabinski,ul. Rowida Henryka 138 31-766 Krakow ,t-shirt,red,XS,2,bank transfer,express,+48123456789,p.chamuczynski@testify.no
+Norway,Patryk Chamuczynski,ul. Rowida Henryka 138 31-766 Krakow ,hoodie,white,S,1,MASTERCARD,express,+47123456789,k.skorupski@testify.no
+Norway,Krzysztof Skorupski,ul. Rowida Henryka 138 31-766 Krakow ,hoodie,black,XS,3,cash on delivery,standard,+47123456789,p.chamuczynski@testify.no
+other,Krzysztof Skorupski,ul. Narutowicza Gabriela 30 20-004 Lublin ,t-shirt,blue,L,1,VISA,standard,+48123456789,k.skorupski@testify.no
+other,Przemyslaw Uznanski,ul. Narutowicza Gabriela 30 20-004 Lublin ,t-shirt,red,S,1,VISA,standard,+47123456789,p.chamuczynski@testify.no
+Poland,Marek Kuczabinski,ul. Rowida Henryka 138 31-766 Krakow ,t-shirt,green,L,2,VISA,express,+48123456789,p.chamuczynski@testify.no
+Poland,Krzysztof Skorupski,ul. Traugutta Romualda 29 81-384 Gdynia ,t-shirt,red,M,1,MASTERCARD,express,+48123456789,k.skorupski@testify.no
+Poland,Patryk Chamuczynski,ul. Rowida Henryka 138 31-766 Krakow ,t-shirt,white,L,3,bank transfer,express,+48123456789,p.chamuczynski@testify.no
+Poland,Przemyslaw Uznanski,ul. Traugutta Romualda 29 81-384 Gdynia ,t-shirt,green,XL,2,bank transfer,express,+48123456789,p.chamuczynski@testify.no
+Norway,Patryk Chamuczynski,ul. Rowida Henryka 138 31-766 Krakow ,t-shirt,white,XS,3,bank transfer,standard,+47123456789,k.skorupski@testify.no
+Norway,Przemyslaw Uznanski,ul. Traugutta Romualda 29 81-384 Gdynia ,hoodie,white,M,2,cash on delivery,express,+47123456789,p.chamuczynski@testify.no
+other,Patryk Chamuczynski,ul. Rowida Henryka 138 31-766 Krakow ,t-shirt,blue,M,2,bank transfer,standard,+47123456789,p.chamuczynski@testify.no
+Poland,Patryk Chamuczynski,ul. Rowida Henryka 138 31-766 Krakow ,t-shirt,blue,XL,3,cash on delivery,standard,+48123456789,p.chamuczynski@testify.no
+Poland,Przemyslaw Uznanski,ul. Rowida Henryka 138 31-766 Krakow ,t-shirt,red,S,3,cash on delivery,express,+48123456789,p.chamuczynski@testify.no

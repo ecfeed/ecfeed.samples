@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+    <head>
+        <title>The official ecFeed shop!</title>
+        <meta charset="utf-8"> 
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="apple-touch-icon" sizes="152x152" href="resources/favicons/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="resources/favicons/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="resources/favicons/favicon-16x16.png">
+        <link rel="manifest" href="resources/favicons/site.webmanifest">
+        <link rel="mask-icon" href="resources/favicons/safari-pinned-tab.svg" color="#5bbad5">
+        <link rel="shortcut icon" href="resources/favicons/favicon.ico">
+        <meta name="msapplication-TileColor" content="#da532c">
+        <meta name="msapplication-config" content="resources/favicons/browserconfig.xml">
+        <meta name="theme-color" content="#ffffff">
+        <link rel="stylesheet" type="text/css" href="vendors/css/normalize.css">
+        <link rel="stylesheet" type="text/css" href="vendors/css/grid.css">
+        <link rel="stylesheet" type="text/css" href="vendors/css/animate.css">
+        <link rel="stylesheet" type="text/css" href="resources/css/media-queries.css">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
+        <link rel="stylesheet" type="text/css" href="resources/css/styles.css">
+    </head>
+
+    <body>
+
+ <!------------------------------------------------------------------------------->
+
+        <header class="header">
+            <nav>
+                <div class="row">
+                    <img src="resources/img/ecfeed-logo.png" alt="ecfeed logo" class="logo">
+                    <ul class="navigation-main">
+                        <li><a href="https://ecfeed.com" target="_blank">ecFeed</a></li>
+                        <li><a href="https://testify.no/" target="_blank">Testify</a></li>
+                    </ul>
+                    <div class="text-block-main">
+                        <h1>Welcome to ecFeed</h1>
+                        Need a T-Shirt? That's the page you've been always looking for!
+                    </div>
+                </div>
+            </nav>
+        </header>
+
+ <!------------------------------------------------------------------------------->
+
+        <section class="section-form animated fadeIn">
+
+            <div class="row alignment-center">
+                <div class="col span-1-of-3">
+                    <ion-icon name="airplane" class="icon"></ion-icon>
+                    <h2>Shipment</h2>
+                    <p>Provide information that should be included in the invoice.</p>
+                </div>
+                <div class="col span-1-of-3">
+                    <ion-icon name="cart" class="icon"></ion-icon>
+                    <h2>Product</h2>
+                    <p>Have in mind that different products are available in distinct colors.</p>
+                </div>
+                <div class="col span-1-of-3">
+                    <ion-icon name="card" class="icon"></ion-icon>
+                    <h2>Payment</h2>
+                    <p>Note, that additional options are available in Norway and Poland.</p>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col span-1-of-3 section-separator"></div>
+                <div class="col span-1-of-3 section-separator"></div>
+                <div class="col span-1-of-3 section-separator"></div>
+            </div>
+
+            <form id="form">
+                <div class="row">
+                    <div class="col span-1-of-3">
+                        <div class="row">
+                            <div class="col span-1-of-2">
+                                <label for="country">Country:</label>
+                            </div>
+                            <div class="col span-1-of-2">
+                                <select id="country" name="country" autocomplete="off">
+                                    <option value="norway" selected>Norway</option>
+                                    <option value="poland">Poland</option>
+                                    <option value="other">other</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col span-1-of-2">
+                                <label for="name">Name:</label>
+                            </div>
+                            <div class="col span-1-of-2">
+                                <input type="text" id="name" name="name" placeholder="Hanna Larsen" autocomplete="off">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col span-1-of-2">
+                                <label for="address">Address:</label>
+                            </div>
+                            <div class="col span-1-of-2">
+                                <textarea rows="2" id="address" name="address" placeholder="Holme 153,&#10;1675 Kråkerøy" autocomplete="off"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col span-1-of-3">
+                        <div class="row">
+                            <div class="col span-1-of-2">
+                                <label for="product">Product:</label>
+                            </div>
+                            <div class="col span-1-of-2">
+                                <select id="product" name="product" autocomplete="off">
+                                    <option value="t_shirt" selected>t-shirt</option>
+                                    <option value="hoodie">hoodie</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col span-1-of-2">
+                                <label for="color">Color:</label>
+                            </div>
+                            <div class="col span-1-of-2">
+                                <select id="color" name="color" autocomplete="off">
+                                    <option value="white" selected>white</option>
+                                    <option value="black">black</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col span-1-of-2">
+                                <label for="size">Size:</label>
+                            </div>
+                            <div class="col span-1-of-2">
+                                <select id="size" name="size" autocomplete="off">
+                                    <option value="xs">XS</option>
+                                    <option value="s">S</option>
+                                    <option value="m" selected>M</option>
+                                    <option value="l">L</option>
+                                    <option value="xl">XL</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col span-1-of-2">
+                                <label for="quantity">Quantity:</label>
+                            </div>
+                            <div class="col span-1-of-2">
+                                <input type="text" id="quantity" name="quantity" placeholder="1" autocomplete="off">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col span-1-of-3">
+                        <div class="row">
+                            <div class="col span-1-of-2">
+                                <label for="payment">Payment:</label>
+                            </div>
+                            <div class="col span-1-of-2">
+                                <select id="payment" name="payment" autocomplete="off">
+                                    <option value="visa" selected>VISA</option>
+                                    <option value="mastercard">MASTERCARD</option>
+                                    <option value="bank_transfer">bank transfer</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col span-1-of-2">
+                                <label for="delivery">Delivery:</label>
+                            </div>
+                            <div class="col span-1-of-2">
+                                <select id="delivery" name="delivery" autocomplete="off">
+                                    <option value="standard" selected>standard</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col span-1-of-2">
+                                <label for="phone">Phone:</label>
+                            </div>
+                            <div class="col span-1-of-2">
+                                <input type="text" id="phone" name="phone" placeholder="+47123456789" autocomplete="off">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col span-1-of-2">
+                                <label for="email">Email:</label>
+                            </div>
+                            <div class="col span-1-of-2">
+                                <input type="text" id="email" name="email" placeholder="h.larsen@data.no" autocomplete="off">
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="row">
+                    <div class="col span-6-of-6"></div>
+                </div>
+
+                <div class="row alignment-center"> 
+                        <a class="btn btn-main" id="submit">Place order</a>
+                </div>
+
+                <div class="row">
+                    <div class="col span-6-of-6 section-separator"></div>
+                </div>
+
+                <div class="row"> 
+                    <div class="col span-1-of-4">
+                        <label for="status">Status:</label>
+                    </div>
+                    <div class="col span-1-of-4">
+                        <input type="text" id="status" name="status" placeholder="" autocomplete="off" disabled>
+                    </div>
+                     <div class="col span-1-of-4">
+                        <label for="status">Time:</label>
+                    </div>
+                    <div class="col span-1-of-4">
+                        <input type="text" id="time" name="time" placeholder="" autocomplete="off" disabled>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col span-1-of-6">
+                        <label for="response">Response:</label>
+                    </div>
+                    <div class="col span-5-of-6">
+                        <textarea rows="4" id="response" name="response" placeholder="" autocomplete="off" disabled></textarea>
+                    </div>
+                </div>
+
+            </form>
+        </section>
+
+<!------------------------------------------------------------------------------->
+
+        <footer class="footer">
+            <div class="row" id="footer__progress">&nbsp;<br/>&nbsp;</div>
+        </footer>
+
+<!------------------------------------------------------------------------------->
+
+        <section class="section-additional">
+            <div class="row">
+                <div class="col span-6-of-6">
+                    <ul>
+                        <li><a class="btn btn-main" id="submenu-complete">Complete</a></li>
+                        <li><a class="btn btn-main" id="submenu-clear">Clear</a></li>
+                        <li><a class="btn btn-main" id="submenu-model" href="resources/data/workshop.ect" download>Download</a></li>
+                        <li><a class="btn btn-main" id="submenu-test">Execute</a></li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+<!------------------------------------------------------------------------------->
+
+        <div id="modal-error" class="modal">
+            <h3 class="modal__header">Input error</h3>
+            <textarea id="modal__message" class="modal__message" autocomplete="off" disabled>&nbsp;</textarea>
+        </div>
+
+        <div id="modal-result" class="modal">
+            <h3 class="modal__header">Test execution results</h3>
+            <div class="row modal__content">
+                <div class="col span-5-of-6">
+                    Test cases passed:
+                </div>
+                <div class="col span-1-of-6 alignment-right">
+                    <div  id="modal__success">&nbsp;</div>
+                </div>
+            </div>
+            <input type="text" id="modal__success--number" disabled>
+            <div class="row modal__content">
+                <div class="col span-5-of-6">
+                    Test cases failed - invalid input:
+                </div>
+                <div class="col span-1-of-6 alignment-right">
+                    <div  id="modal__failureInput">&nbsp;</div>
+                </div>
+            </div>
+            <input type="text" id="modal__failureInput--number" disabled>
+            <div class="row modal__content">
+                <div class="col span-5-of-6">
+                    Test cases failed - invalid output:
+                </div>
+                <div class="col span-1-of-6 alignment-right">
+                    <div  id="modal__failureOutput">&nbsp;</div>
+                </div>
+            </div>
+            <input type="text" id="modal__failureOutput--number" disabled>
+            <a class="btn btn-main btn-modal" id="execution-details">Details</a>
+        </div>
+
+<!------------------------------------------------------------------------------->
+
+        <input id="submenu-test-file" type="file" name="submenu-test-file" style="display: none;" />
+
+<!------------------------------------------------------------------------------->
+
+        <div id="effect-overlay"></div>
+
+<!------------------------------------------------------------------------------->
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
+        <script src="https://unpkg.com/ionicons@4.5.10-0/dist/ionicons.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/selectivizr@1.0.3/selectivizr.min.js"></script>
+        <script type="module" src="https://unpkg.com/ionicons@4.5.10-0/dist/ionicons/ionicons.esm.js"></script>
+        <script type="module" src="resources/js/controller.js"></script>
+
+<!------------------------------------------------------------------------------->
+
+    </body>
+
+</html>

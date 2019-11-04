@@ -1,0 +1,9 @@
+@media only screen and (max-width: 800px) { 
+    .row { width: 100%; }
+    .section-separator::after { background-color: #F0F0F0; }
+ }
+
+ @media only screen and (max-width: 480px) { 
+    .logo { display: none; }
+    .navigation-main { float: left; }
+ }

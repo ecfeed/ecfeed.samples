@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Model name="ecFeed_Shop" version="3">
+    <Class name="com.example.test.TestClass1">
+        <Properties>
+            <Property name="runOnAndroid" type="boolean" value="false"/>
+        </Properties>
+        <Method name="testMethod1">
+            <Properties>
+                <Property name="methodRunner" type="String" value="Java Runner"/>
+                <Property name="wbMapBrowserToParam" type="boolean" value="false"/>
+                <Property name="wbBrowser" type="String" value="Chrome"/>
+                <Property name="wbMapStartUrlToParam" type="boolean" value="false"/>
+            </Properties>
+            <Parameter name="Country" type="com.example.Country" isExpected="false" expected="Norway" linked="false">
+                <Properties>
+                    <Property name="wbIsOptional" type="boolean" value="false"/>
+                </Properties>
+                <Comments>
+                    <TypeComments/>
+                </Comments>
+                <Choice name="Norway" value="Norway" isRandomized="false"/>
+                <Choice name="Poland" value="Poland" isRandomized="false"/>
+            </Parameter>
+            <Parameter name="Name" type="String" isExpected="false" expected="0" linked="false">
+                <Properties>
+                    <Property name="wbIsOptional" type="boolean" value="false"/>
+                </Properties>
+                <Comments>
+                    <TypeComments/>
+                </Comments>
+                <Choice name="valid\sNames" value="" isRandomized="false">
+                    <Choice name="Long1" value="kadasdjsdlasdlasdlasdkalsdlkdlkansdaklasdlaksdladald" isRandomized="false"/>
+                    <Choice name="Short1" value="aa" isRandomized="false"/>
+                </Choice>
+                <Choice name="Invalid\sNames" value="" isRandomized="false">
+                    <Choice name="Invalid\swords" value="" isRandomized="false">
+                        <Choice name="NN" value="NN" isRandomized="false"/>
+                        <Choice name="unknown" value="unknown" isRandomized="false"/>
+                    </Choice>
+                    <Choice name="empty" value="" isRandomized="false"/>
+                    <Choice name="TooLong" value="abcdefghijklmnopqrstuv\sæøôöâmabcdefghijklmnopqrstuvåæøô\sâmabcdefghijklmnopqrstuvåæøôöâmabcdefghijklmnopq\sstuvåæøôöâmabcdefghijklmnopqrstuvåæøô\sâmabcdefghijklmnopqrstuvåæøôöâmabcdefghijklmnopqrstuvåæøaa" isRandomized="false"/>
+                    <Choice name="Symbols\s" value="" isRandomized="false">
+                        <Choice name="minus" value="-" isRandomized="false"/>
+                        <Choice name="single\squote" value="´" isRandomized="false"/>
+                        <Choice name="ampersand" value="&amp;" isRandomized="false"/>
+                        <Choice name="symbol\s" value="Jac&lt;k" isRandomized="false"/>
+                        <Choice name="number" value="Sperrew2" isRandomized="false"/>
+                    </Choice>
+                </Choice>
+            </Parameter>
+            <Parameter name="Address" type="String" isExpected="false" expected="0" linked="false">
+                <Properties>
+                    <Property name="wbIsOptional" type="boolean" value="false"/>
+                </Properties>
+                <Comments>
+                    <TypeComments/>
+                </Comments>
+                <Choice name="Valid\saddresses" value="" isRandomized="false">
+                    <Choice name="Short" value="B" isRandomized="false"/>
+                    <Choice name="Long255" value="aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" isRandomized="false"/>
+                    <Choice name="Numbers" value="Vei\s#1234,\sgod\stur" isRandomized="false"/>
+                    <Choice name="adressStartsWithPostb" value="PostbergenPost" isRandomized="false"/>
+                </Choice>
+                <Choice name="Invalid\saddresses" value="" isRandomized="false">
+                    <Choice name="empty" value="" isRandomized="false"/>
+                    <Choice name="OnlyNumbers" value="123456" isRandomized="false"/>
+                    <Choice name="TooLong" value="abcdefghijklmnopqrstuv\sæøôöâmabcdefghijklmnopqrstuvåæøô\sâmabcdefghijklmnopqrstuvåæøôöâmabcdefghijklmnopq\saaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\sâmabcdefghijklmnopqrstuvåæøôöâmabcdefghijklmnopqrstuvåæøaabhjjbwrkbjwtjgtwjfd" isRandomized="false"/>
+                    <Choice name="Unknown" value="Unknown" isRandomized="false"/>
+                    <Choice name="postb" value="postb" isRandomized="false"/>
+                    <Choice name="PB" value="p.b." isRandomized="false"/>
+                    <Choice name="postbox" value="postbox" isRandomized="false"/>
+                    <Choice name="Symbols" value="" isRandomized="false">
+                        <Choice name="procent" value="%" isRandomized="false"/>
+                        <Choice name="minus" value="-" isRandomized="false"/>
+                        <Choice name="single\squote" value="´" isRandomized="false"/>
+                        <Choice name="ampersand" value="&amp;" isRandomized="false"/>
+                    </Choice>
+                </Choice>
+            </Parameter>
+            <Parameter name="Product" type="com.example.Product" isExpected="false" expected="HOODIE" linked="false">
+                <Properties>
+                    <Property name="wbIsOptional" type="boolean" value="false"/>
+                </Properties>
+                <Comments>
+                    <TypeComments/>
+                </Comments>
+                <Choice name="hoodie" value="HOODIE" isRandomized="false"/>
+                <Choice name="tshirt" value="TSHIRT" isRandomized="false"/>
+            </Parameter>
+            <Parameter name="Color" type="com.example.Color" isExpected="false" expected="BLACK" linked="false">
+                <Properties>
+                    <Property name="wbIsOptional" type="boolean" value="false"/>
+                </Properties>
+                <Comments>
+                    <TypeComments/>
+                </Comments>
+                <Choice name="black" value="BLACK" isRandomized="false"/>
+                <Choice name="white" value="WHITE" isRandomized="false"/>
+            </Parameter>
+            <Parameter name="size" type="com.example.Size" isExpected="false" expected="XS" linked="false">
+                <Properties>
+                    <Property name="wbIsOptional" type="boolean" value="false"/>
+                </Properties>
+                <Comments>
+                    <TypeComments/>
+                </Comments>
+                <Choice name="extra\ssmall" value="XS" isRandomized="false"/>
+                <Choice name="small" value="S" isRandomized="false"/>
+                <Choice name="medium" value="M" isRandomized="false"/>
+                <Choice name="large" value="L" isRandomized="false"/>
+                <Choice name="extra\slarge" value="XL" isRandomized="false"/>
+            </Parameter>
+            <Parameter name="Quantity" type="String" isExpected="false" expected="0" linked="false">
+                <Properties>
+                    <Property name="wbIsOptional" type="boolean" value="false"/>
+                </Properties>
+                <Comments>
+                    <TypeComments/>
+                </Comments>
+                <Choice name="Valid" value="" isRandomized="false">
+                    <Choice name="2" value="2" isRandomized="false"/>
+                    <Choice name="100" value="100" isRandomized="false"/>
+                </Choice>
+                <Choice name="Invalid" value="" isRandomized="false">
+                    <Choice name="one" value="one" isRandomized="false"/>
+                    <Choice name="ampersand" value="&amp;" isRandomized="false"/>
+                    <Choice name="empty" value="" isRandomized="false"/>
+                </Choice>
+            </Parameter>
+            <Parameter name="Payment" type="com.example.Payment" isExpected="false" expected="VISA" linked="false">
+                <Properties>
+                    <Property name="wbIsOptional" type="boolean" value="false"/>
+                </Properties>
+                <Comments>
+                    <TypeComments/>
+                </Comments>
+                <Choice name="Visa" value="VISA" isRandomized="false"/>
+                <Choice name="cash\son\sdelivery" value="CASH_ON_DELIVERY" isRandomized="false"/>
+                <Choice name="bank\stransfer" value="BANK_TRANSFER" isRandomized="false"/>
+                <Choice name="mastercard" value="MASTERCARD" isRandomized="false"/>
+            </Parameter>
+            <Parameter name="Delivery" type="com.example.Delivery" isExpected="false" expected="STANDARD" linked="false">
+                <Properties>
+                    <Property name="wbIsOptional" type="boolean" value="false"/>
+                </Properties>
+                <Comments>
+                    <TypeComments/>
+                </Comments>
+                <Choice name="standard" value="STANDARD" isRandomized="false"/>
+                <Choice name="express" value="EXPRESS" isRandomized="false"/>
+            </Parameter>
+            <Parameter name="Phone" type="String" isExpected="false" expected="0" linked="false">
+                <Properties>
+                    <Property name="wbIsOptional" type="boolean" value="false"/>
+                </Properties>
+                <Comments>
+                    <TypeComments/>
+                </Comments>
+                <Choice name="valid\sphone\snumbers" value="" isRandomized="false"/>
+                <Choice name="invalid\sphone\snumbers" value="" isRandomized="false"/>
+            </Parameter>
+            <Parameter name="Email" type="String" isExpected="false" expected="0" linked="false">
+                <Properties>
+                    <Property name="wbIsOptional" type="boolean" value="false"/>
+                </Properties>
+                <Comments>
+                    <TypeComments/>
+                </Comments>
+                <Choice name="valid\semail\sadresses" value="" isRandomized="false"/>
+                <Choice name="Invalid\semail\sadresses" value="" isRandomized="false"/>
+            </Parameter>
+            <Parameter name="ValidateName" type="boolean" isExpected="true" expected="false" linked="false">
+                <Properties>
+                    <Property name="wbIsOptional" type="boolean" value="false"/>
+                </Properties>
+                <Comments>
+                    <TypeComments/>
+                </Comments>
+                <Choice name="choice" value="false" isRandomized="false"/>
+            </Parameter>
+            <Parameter name="ORVALIDATENAMELIKETHIS" type="String" isExpected="true" expected="" linked="false">
+                <Properties>
+                    <Property name="wbIsOptional" type="boolean" value="false"/>
+                </Properties>
+                <Comments>
+                    <TypeComments/>
+                </Comments>
+            </Parameter>
+            <Parameter name="ValidateAdress" type="boolean" isExpected="true" expected="false" linked="false">
+                <Properties>
+                    <Property name="wbIsOptional" type="boolean" value="false"/>
+                </Properties>
+                <Comments>
+                    <TypeComments/>
+                </Comments>
+                <Choice name="choice" value="false" isRandomized="false"/>
+            </Parameter>
+            <Parameter name="ValidateQuantity" type="boolean" isExpected="true" expected="false" linked="false">
+                <Properties>
+                    <Property name="wbIsOptional" type="boolean" value="false"/>
+                </Properties>
+                <Comments>
+                    <TypeComments/>
+                </Comments>
+                <Choice name="choice" value="false" isRandomized="false"/>
+            </Parameter>
+            <Parameter name="ValidatePhone" type="boolean" isExpected="true" expected="false" linked="false">
+                <Properties>
+                    <Property name="wbIsOptional" type="boolean" value="false"/>
+                </Properties>
+                <Comments>
+                    <TypeComments/>
+                </Comments>
+                <Choice name="choice" value="false" isRandomized="false"/>
+            </Parameter>
+            <Parameter name="ValidateEmail" type="boolean" isExpected="true" expected="false" linked="false">
+                <Properties>
+                    <Property name="wbIsOptional" type="boolean" value="false"/>
+                </Properties>
+                <Comments>
+                    <TypeComments/>
+                </Comments>
+                <Choice name="choice" value="false" isRandomized="false"/>
+            </Parameter>
+            <Parameter name="ValidatePlaceOrder" type="boolean" isExpected="true" expected="false" linked="false">
+                <Properties>
+                    <Property name="wbIsOptional" type="boolean" value="false"/>
+                </Properties>
+                <Comments>
+                    <TypeComments/>
+                </Comments>
+                <Choice name="choice" value="false" isRandomized="false"/>
+            </Parameter>
+            <Constraint name="validate\sname\sfield">
+                <Premise>
+                    <Statement choice="valid\sNames" parameter="Name" relation="equal"/>
+                </Premise>
+                <Consequence>
+                    <ExpectedValueStatement parameter="ValidateName" value="true"/>
+                </Consequence>
+            </Constraint>
+            <Constraint name="Or\svalidate\sname\sfield\slike\sthis">
+                <Premise>
+                    <Statement choice="Invalid\sNames" parameter="Name" relation="equal"/>
+                </Premise>
+                <Consequence>
+                    <ExpectedValueStatement parameter="ORVALIDATENAMELIKETHIS" value="The\sname\sof\sthe\sclient\smust\sconsist\sof\sat\sleast\stwo\selements:\sthe\sfirst\sname,\sthe\ssecond\sname."/>
+                </Consequence>
+            </Constraint>
+            <Constraint name="Validate\squantity\sfield">
+                <Premise>
+                    <Statement choice="Valid" parameter="Quantity" relation="equal"/>
+                </Premise>
+                <Consequence>
+                    <ExpectedValueStatement parameter="ValidateQuantity" value="true"/>
+                </Consequence>
+            </Constraint>
+            <Constraint name="Validate\sPhone\sfield">
+                <Premise>
+                    <Statement choice="valid\sphone\snumbers" parameter="Phone" relation="equal"/>
+                </Premise>
+                <Consequence>
+                    <ExpectedValueStatement parameter="ValidatePhone" value="true"/>
+                </Consequence>
+            </Constraint>
+            <Constraint name="Validate\semail\sfield">
+                <Premise>
+                    <Statement choice="valid\semail\sadresses" parameter="Email" relation="equal"/>
+                </Premise>
+                <Consequence>
+                    <ExpectedValueStatement parameter="ValidateEmail" value="true"/>
+                </Consequence>
+            </Constraint>
+            <Constraint name="validate\sPlace\sOrder">
+                <Premise>
+                    <StatementArray operator="and">
+                        <Statement choice="valid\sNames" parameter="Name" relation="equal"/>
+                        <Statement choice="Valid\saddresses" parameter="Address" relation="equal"/>
+                        <Statement choice="Valid" parameter="Quantity" relation="equal"/>
+                        <Statement choice="valid\sphone\snumbers" parameter="Phone" relation="equal"/>
+                        <Statement choice="valid\semail\sadresses" parameter="Email" relation="equal"/>
+                    </StatementArray>
+                </Premise>
+                <Consequence>
+                    <ExpectedValueStatement parameter="ValidatePlaceOrder" value="true"/>
+                </Consequence>
+            </Constraint>
+        </Method>
+    </Class>
+</Model>

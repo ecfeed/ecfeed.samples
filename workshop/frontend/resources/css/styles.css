@@ -1,0 +1,317 @@
+/* -------------------------------------------------- */
+/* GLOBAL SETUP */
+/* Colors: #687EB0, #ABC4FF, #91B2FF, #B39142, #FFDF91
+/* -------------------------------------------------- */
+
+* {
+    margin: 0;
+    padding: 0;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    /* border: 1px solid black; */
+}
+
+*:focus {
+    outline: none;
+    border: 1px solid #FFDF91;
+}
+
+body { 
+    background-color: white;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 300;
+    font-size: 20px;
+    color: black;
+    text-rendering: optimizeLegibility;
+    padding: 15px;
+    height: 100vh;
+}
+
+/* -------------------------------------------------- */
+/* EFFECTS */
+/* -------------------------------------------------- */
+   
+.blur {
+    filter: blur(8px);
+    -webkit-filter: blur(8px);
+}
+
+.grayscale {
+    filter: grayscale(100%);
+    -webkit-filter: grayscale(100%);
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    z-index: 10;
+    background-color: rgba(0,0,0,0);
+}
+
+/* -------------------------------------------------- */
+/* ANIMATION */
+/* -------------------------------------------------- */
+
+@keyframes moveToBottom {
+    0% {                          
+       opacity: 0;                
+       transform: translateY(-10px);
+   }
+   
+   100% {
+       opacity: 1;
+       transform: translateY(0);
+   }
+}
+
+
+@keyframes moveToRight {
+     0% {                          
+        opacity: 0;                
+        transform: translateX(-10px);
+    }
+    
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes moveToLeft {
+     0% {                          
+        opacity: 0;                
+        transform: translateX(10px);
+    }
+    
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* -------------------------------------------------- */
+/* REUSABLE COMPONENTS */
+/* -------------------------------------------------- */
+
+.row {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.icon {
+    display: inline-block;
+    height: 40px;
+    font-size: 40px;
+    color: #FFDF91;
+    margin-top: auto;
+}
+
+.alignment-left {
+    text-align: left;
+}
+
+.alignment-center {
+    text-align: center;
+}
+
+.alignment-right {
+    text-align: right;
+}
+
+.btn {
+    text-decoration: none;
+    text-align: center;
+    font-weight: 300;
+}
+
+.btn-main {
+    display: inline-block;
+    background-color: #FFDF91;
+    border: 1px solid #687EB0;
+    color: black;
+    width: 200px;
+    padding: 10px;
+    margin: 5px;
+    border-radius: 50px;
+    text-transform: uppercase;
+    -webkit-transition: background-color 1s, color 1s;
+    transition: background-color 1s, color 1s;
+}
+
+.btn-modal {
+    margin-top: 20px;
+}
+
+.btn-main:hover, 
+.btn-main:active {
+    background-color: #687EB0;
+    color: #FFDF91;
+}
+
+.btn-ghost:link, 
+.btn-ghost:visited {
+    color: black;
+    -webkit-transition: color 1s;
+    transition: color 1s;
+}
+
+.btn-ghost:hover, 
+.btn-ghost:active {
+    color: #FFDF91;
+}
+
+h1,
+h2 {
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+h1 {
+    font-size: 200%;   
+}
+
+h2 {
+    font-size: 150%;
+    margin-bottom: 20px;
+}
+
+/* -------------------------------------------------- */
+/* HEADER */
+/* -------------------------------------------------- */
+
+.header {
+    background: linear-gradient(to bottom, rgb(104, 126, 176), rgb(141, 166, 225));
+    color: #FFDF91;
+    height: auto;
+    backface-visibility: hidden; 
+}
+
+.logo {
+    float: left;
+    margin: 10px;
+    height: 40px;
+    width: auto;
+}
+
+.navigation-main {
+    float: right;
+    height: 60px;
+}
+
+.navigation-main li {
+    display: inline-block;
+    margin: 15px 15px;
+}
+
+.navigation-main li a:link,
+.navigation-main li a:visited {
+    color: black;
+    text-decoration: none;
+    text-transform: uppercase;
+    -webkit-transition: color 0.3s, border-bottom 0.3s;
+    transition: color 0.3s, border-bottom 0.3s;
+}
+
+.navigation-main li a:hover,
+.navigation-main li a:active {
+    color: #B39142;
+    border-bottom: 2px solid #B39142;
+}
+
+.text-block-main {
+    text-align: center;
+    padding: 40px 0;
+    
+}
+
+.text-block-main h1 {
+    animation: moveToBottom 1s ease-out;
+}
+
+/* -------------------------------------------------- */
+/* FORM */
+/* -------------------------------------------------- */
+
+.section-form {
+    color: black;
+    height: auto;
+    padding: 10px 0;
+    animation-duration: 2s;
+    background-image:  linear-gradient(rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.4)), url('/resources/img/ecfeed-background.png');
+    background-size: cover;
+    background-position: center;
+}
+
+input[type=text],
+input[type=email],
+select {
+    width: 100%;
+    height: 35px;
+    vertical-align: middle;
+}
+
+textarea {
+    width: 100%;
+    resize: none;
+    height: 80px;
+    padding: 5px;
+}
+
+label {
+    width: 100%;
+    height: 30px;
+    margin-left: 2%;
+    display: block;
+    overflow-x: hidden;
+}
+
+/* -------------------------------------------------- */
+/* FOOTER */
+/* -------------------------------------------------- */
+
+.footer {
+    background: linear-gradient(to top, rgb(104, 126, 176), rgb(121, 146, 205));
+    color: #FFDF91;
+    height: auto;
+    padding: 10px 0;
+    font-size: 80%;
+}
+
+.section-separator::after {
+    content: " ";
+    display: block;
+    background-color: #FFDF91;
+    height: 2px;
+    margin: 0 auto;
+}
+
+/* -------------------------------------------------- */
+/* ADDITIONAL */
+/* -------------------------------------------------- */
+
+.section-additional {
+    text-align: center;
+}
+
+.section-additional li {
+    display: inline-block;
+    text-decoration: none;
+}
+
+/* -------------------------------------------------- */
+/* MODAL */
+/* -------------------------------------------------- */
+
+.modal {
+    text-align: center;
+}
+.modal__content {
+    text-align: left;
+}
+
+.modal__header {
+    padding: 15px;
+}
