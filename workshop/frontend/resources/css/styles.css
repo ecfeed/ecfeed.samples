@@ -240,7 +240,7 @@ h2 {
     height: auto;
     padding: 10px 0;
     animation-duration: 2s;
-    background-image:  linear-gradient(rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.4)), url('/resources/img/ecfeed-background.png');
+    background-image:  linear-gradient(rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.4)), url('../img/ecfeed-background.png');
     background-size: cover;
     background-position: center;
 }

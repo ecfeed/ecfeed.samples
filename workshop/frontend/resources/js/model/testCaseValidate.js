@@ -4,15 +4,22 @@ const regexNumber = /^[-]*[0-9]*$/i;
 
 //------------------------------------------------
 
-export const validate = (test) => {
+export const validate = (test, api = false) => {
     const response = {
         errorInput: [],
         errorOutput: [],
         structure: test
     }
 
+    if (api) {
+        processAPI(test, response);
+        if (response.errorInput.length > 0) {
+            return response;
+        }
+    }
+   
     for (const value in test) {
-        const check = validateField[value](test[value].trim().toLowerCase(), test);
+        const check = validateField[value](test[value].trim(), test);
         
         if (check.startsWith('[F]')) { 
             response.errorOutput.push(check.substring(4)) 
@@ -27,9 +34,74 @@ export const validate = (test) => {
 
 //------------------------------------------------
 
+const processAPI = (test, response) => {
+    
+    validateFields(test, response);
+    
+    if (response.errorInput.length > 0) {
+        return;
+    } 
+
+    updateFields(test);
+}
+
+const updateFields = (test) => {
+    const parsedCountry = test.country.trim().toLowerCase();
+    const parsedProduct = test.product.trim().toLowerCase().replace(/[ -]/g, '_');
+    
+    
+    if (parsedCountry === 'other') {
+        const parsedPayment = test.payment.trim().toLowerCase().replace(/[ -]/g, '_');
+        const parsedDelivery = test.delivery.trim().toLowerCase();
+        
+        if (parsedPayment === 'cash_on_delivery') {
+            test.payment = '';
+        }
+        
+        if (parsedDelivery === "express") {
+            test.delivery = '';
+        }
+    }
+
+    if (parsedProduct === 'hoodie') {
+        const parsedColor = test.color.trim().toLowerCase();
+        
+        if (parsedColor === 'red' || parsedColor === 'green' || parsedColor === 'blue') {
+            test.color = '';
+        }
+    }
+    
+}
+
+const validateFields = (test, response) => {
+    const empty = [];
+
+    if (!test.country) empty.push('country');
+    if (!test.name) empty.push('name');
+    if (!test.address) empty.push('address');
+
+    if (!test.product) empty.push('product');
+    if (!test.color) empty.push('color');
+    if (!test.size) empty.push('size');
+    if (!test.quantity) empty.push('quantity');
+
+    if (!test.payment) empty.push('payment');
+    if (!test.delivery) empty.push('delivery');
+    if (!test.phone) empty.push('phone');
+    if (!test.email) empty.push('email');
+
+    if (empty.length > 0) {
+        response.errorInput.push(`The order cannot be processed. Missing field(s): ${empty.join(', ')}.`);
+    }
+
+}
+
+//------------------------------------------------
+
 const validateField = {
     country: (country) => {
-        if (country === 'norway' || country === 'poland' || country === 'other') {
+        const parsedCountry = country.toLowerCase();
+        if (parsedCountry === 'norway' || parsedCountry === 'poland' || parsedCountry === 'other') {
             return '';
         } 
         return "[M] The name of the country is incorrect. Please select a value from the list: 'Norway', 'Poland', 'other'.";
@@ -59,19 +131,22 @@ const validateField = {
         return '';
     } ,
     product: (product) => {
-        if (product === 't_shirt' || product === 'hoodie') {
+        const parsedProduct = product.toLowerCase().replace(/[ -]/g, '_');
+        if (parsedProduct === 't_shirt' || parsedProduct === 'hoodie') {
             return '';
         } 
-        return "[M] We do not have this product in our offer. Please select a value from the list: 'tshirt', 'hoodie'.";
+        return "[M] We do not have this product in our offer. Please select a value from the list: 't-shirt', 'hoodie'.";
     },
     color: (color) => {
-        if (color === 'black' || color === 'white' || color === 'red' || color === 'green' || color === 'blue') {
+        const parsedColor = color.toLowerCase();
+        if (parsedColor === 'black' || parsedColor === 'white' || parsedColor === 'red' || parsedColor === 'green' || parsedColor === 'blue') {
             return '';
         } 
         return "[M] The selected color is not available for this product.";
     },
     size: (size) => {
-        if (size === 'xs' || size === 's' || size === 'm' || size === 'l' || size === 'xl') {
+        const parsedSize = size.toLowerCase();
+        if (parsedSize === 'xs' || parsedSize === 's' || parsedSize === 'm' || parsedSize === 'l' || parsedSize === 'xl') {
             return '';
         } 
         return "[M] We do not have this size in our offer. Please select a value from the list: 'XS', 'S', 'M', 'L', 'XL'.";
@@ -85,26 +160,28 @@ const validateField = {
             return `[F] The quantity cannot be '${quantity}'. It is not even a number!`
         }  
 
-        const quantityParsed = parseInt(quantity);
+        const parsedQuantity = parseInt(quantity);
 
-        if (quantityParsed == 0) {
+        if (parsedQuantity == 0) {
             return "[F] No, the quantity should be at least 1."
-        } else if (quantityParsed < 0) {
-            return `[F] No, the quantity is incorrect. Do you want to send us ${-quantityParsed} item(s)?`;
-        } else if (quantityParsed >= 100000) {
-            return `[F] No, we do not even know how to deliver ${quantityParsed} items! Please be reasonable and set the number below 100000!`;
+        } else if (parsedQuantity < 0) {
+            return `[F] No, the quantity is incorrect. Do you want to send us ${-parsedQuantity} item(s)?`;
+        } else if (parsedQuantity >= 100000) {
+            return `[F] No, we do not even know how to deliver ${parsedQuantity} items! Please be reasonable and set the number below 100000!`;
         }
 
         return '';
     },
     payment: (payment) => {
-        if (payment === 'visa' || payment === 'mastercard' || payment.replace(/ /g, '_') === 'bank_transfer' || payment.replace(/ /g, '_') === 'cash_on_delivery') {
+        const parsedPayment = payment.toLowerCase().replace(/[ -]/g, '_');
+        if (parsedPayment === 'visa' || parsedPayment === 'mastercard' || parsedPayment === 'bank_transfer' || parsedPayment === 'cash_on_delivery') {
             return '';
         } 
         return "[M] The payment method is not supported. Please select a value from the list: 'VISA', 'MASTERCARD', 'bank transfer', 'cash on delivery'.";
     },
     delivery: (delivery) => {
-        if (delivery === 'standard' || delivery === 'express') {
+        const parsedDelivery = delivery.toLowerCase();
+        if (parsedDelivery === 'standard' || parsedDelivery === 'express') {
             return '';
         } 
         return "[M] The delivery option is not supported. Please select a value from the list: 'standard', 'express'.";
