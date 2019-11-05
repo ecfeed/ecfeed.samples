@@ -1,16 +1,19 @@
 package testify.api;
 
+import com.ecfeed.junit.annotation.EcFeedInput;
+import com.ecfeed.junit.annotation.EcFeedModel;
+import com.ecfeed.junit.annotation.EcFeedTest;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
-import org.junit.jupiter.api.Test;
+import testify.data.*;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class Manual {
+public class Extended {
 
 //------------------------------------------------------------------------------
 
@@ -19,21 +22,23 @@ public class Manual {
 
 //------------------------------------------------------------------------------
 
-    @Test
-    void apiValidate() {
+    @EcFeedTest
+    @EcFeedModel("9835-3029-2264-1682-5114")
+    @EcFeedInput("'method':'com.ecfeed.Model.extended', 'dataSource':'genNWise', 'constraints':'NONE'")
+    void apiValidate(Country country, String name, String address, Product product, Color color, Size size, int quantity, Payment payment, Delivery delivery, String phone, String email) {
         Map<String, Object> parameters = new HashMap<>();
 
-        parameters.put("country", "Poland");
-        parameters.put("name", "Krzysztof Skorupski");
-        parameters.put("address", "Somewhere in Poland");
-        parameters.put("product", "hoodie");
-        parameters.put("color", "black");
-        parameters.put("size", "l");
-        parameters.put("quantity", "5");
-        parameters.put("payment", "bank transfer");
-        parameters.put("delivery", "standard");
-        parameters.put("phone", "+48123456789");
-        parameters.put("email", "k.skorupski@testify.no");
+        parameters.put("country", country.toString());
+        parameters.put("name", name);
+        parameters.put("address", address);
+        parameters.put("product", product.toString());
+        parameters.put("color", color.toString());
+        parameters.put("size", size.toString());
+        parameters.put("quantity", quantity + "");
+        parameters.put("payment", payment.toString());
+        parameters.put("delivery", delivery.toString());
+        parameters.put("phone", phone);
+        parameters.put("email", email);
 
         try {
             HttpResponse<String> response = Unirest.post(webPageAddress)

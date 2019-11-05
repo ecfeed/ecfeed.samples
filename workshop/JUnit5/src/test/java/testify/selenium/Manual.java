@@ -95,7 +95,7 @@ public class Manual {
     }
 
     @Test
-    void seleniumSetGet() {
+    void seleniumValidate() {
 
         FirefoxDriver driver = new FirefoxDriver();
         driver.get(webPageAddress);

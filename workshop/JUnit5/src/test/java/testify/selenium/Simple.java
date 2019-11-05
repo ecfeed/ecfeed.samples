@@ -113,8 +113,8 @@ public class Simple {
 
     @EcFeedTest
     @EcFeedModel("9835-3029-2264-1682-5114")
-    @EcFeedInput("'method':'com.ecfeed.Model.simple', 'dataSource':'genNWise', 'n':'2', 'coverage':'100'")
-    void seleniumSetGet(String country, String name, String address, String product, String color, String size, String quantity, String payment, String delivery, String phone, String email) {
+    @EcFeedInput("'method':'com.ecfeed.Model.simple', 'dataSource':'genNWise', 'constraints':'NONE'")
+    void seleniumValidate(String country, String name, String address, String product, String color, String size, String quantity, String payment, String delivery, String phone, String email) {
 
         String[][] input = {
                 {name, address, quantity, phone, email},

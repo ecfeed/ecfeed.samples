@@ -114,8 +114,8 @@ public class Extended {
 
     @EcFeedTest
     @EcFeedModel("9835-3029-2264-1682-5114")
-    @EcFeedInput("'method':'com.ecfeed.Model.extended', 'dataSource':'genNWise', 'n':'2', 'coverage':'100'")
-    void seleniumSetGet(Country country, String name, String address, Product product, Color color, Size size, int quantity, Payment payment, Delivery delivery, String phone, String email) {
+    @EcFeedInput("'method':'com.ecfeed.Model.extended', 'dataSource':'genNWise', 'constraints':'NONE'")
+    void seleniumValidate(Country country, String name, String address, Product product, Color color, Size size, int quantity, Payment payment, Delivery delivery, String phone, String email) {
 
         String[][] input = {
                 {name, address, quantity + "", phone, email},
