@@ -199,7 +199,7 @@ const validateField = {
             return `[F] Sorry, the phone number incorrect correct '${phone}'. Please correct it and try again.`
         }  
 
-        switch (test.country) {
+        switch (test.country.toLowerCase()) {
             case 'norway':
                 if (!phone.startsWith('+47')) {
                     return "[F] The prefix to Norway must be '+47'. Please correct the value."
