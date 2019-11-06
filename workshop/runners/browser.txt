@@ -1,0 +1,3 @@
+1) Import the security.p12 keystore to the browser.
+
+https://gen.ecfeed.com/testCaseService?requestType=requestData&request=%7B%22method%22:%22void com.ecfeed.Model.simple(String,String,String,String,String,String,String,String,String,String,String)%22,%22model%22:%229835-3029-2264-1682-5114%22,%22userData%22:%22%7B%27dataSource%27:%27genNWise%27, %27constraints%27:%27NONE%27%7D%22,%22sessionId%22:0%7D

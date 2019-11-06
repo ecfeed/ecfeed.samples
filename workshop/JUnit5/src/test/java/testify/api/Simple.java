@@ -17,7 +17,7 @@ public class Simple {
 //------------------------------------------------------------------------------
 
     // The endpoint address.
-    private static final String webPageAddress = "https://api.ecfeed.com/";
+    private static final String webPageAddress = "https://workshop-2019-november-api.ecfeed.com";
 
 //------------------------------------------------------------------------------
 
