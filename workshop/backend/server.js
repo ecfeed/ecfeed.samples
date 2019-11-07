@@ -13,7 +13,13 @@ app.get('/*', (req, res) => {
 
 app.post('/*', (req, res) => {
     const mode = url.parse(req.url, true).query.mode;
-    return res.send(validate.validate(req.query, mode ? mode : 'standard', true));
+    if (mode) {
+        delete req.query.mode;
+        return res.send(validate.validate(req.query, mode, true));
+    } else {
+        return res.send(validate.validate(req.query, 'standard', true));
+    }
+
 });
 
 app.listen(port, () => console.log(`Application listening on port ${port}!\n`));
