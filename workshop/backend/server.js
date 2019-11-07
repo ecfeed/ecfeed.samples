@@ -12,7 +12,7 @@ app.get('/*', (req, res) => {
 });
 
 app.post('/*', (req, res) => {
-    const mode = url.parse(req.url, true).query.mode;console.log(mode)
+    const mode = url.parse(req.url, true).query.mode;console.log(mode ? mode : 'standard')
     return res.send(validate.validate(req.query, mode ? mode : 'standard', true));
 });
 
