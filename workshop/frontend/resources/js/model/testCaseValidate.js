@@ -18,7 +18,7 @@ export const validate = (test, mode = 'standard', api = false) => {
         }
     }
    
-    for (const value in test) {
+    for (const value in test) {console.log(value)
         validateField(test, response)[value](test[value].trim());
     }
 
