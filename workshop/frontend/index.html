@@ -50,14 +50,14 @@
 
             <div class="row alignment-center">
                 <div class="col span-1-of-3">
-                    <ion-icon name="airplane" class="icon"></ion-icon>
-                    <h2>Shipment</h2>
-                    <p>Provide information that should be included in the invoice.</p>
-                </div>
-                <div class="col span-1-of-3">
                     <ion-icon name="cart" class="icon"></ion-icon>
                     <h2>Product</h2>
                     <p>Have in mind that different products are available in distinct colors.</p>
+                </div>
+                <div class="col span-1-of-3">
+                    <ion-icon name="airplane" class="icon"></ion-icon>
+                    <h2>Shipment</h2>
+                    <p>Provide information that should be included in the invoice.</p>
                 </div>
                 <div class="col span-1-of-3">
                     <ion-icon name="card" class="icon"></ion-icon>
@@ -74,37 +74,7 @@
 
             <form id="form">
                 <div class="row">
-                    <div class="col span-1-of-3">
-                        <div class="row">
-                            <div class="col span-1-of-2">
-                                <label for="country">Country:</label>
-                            </div>
-                            <div class="col span-1-of-2">
-                                <select id="country" name="country" autocomplete="off">
-                                    <option value="norway" selected>Norway</option>
-                                    <option value="poland">Poland</option>
-                                    <option value="other">other</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col span-1-of-2">
-                                <label for="name">Name:</label>
-                            </div>
-                            <div class="col span-1-of-2">
-                                <input type="text" id="name" name="name" placeholder="Hanna Larsen" autocomplete="off">
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col span-1-of-2">
-                                <label for="address">Address:</label>
-                            </div>
-                            <div class="col span-1-of-2">
-                                <textarea rows="2" id="address" name="address" placeholder="Holme 153,&#10;1675 Kråkerøy" autocomplete="off"></textarea>
-                            </div>
-                        </div>
-                    </div>
-                    
+
                     <div class="col span-1-of-3">
                         <div class="row">
                             <div class="col span-1-of-2">
@@ -151,6 +121,38 @@
                             </div>
                         </div>
                     </div>
+
+                    <div class="col span-1-of-3">
+                        <div class="row">
+                            <div class="col span-1-of-2">
+                                <label for="country">Country:</label>
+                            </div>
+                            <div class="col span-1-of-2">
+                                <select id="country" name="country" autocomplete="off">
+                                    <option value="norway" selected>Norway</option>
+                                    <option value="poland">Poland</option>
+                                    <option value="other">other</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col span-1-of-2">
+                                <label for="name">Name:</label>
+                            </div>
+                            <div class="col span-1-of-2">
+                                <input type="text" id="name" name="name" placeholder="Hanna Larsen" autocomplete="off">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col span-1-of-2">
+                                <label for="address">Address:</label>
+                            </div>
+                            <div class="col span-1-of-2">
+                                <textarea rows="2" id="address" name="address" placeholder="Holme 153,&#10;1675 Kråkerøy" autocomplete="off"></textarea>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="col span-1-of-3">
                         <div class="row">
                             <div class="col span-1-of-2">
@@ -211,13 +213,13 @@
                         <label for="status">Status:</label>
                     </div>
                     <div class="col span-1-of-4">
-                        <input type="text" id="status" name="status" placeholder="" autocomplete="off" disabled>
+                        <input type="text" id="status" name="status" autocomplete="off" class="background-gray" disabled>
                     </div>
                      <div class="col span-1-of-4">
                         <label for="status">Time:</label>
                     </div>
                     <div class="col span-1-of-4">
-                        <input type="text" id="time" name="time" placeholder="" autocomplete="off" disabled>
+                        <input type="text" id="time" name="time" autocomplete="off" class="background-gray" disabled>
                     </div>
                 </div>
                 
@@ -226,7 +228,7 @@
                         <label for="response">Response:</label>
                     </div>
                     <div class="col span-5-of-6">
-                        <textarea rows="4" id="response" name="response" placeholder="" autocomplete="off" disabled></textarea>
+                        <textarea rows="4" id="response" name="response" autocomplete="off"  class="background-gray" disabled></textarea>
                     </div>
                 </div>
 
@@ -244,7 +246,7 @@
         <section class="section-additional">
             <div class="row">
                 <div class="col span-6-of-6">
-                    <ul>
+                    <ul id="driver-buttons" class="hidden">
                         <li><a class="btn btn-main" id="submenu-complete">Complete</a></li>
                         <li><a class="btn btn-main" id="submenu-clear">Clear</a></li>
                         <li><a class="btn btn-main" id="submenu-model" href="resources/data/workshop.zip" download>Download</a></li>

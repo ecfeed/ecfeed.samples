@@ -7,7 +7,9 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.Select;
 
 import java.util.Arrays;
@@ -19,13 +21,16 @@ public class Simple {
 
 //------------------------------------------------------------------------------
 
-    // The location of the driver (it can be downloaded from 'https://github.com/mozilla/geckodriver/releases').
+    // FireFox - The location of the driver (it can be downloaded from 'https://chromedriver.chromium.org/downloads').
     private static final String webDriver = "/home/krzysztof/geckodriver";
+
+    // Chrome - The location of the driver (it can be downloaded from 'https://github.com/mozilla/geckodriver/releases').
+    // private static final String webDriver = "/home/krzysztof/chromedriver";
 
 //------------------------------------------------------------------------------
 
     // The address of the web page.
-    private static final String webPageAddress = "http://www.workshop-2019-november.ecfeed.com/";
+    private static final String webPageAddress = "http://www.workshop-2019-november.ecfeed.com/?mode=error";
 
     // Web page elements used to trigger an action.
     private static final String[] webPageFormExecute = { "submit" };
@@ -41,20 +46,20 @@ public class Simple {
 
 //------------------------------------------------------------------------------
 
-    private static void setForm(FirefoxDriver driver, String[][] values) throws IllegalArgumentException {
+    private static void setForm(RemoteWebDriver driver, String[][] values) throws IllegalArgumentException {
         validateInput(webPageFormInput, values);
 
         setFormText(driver, values[0]);
         setFormSelect(driver, values[1]);
     }
 
-    private static void execute(FirefoxDriver driver) {
+    private static void execute(RemoteWebDriver driver) {
         for (String element : webPageFormExecute) {
             driver.findElementById(element).click();
         }
     }
 
-    private static String[] getResponse(FirefoxDriver driver) {
+    private static String[] getResponse(RemoteWebDriver driver) {
         String[] response = new String[webPageFormOutput.length];
 
         for (int i = 0 ; i < webPageFormOutput.length ; i++) {
@@ -66,7 +71,7 @@ public class Simple {
 
 //------------------------------------------------------------------------------
 
-    private static void setFormText(FirefoxDriver driver, String[] values) {
+    private static void setFormText(RemoteWebDriver driver, String[] values) {
         for (int i = 0 ; i < webPageFormInput[0].length ; i++) {
             WebElement element = driver.findElementById(webPageFormInput[0][i]);
             element.clear();
@@ -74,7 +79,7 @@ public class Simple {
         }
     }
 
-    private static void setFormSelect(FirefoxDriver driver, String[] values) {
+    private static void setFormSelect(RemoteWebDriver driver, String[] values) {
         for (int i = 0 ; i < webPageFormInput[1].length ; i++) {
             (new Select(driver.findElementById(webPageFormInput[1][i]))).selectByVisibleText(values[i]);
         }
@@ -96,13 +101,16 @@ public class Simple {
 
 //------------------------------------------------------------------------------
 
-    private static FirefoxDriver driver;
+    private static RemoteWebDriver driver;
 
     @BeforeAll
     static void beforeAll() {
         System.setProperty("webdriver.gecko.driver", webDriver);
-
         driver = new FirefoxDriver();
+
+//      System.setProperty("webdriver.chrome.driver", webDriver);
+//      driver = new ChromeDriver();
+
         driver.get(webPageAddress);
     }
 
@@ -113,7 +121,7 @@ public class Simple {
 
     @EcFeedTest
     @EcFeedModel("9835-3029-2264-1682-5114")
-    @EcFeedInput("'method':'com.ecfeed.Model.simple', 'dataSource':'genNWise', 'constraints':'NONE'")
+    @EcFeedInput("'method':'com.ecfeed.Model.simple', 'dataSource':'genNWise', 'constraints':'ALL'")
     void seleniumValidate(String country, String name, String address, String product, String color, String size, String quantity, String payment, String delivery, String phone, String email) {
 
         String[][] input = {
@@ -138,6 +146,6 @@ public class Simple {
         String[] response = getResponse(driver);
         Arrays.stream(response).forEach(System.out::println);
 
-        assertTrue(response[0].equals("Request accepted"), "The order was not processed");
+        assertTrue(response[0].equals(" Request accepted"), "The order was not processed");
     }
 }

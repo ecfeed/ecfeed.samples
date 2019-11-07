@@ -3,7 +3,9 @@ package testify.selenium;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.Select;
 
 import java.util.Arrays;
@@ -14,8 +16,11 @@ public class Manual {
 
 //------------------------------------------------------------------------------
 
-    // The location of the driver (it can be downloaded from 'https://github.com/mozilla/geckodriver/releases').
+    // FireFox - The location of the driver (it can be downloaded from 'https://chromedriver.chromium.org/downloads').
     private static final String webDriver = "/home/krzysztof/geckodriver";
+
+    // Chrome - The location of the driver (it can be downloaded from 'https://github.com/mozilla/geckodriver/releases').
+    // private static final String webDriver = "/home/krzysztof/chromedriver";
 
 //------------------------------------------------------------------------------
 
@@ -36,20 +41,20 @@ public class Manual {
 
 //------------------------------------------------------------------------------
 
-    private static void setForm(FirefoxDriver driver, String[][] values) throws IllegalArgumentException {
+    private static void setForm(RemoteWebDriver driver, String[][] values) throws IllegalArgumentException {
         validateInput(webPageFormInput, values);
 
         setFormText(driver, values[0]);
         setFormSelect(driver, values[1]);
     }
 
-    private static void execute(FirefoxDriver driver) {
+    private static void execute(RemoteWebDriver driver) {
         for (String element : webPageFormExecute) {
             driver.findElementById(element).click();
         }
     }
 
-    private static String[] getResponse(FirefoxDriver driver) {
+    private static String[] getResponse(RemoteWebDriver driver) {
         String[] response = new String[webPageFormOutput.length];
 
         for (int i = 0 ; i < webPageFormOutput.length ; i++) {
@@ -61,13 +66,13 @@ public class Manual {
 
 //------------------------------------------------------------------------------
 
-    private static void setFormText(FirefoxDriver driver, String[] values) {
+    private static void setFormText(RemoteWebDriver driver, String[] values) {
         for (int i = 0 ; i < webPageFormInput[0].length ; i++) {
             driver.findElementById(webPageFormInput[0][i]).sendKeys(values[i]);
         }
     }
 
-    private static void setFormSelect(FirefoxDriver driver, String[] values) {
+    private static void setFormSelect(RemoteWebDriver driver, String[] values) {
         for (int i = 0 ; i < webPageFormInput[1].length ; i++) {
             (new Select(driver.findElementById(webPageFormInput[1][i]))).selectByVisibleText(values[i]);
         }
@@ -92,12 +97,15 @@ public class Manual {
     @BeforeAll
     static void beforeAll() {
         System.setProperty("webdriver.gecko.driver", webDriver);
+//      System.setProperty("webdriver.chrome.driver", webDriver);
     }
 
     @Test
     void seleniumValidate() {
 
-        FirefoxDriver driver = new FirefoxDriver();
+        RemoteWebDriver driver = new FirefoxDriver();
+//      driver = new ChromeDriver();
+
         driver.get(webPageAddress);
 
         String[][] input = {

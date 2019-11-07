@@ -9,7 +9,7 @@ import * as showWindow from './view/showWindow.js';
 
 formElements.submit.addEventListener('click', () => {
     formManipulate.updateTime();
-    internalDriver.processTestCase(testCaseValidate.validate(formManipulate.getValues()));
+    internalDriver.processTestCase(testCaseValidate.validate(formManipulate.getValues(), formElements.errorMode ? 'error' : 'standard'));
 })
 
 formElements.product.addEventListener('input', () => {

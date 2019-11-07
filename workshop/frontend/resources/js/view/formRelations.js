@@ -6,6 +6,10 @@ export const initialSetup = () => {
     optionAdd(formElements.color, formElements.color_red, formElements.color_green, formElements.color_blue);
     optionAdd(formElements.payment, formElements.payment_cash_on_delivery);
     optionAdd(formElements.delivery, formElements.delivery_express);
+
+    if (formElements.displayDriver) {
+        document.getElementById('driver-buttons').classList.remove('hidden');
+    }
 }
 
 export const updateProduct = () => {

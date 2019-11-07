@@ -101,6 +101,10 @@ body {
     margin: 0 auto;
 }
 
+.hidden {
+    display: none;
+}
+
 .icon {
     display: inline-block;
     height: 40px;
@@ -119,6 +123,20 @@ body {
 
 .alignment-right {
     text-align: right;
+}
+
+.background-gray {
+    background-color: rgba(245, 245, 245, 1);
+    border: 1px solid rgba(205, 205, 205, 1);
+    color: rgba(125, 125, 125, 1);
+}
+
+.foreground-green {
+    color: rgba(92,142,95,1);
+}
+
+.foreground-red {
+    color: rgba(165,98,100,1);
 }
 
 .btn {
