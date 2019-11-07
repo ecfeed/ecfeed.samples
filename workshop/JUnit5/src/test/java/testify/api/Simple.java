@@ -17,13 +17,13 @@ public class Simple {
 //------------------------------------------------------------------------------
 
     // The endpoint address.
-    private static final String webPageAddress = "https://workshop-2019-november-api.ecfeed.com";
+    private static final String webPageAddress = "https://workshop-2019-november-api.ecfeed.com/?mode=error";
 
 //------------------------------------------------------------------------------
 
     @EcFeedTest
     @EcFeedModel("9835-3029-2264-1682-5114")
-    @EcFeedInput("'method':'com.ecfeed.Model.simple', 'dataSource':'genNWise', 'constraints':'NONE'")
+    @EcFeedInput("'method':'com.ecfeed.Model.simple', 'dataSource':'genNWise', 'constraints':'ALL'")
     void apiValidate(String country, String name, String address, String product, String color, String size, String quantity, String payment, String delivery, String phone, String email) {
         Map<String, Object> parameters = new HashMap<>();
 

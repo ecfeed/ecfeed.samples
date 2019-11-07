@@ -43,3 +43,11 @@ hs_err_pid*
 *.gradletasknamecache
 
 /src/main/resources/application.properties
+workshop/runners/CSharp/src/EcFeedExample/obj/Debug/netcoreapp2.2/EcFeedExample.csproj.CoreCompileInputs.cache
+workshop/backend/node_modules/esm/node_modules/.cache/esm/.data.blob
+workshop/backend/node_modules/esm/node_modules/.cache/esm/.data.json
+workshop/runners/CSharp/src/EcFeed/obj/Debug/netstandard2.0/EcFeed.AssemblyInfo.cs
+workshop/runners/CSharp/src/EcFeed/obj/Debug/netstandard2.0/EcFeed.AssemblyInfoInputs.cache
+workshop/runners/CSharp/src/EcFeed/obj/Debug/netstandard2.0/EcFeed.csproj.CoreCompileInputs.cache
+workshop/runners/CSharp/src/EcFeedExample/obj/Debug/netcoreapp2.2/EcFeedExample.AssemblyInfo.cs
+workshop/runners/CSharp/src/EcFeedExample/obj/Debug/netcoreapp2.2/EcFeedExample.AssemblyInfoInputs.cache
