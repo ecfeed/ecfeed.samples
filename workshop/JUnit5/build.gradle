@@ -11,6 +11,10 @@ repositories {
     mavenCentral()
 }
 
+test {
+    useJUnitPlatform()
+}
+
 dependencies {
     testCompile 'org.junit.jupiter:junit-jupiter-api:5.5.1'
     testCompile 'org.junit.jupiter:junit-jupiter-engine:5.5.1'
