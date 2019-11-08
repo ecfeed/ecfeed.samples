@@ -12,6 +12,9 @@ repositories {
 }
 
 dependencies {
+    testCompile 'org.junit.jupiter:junit-jupiter-api:5.5.1'
+    testCompile 'org.junit.jupiter:junit-jupiter-engine:5.5.1'
+    testCompile 'org.junit.jupiter:junit-jupiter-params:5.5.1'
     // https://mvnrepository.com/artifact/com.ecfeed/ecfeed.junit
     compile 'com.ecfeed:ecfeed.junit:1.0.0'
     // https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-java
