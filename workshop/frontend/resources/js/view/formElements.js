@@ -53,3 +53,8 @@ payment_cash_on_delivery.appendChild(document.createTextNode('cash on delivery')
 export const delivery_express = document.createElement('option');
 delivery_express.setAttribute('value', 'express');
 delivery_express.appendChild(document.createTextNode('express'));
+
+//------------------------------------------------
+
+export const displayDriver = window.location.href.includes('driver=true');
+export const errorMode = window.location.href.includes('mode=error');

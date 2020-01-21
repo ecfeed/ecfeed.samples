@@ -4,10 +4,14 @@ import * as formRelations from './formRelations.js';
 //------------------------------------------------
 
 const footerDefaultMessage = [
+`&nbsp;<br/>&nbsp;`
+];
+
+const footerDriverMessage = [
 `To use the emdedded test execution driver, instead of JUnit5/Selenium, export test cases to the CSV format and click on 'EXECUTE'.
  Note, that during the test execution phase the main panel is not responsive (to stop the process, reload the web page). 
  The default delay between test cases is 1 second.`
-]
+];
 
 //------------------------------------------------
 
@@ -74,17 +78,31 @@ export const fillFormJSON = (json) => {
 }
 
 export const updateResponse = (status = '', message = '') => {
-    formElements.status.value = status;
+    formElements.status.value = ` ${status}`;
     formElements.response.textContent = message;
 }
 
-export const updateFooter = (message = footerDefaultMessage) => {
-    formElements.footer_message.innerHTML = message.join('<br/>');
+export const updateResponseValid = (status) => {
+    formElements.status.classList.add(status ? 'foreground-green' : 'foreground-red');
+    formElements.status.classList.remove(status ? 'foreground-red' : 'foreground-green');
+}
+
+export const updateFooter = (message) => {
+    if (message) {
+        formElements.footer_message.innerHTML = message.join('<br/>');
+    } else {
+        if (formElements.displayDriver) {
+            formElements.footer_message.innerHTML = footerDriverMessage.join('<br/>');
+        } else {
+            formElements.footer_message.innerHTML = footerDefaultMessage.join('<br/>');
+        }
+    }
+    
 }
 
 export const updateTime = () => {
     const date = new Date()
     const dateFormatted = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate() + " " 
         + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds() + ":" + date.getMilliseconds();
-    formElements.time.value = dateFormatted;
+    formElements.time.value = ` ${dateFormatted}`;
 }

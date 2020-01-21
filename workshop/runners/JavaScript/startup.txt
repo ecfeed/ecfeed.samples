@@ -1,0 +1,5 @@
+1) openssl pkcs12 -in security.p12 -out client.pem -clcerts -nokeys 
+2) openssl pkcs12 -in security.p12 -out key.pem -nocerts
+
+npm install
+node index.js

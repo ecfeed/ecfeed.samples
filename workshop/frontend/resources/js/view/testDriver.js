@@ -93,9 +93,11 @@ export const processTestCase = (response) => {
         showModal.showModalError(response.errorInput.join('\n'));
     } else if (response.errorOutput.length > 0) {
         executionStatus = 'failureOutput';
-        formManipulate.updateResponse('Request rejected', response.errorOutput.join('\n'));
+        formManipulate.updateResponse('Request rejected', response.errorOutput.map(val => `- ${val}`).join('\n'));
+        formManipulate.updateResponseValid(false);
     } else {
         formManipulate.updateResponse('Request accepted', 'Order processsed without errors! Please wait for the delivery...');
+        formManipulate.updateResponseValid(true);
     }
 
     updateResultsTestSuite(resultsTestId, response, executionStatus);
