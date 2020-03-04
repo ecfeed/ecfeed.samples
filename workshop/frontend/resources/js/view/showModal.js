@@ -6,11 +6,19 @@ import * as internalDriver from './testDriver.js';
 export const showModalError = (message) => {
     formElements.modal_message.textContent = message;
 
-    $('#modal-error').modal({
-        closeExisting: true,
-        escapeClose: false,
-        clickClose: false,
-    })
+    $('#modal-error')
+        .modal({
+            closeExisting: true,
+            escapeClose: true,
+            clickClose: false,
+        })
+        .modal({
+            position: {
+                my: "center center",
+                at: "center center",
+                of: window
+            }
+        });
 }
 
 export const showModalResults = () => {
@@ -23,10 +31,18 @@ export const showModalResults = () => {
     formElements.modal_results_failure_output.textContent = resultsTestSuite.failureOutput;
     formElements.modal_results_failure_output_id.value = resultsTestSuite.failureOutputId.join(',');
 
-    $('#modal-result').modal({
-        closeExisting: true,
-        escapeClose: false,
-        clickClose: false,
-    })
+    $('#modal-result')
+        .modal({
+            closeExisting: true,
+            escapeClose: true, 
+            clickClose: false
+        })
+        .modal({
+            position: {
+                my: "center center",
+                at: "center center",
+                of: window
+            }
+        });
 
 }
