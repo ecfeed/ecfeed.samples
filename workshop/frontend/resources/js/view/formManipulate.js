@@ -8,7 +8,7 @@ const footerDefaultMessage = [
 ];
 
 const footerDriverMessage = [
-`To use the emdedded test execution driver, instead of JUnit5/Selenium, export test cases to the CSV format and click on 'EXECUTE'.
+`To use the embedded test execution driver, instead of JUnit5/Selenium, export test cases to the CSV format and click on 'EXECUTE'.
  Note, that during the test execution phase the main panel is not responsive (to stop the process, reload the web page). 
  The default delay between test cases is 1 second.`
 ];
@@ -46,35 +46,35 @@ export const fillForm = (
         _product = 't-shirt', _color = 'white', _size = 'm', _quantity = '1',
         _payment = 'visa', _delivery = 'standard', _phone = '+47123456789', _email = 'h.larsen@data.no'
     ) => {
-        formElements.country.value = _country.replace(/[ -]/g, '_');
+        formElements.country.value = _country.toLowerCase().replace(/[ -]/g, '_');
+        formRelations.updateCountry();
+        formElements.product.value = _product.toLowerCase().replace(/[ -]/g, '_');
+        formRelations.updateProduct();
+        formElements.color.value = _color.toLowerCase().replace(/[ -]/g, '_');
+        formElements.size.value = _size.toLowerCase().replace(/[ -]/g, '_');
+        formElements.quantity.value = _quantity.toLowerCase();
+        formElements.payment.value = _payment.toLowerCase().replace(/[ -]/g, '_');
+        formElements.delivery.value = _delivery.toLowerCase().replace(/[ -]/g, '_');
         formElements.name.value = _name;
         formElements.address.value = _address;
-        formElements.product.value = _product.replace(/[ -]/g, '_');
-        formElements.color.value = _color.replace(/[ -]/g, '_');
-        formElements.size.value = _size.replace(/[ -]/g, '_');
-        formElements.quantity.value = _quantity;
-        formElements.payment.value = _payment.replace(/[ -]/g, '_');
-        formElements.delivery.value = _delivery.replace(/[ -]/g, '_');
         formElements.phone.value = _phone;
         formElements.email.value = _email;
-        formRelations.updateCountry();
-        formRelations.updateProduct();
 }
 
 export const fillFormJSON = (json) => {
-        formElements.country.value = json.country.replace(/[ -]/g, '_');
+        formElements.country.value = json.country.toLowerCase().replace(/[ -]/g, '_');
+        formRelations.updateCountry();
+        formElements.product.value = json.product.toLowerCase().replace(/[ -]/g, '_');
+        formRelations.updateProduct();
+        formElements.color.value = json.color.toLowerCase().replace(/[ -]/g, '_');
+        formElements.size.value = json.size.toLowerCase().replace(/[ -]/g, '_');
+        formElements.quantity.value = json.quantity.toLowerCase();
+        formElements.payment.value = json.payment.toLowerCase().replace(/[ -]/g, '_');
+        formElements.delivery.value = json.delivery.toLowerCase().replace(/[ -]/g, '_');
         formElements.name.value = json.name;
         formElements.address.value = json.address;
-        formElements.product.value = json.product.replace(/[ -]/g, '_');
-        formElements.color.value = json.color.replace(/[ -]/g, '_');
-        formElements.size.value = json.size.replace(/[ -]/g, '_');
-        formElements.quantity.value = json.quantity;
-        formElements.payment.value = json.payment.replace(/[ -]/g, '_');
-        formElements.delivery.value = json.delivery.replace(/[ -]/g, '_');
         formElements.phone.value = json.phone;
-        formElements.email.value = json.email;
-        formRelations.updateCountry();
-        formRelations.updateProduct();
+        formElements.email.value = json.email; 
 }
 
 export const updateResponse = (status = '', message = '') => {
