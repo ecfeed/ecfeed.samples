@@ -31,7 +31,7 @@ public class Extended {
 //------------------------------------------------------------------------------
 
     // The address of the web page.
-    private static final String webPageAddress = "http://www.workshop-2019-november.ecfeed.com/?mode=error";
+    private static final String webPageAddress = "http://www.workshop-2020-march.ecfeed.com";
 
     // Web page elements used to trigger an action.
     private static final String[] webPageFormExecute = { "submit" };
@@ -82,7 +82,7 @@ public class Extended {
 
     private static void setFormSelect(RemoteWebDriver driver, String[] values) {
         for (int i = 0 ; i < webPageFormInput[1].length ; i++) {
-            (new Select(driver.findElementById(webPageFormInput[1][i]))).selectByValue(values[i]);
+            (new Select(driver.findElementById(webPageFormInput[1][i]))).selectByValue(values[i].toLowerCase());
         }
     }
 
@@ -121,8 +121,8 @@ public class Extended {
     }
 
     @EcFeedTest
-    @EcFeedModel("9835-3029-2264-1682-5114")
-    @EcFeedInput("'method':'com.ecfeed.Model.extended', 'dataSource':'genNWise', 'constraints':'ALL'")
+    @EcFeedModel("0603-5525-0414-9188-9919")
+    @EcFeedInput("'method':'com.example.test.Demo.extended', 'dataSource':'genNWise', 'constraints':'NONE'")
     void seleniumValidate(Country country, String name, String address, Product product, Color color, Size size, int quantity, Payment payment, Delivery delivery, String phone, String email) {
 
         String[][] input = {

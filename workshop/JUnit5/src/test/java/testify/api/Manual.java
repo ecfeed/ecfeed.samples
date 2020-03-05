@@ -15,7 +15,7 @@ public class Manual {
 //------------------------------------------------------------------------------
 
     // The endpoint address.
-    private static final String webPageAddress = "https://workshop-2019-november-api.ecfeed.com/?mode=error";
+    private static final String webPageAddress = "https://workshop-2020-march-api.ecfeed.com";
 
 //------------------------------------------------------------------------------
 
@@ -25,10 +25,10 @@ public class Manual {
 
         parameters.put("country", "Poland");
         parameters.put("name", "Krzysztof Skorupski");
-        parameters.put("address", "Somewhere in Poland");
+        parameters.put("address", "Za gorami za lasami 26");
         parameters.put("product", "hoodie");
         parameters.put("color", "black");
-        parameters.put("size", "l");
+        parameters.put("size", "L");
         parameters.put("quantity", "5");
         parameters.put("payment", "bank transfer");
         parameters.put("delivery", "standard");

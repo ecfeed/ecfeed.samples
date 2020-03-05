@@ -2,7 +2,7 @@ plugins {
     id 'java'
 }
 
-group 'workshop-2019-november'
+group 'workshop-2020-march'
 version '1.0-SNAPSHOT'
 
 sourceCompatibility = 1.8

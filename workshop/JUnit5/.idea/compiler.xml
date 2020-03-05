@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <bytecodeTargetLevel>
+      <module name="workshop-2019-november.main" target="1.8" />
+      <module name="workshop-2019-november.test" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+</project>

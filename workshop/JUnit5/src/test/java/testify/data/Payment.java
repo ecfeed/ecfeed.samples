@@ -1,5 +1,5 @@
 package testify.data;
 
 public enum Payment {
-    visa, mastercard, bank_transfer, cash_on_delivery
+    VISA, MASTERCARD, bank_transfer, cash_on_delivery
 }

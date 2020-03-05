@@ -30,7 +30,7 @@ public class Simple {
 //------------------------------------------------------------------------------
 
     // The address of the web page.
-    private static final String webPageAddress = "http://www.workshop-2019-november.ecfeed.com/?mode=error";
+    private static final String webPageAddress = "http://www.workshop-2020-march.ecfeed.com";
 
     // Web page elements used to trigger an action.
     private static final String[] webPageFormExecute = { "submit" };
@@ -120,8 +120,8 @@ public class Simple {
     }
 
     @EcFeedTest
-    @EcFeedModel("9835-3029-2264-1682-5114")
-    @EcFeedInput("'method':'com.ecfeed.Model.simple', 'dataSource':'genNWise', 'constraints':'ALL'")
+    @EcFeedModel("0603-5525-0414-9188-9919")
+    @EcFeedInput("'method':'com.example.test.Demo.simple', 'dataSource':'genNWise', 'constraints':'NONE'")
     void seleniumValidate(String country, String name, String address, String product, String color, String size, String quantity, String payment, String delivery, String phone, String email) {
 
         String[][] input = {

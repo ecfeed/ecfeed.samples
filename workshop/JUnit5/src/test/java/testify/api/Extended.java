@@ -18,13 +18,13 @@ public class Extended {
 //------------------------------------------------------------------------------
 
     // The endpoint address.
-    private static final String webPageAddress = "https://workshop-2019-november-api.ecfeed.com/?mode=error";
+    private static final String webPageAddress = "https://workshop-2020-march-api.ecfeed.com";
 
 //------------------------------------------------------------------------------
 
     @EcFeedTest
-    @EcFeedModel("9835-3029-2264-1682-5114")
-    @EcFeedInput("'method':'com.ecfeed.Model.extended', 'dataSource':'genNWise', 'constraints':'ALL'")
+    @EcFeedModel("0603-5525-0414-9188-9919")
+    @EcFeedInput("'method':'com.example.test.Demo.extended', 'dataSource':'genNWise', 'constraints':'NONE'")
     void apiValidate(Country country, String name, String address, Product product, Color color, Size size, int quantity, Payment payment, Delivery delivery, String phone, String email) {
         Map<String, Object> parameters = new HashMap<>();
 

@@ -1,5 +1,5 @@
 package testify.data;
 
 public enum Country {
-    poland, norway, other
+    Poland, Norway, other
 }

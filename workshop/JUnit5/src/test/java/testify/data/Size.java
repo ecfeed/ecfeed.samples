@@ -1,5 +1,5 @@
 package testify.data;
 
 public enum Size {
-    xs, s, m, l, xl
+    XS, S, M, L, XL
 }

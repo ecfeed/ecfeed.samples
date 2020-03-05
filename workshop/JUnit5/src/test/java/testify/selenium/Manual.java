@@ -25,7 +25,7 @@ public class Manual {
 //------------------------------------------------------------------------------
 
     // The address of the web page.
-    private static final String webPageAddress = "http://www.workshop-2019-november.ecfeed.com/";
+    private static final String webPageAddress = "http://www.workshop-2020-march.ecfeed.com";
 
     // Web page elements used to trigger an action.
     private static final String[] webPageFormExecute = { "submit" };
