@@ -1,4 +1,4 @@
-package testify.selenium;
+package testify.runner.selenium;
 
 import com.ecfeed.junit.annotation.EcFeedInput;
 import com.ecfeed.junit.annotation.EcFeedModel;
@@ -18,28 +18,24 @@ import java.util.Arrays;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
-public class Extended {
+public class TypeVarious {
+
+// The following test uses the 'ecFeed' library.
+// It is very similar to the previous one, the only difference is that not all parameters are strings.
 
 //------------------------------------------------------------------------------
 
-    // FireFox - The location of the driver (it can be downloaded from 'https://chromedriver.chromium.org/downloads').
-    private static final String webDriver = "/home/krzysztof/geckodriver";
-
-    // Chrome - The location of the driver (it can be downloaded from 'https://github.com/mozilla/geckodriver/releases').
-    // private static final String webDriver = "/home/krzysztof/chromedriver";
+    private static final String webDriver = "/home/krzysztof/geckodriver";      // If you want to use the 'chrome' driver, comment this line.
+    // private static final String webDriver = "/home/krzysztof/chromedriver";  // If you want to use the 'chrome' driver, uncomment this line.
 
 //------------------------------------------------------------------------------
 
-    // The address of the web page.
     private static final String webPageAddress = "http://www.workshop-2020-march.ecfeed.com";
 
-    // Web page elements used to trigger an action.
     private static final String[] webPageFormExecute = { "submit" };
 
-    // Web page elements which describe the outcome of an action.
     private static final String[] webPageFormOutput = { "status", "response" };
 
-    // Web page elements which must be filled before triggering an action.
     private static final String[][] webPageFormInput = {
             {"name", "address", "quantity", "phone", "email"},                  // Input type - Text.
             {"country", "product", "color", "size", "payment", "delivery"}      // Input type - Select.
@@ -52,6 +48,34 @@ public class Extended {
 
         setFormText(driver, values[0]);
         setFormSelect(driver, values[1]);
+    }
+
+    private static void validateInput(String[][] reference, String[][] input)
+            throws IllegalArgumentException {
+
+        if (input.length != 2) {
+            throw new IllegalArgumentException("The dimension of the input array is incorrect.");
+        }
+        if (reference[0].length != input[0].length) {
+            throw new IllegalArgumentException("The number of the input text fields is incorrect.");
+        }
+        if (reference[1].length != input[1].length) {
+            throw new IllegalArgumentException("The number of the input select fields is incorrect.");
+        }
+    }
+
+    private static void setFormText(RemoteWebDriver driver, String[] values) {
+        for (int i = 0 ; i < webPageFormInput[0].length ; i++) {
+            WebElement element = driver.findElementById(webPageFormInput[0][i]);
+            element.clear();
+            element.sendKeys(values[i]);
+        }
+    }
+
+    private static void setFormSelect(RemoteWebDriver driver, String[] values) {
+        for (int i = 0 ; i < webPageFormInput[1].length ; i++) {
+            (new Select(driver.findElementById(webPageFormInput[1][i]))).selectByValue(values[i].toLowerCase());
+        }
     }
 
     private static void execute(RemoteWebDriver driver) {
@@ -72,46 +96,14 @@ public class Extended {
 
 //------------------------------------------------------------------------------
 
-    private static void setFormText(RemoteWebDriver driver, String[] values) {
-        for (int i = 0 ; i < webPageFormInput[0].length ; i++) {
-            WebElement element = driver.findElementById(webPageFormInput[0][i]);
-            element.clear();
-            element.sendKeys(values[i]);
-        }
-    }
-
-    private static void setFormSelect(RemoteWebDriver driver, String[] values) {
-        for (int i = 0 ; i < webPageFormInput[1].length ; i++) {
-            (new Select(driver.findElementById(webPageFormInput[1][i]))).selectByValue(values[i].toLowerCase());
-        }
-    }
-
-    private static void validateInput(String[][] reference, String[][] input)
-            throws IllegalArgumentException {
-
-        if (input.length != 2) {
-            throw new IllegalArgumentException("The dimension of the input array is incorrect.");
-        }
-        if (reference[0].length != input[0].length) {
-            throw new IllegalArgumentException("The number of the input text fields is incorrect.");
-        }
-        if (reference[1].length != input[1].length) {
-            throw new IllegalArgumentException("The number of the input select fields is incorrect.");
-        }
-    }
-
-//------------------------------------------------------------------------------
-
     private static RemoteWebDriver driver;
 
     @BeforeAll
     static void beforeAll() {
-        System.setProperty("webdriver.gecko.driver", webDriver);
-        driver = new FirefoxDriver();
-
-//      System.setProperty("webdriver.chrome.driver", webDriver);
-//      driver = new ChromeDriver();
-
+        System.setProperty("webdriver.gecko.driver", webDriver);        // If you want to use the 'chrome' driver, comment this line.
+        driver = new FirefoxDriver();                                   // If you want to use the 'chrome' driver, comment this line.
+//      System.setProperty("webdriver.chrome.driver", webDriver);       // If you want to use the 'chrome' driver, uncomment this line
+//      driver = new ChromeDriver();                                    // If you want to use the 'chrome' driver, uncomment this line
         driver.get(webPageAddress);
     }
 
@@ -122,7 +114,7 @@ public class Extended {
 
     @EcFeedTest
     @EcFeedModel("0603-5525-0414-9188-9919")
-    @EcFeedInput("'method':'com.example.test.Demo.extended', 'dataSource':'genNWise', 'constraints':'NONE'")
+    @EcFeedInput("'method':'com.example.test.Demo.typeVarious', 'dataSource':'genNWise', 'constraints':'NONE'")
     void seleniumValidate(Country country, String name, String address, Product product, Color color, Size size, int quantity, Payment payment, Delivery delivery, String phone, String email) {
 
         String[][] input = {
@@ -130,11 +122,7 @@ public class Extended {
                 {country.toString(), product.toString(), color.toString(), size.toString(), payment.toString(), delivery.toString()}
         };
 
-        try {
-            setForm(driver, input);
-        } catch (NoSuchElementException e) {
-            fail();
-        }
+        setForm(driver, input);
 
         try {
             Thread.sleep(1000);
@@ -149,4 +137,7 @@ public class Extended {
 
         assertTrue(response[0].equals(" Request accepted"), "The order was not processed");
     }
+
+//------------------------------------------------------------------------------
+
 }

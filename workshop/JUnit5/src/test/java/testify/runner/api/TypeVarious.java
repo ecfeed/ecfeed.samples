@@ -1,4 +1,4 @@
-package testify.api;
+package testify.runner.api;
 
 import com.ecfeed.junit.annotation.EcFeedInput;
 import com.ecfeed.junit.annotation.EcFeedModel;
@@ -13,18 +13,20 @@ import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class Extended {
+public class TypeVarious {
+
+// The following test uses the 'ecFeed' library.
+// It is very similar to the previous one, the only difference is that not all parameters are strings.
 
 //------------------------------------------------------------------------------
 
-    // The endpoint address.
-    private static final String webPageAddress = "https://workshop-2020-march-api.ecfeed.com";
+    private static final String webPageAddress = "https://api.ecfeed.com";
 
 //------------------------------------------------------------------------------
 
     @EcFeedTest
     @EcFeedModel("0603-5525-0414-9188-9919")
-    @EcFeedInput("'method':'com.example.test.Demo.extended', 'dataSource':'genNWise', 'constraints':'NONE'")
+    @EcFeedInput("'method':'com.example.test.Demo.typeVarious', 'dataSource':'genNWise', 'constraints':'NONE'")
     void apiValidate(Country country, String name, String address, Product product, Color color, Size size, int quantity, Payment payment, Delivery delivery, String phone, String email) {
         Map<String, Object> parameters = new HashMap<>();
 
@@ -41,16 +43,14 @@ public class Extended {
         parameters.put("email", email);
 
         try {
-            HttpResponse<String> response = Unirest.post(webPageAddress)
-                .queryString(parameters)
-                .asString();
+            HttpResponse<String> response = Unirest.post(webPageAddress).queryString(parameters).asString();
 
-            String body = response.getBody();
-            System.out.println(body);
+            String responseBody = response.getBody();
+            System.out.println(responseBody);
 
             assertAll("The returned JSON file contains error description(s).",
-                () -> assertTrue(body.contains("\"errorInput\":[]"), "The list of input errors is not empty."),
-                () -> assertTrue(body.contains("\"errorOutput\":[]"), "The list of output errors is not empty.")
+                () -> assertTrue(responseBody.contains("\"errorInput\":[]"), "The list of input errors is not empty."),
+                () -> assertTrue(responseBody.contains("\"errorOutput\":[]"), "The list of output errors is not empty.")
             );
 
         } catch (UnirestException e) {
@@ -59,4 +59,7 @@ public class Extended {
         }
 
     }
+
+//------------------------------------------------------------------------------
+
 }
