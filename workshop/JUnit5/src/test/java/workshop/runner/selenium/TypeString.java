@@ -1,13 +1,11 @@
-package testify.runner.selenium;
+package workshop.runner.selenium;
 
 import com.ecfeed.junit.annotation.EcFeedInput;
 import com.ecfeed.junit.annotation.EcFeedModel;
 import com.ecfeed.junit.annotation.EcFeedTest;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
-import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.Select;

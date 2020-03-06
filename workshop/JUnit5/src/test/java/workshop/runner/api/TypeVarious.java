@@ -1,4 +1,4 @@
-package testify.runner.api;
+package workshop.runner.api;
 
 import com.ecfeed.junit.annotation.EcFeedInput;
 import com.ecfeed.junit.annotation.EcFeedModel;
@@ -6,7 +6,7 @@ import com.ecfeed.junit.annotation.EcFeedTest;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
-import testify.data.*;
+import workshop.data.*;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -1,4 +1,4 @@
-package testify.runner.api;
+package workshop.runner.api;
 
 import com.ecfeed.junit.annotation.EcFeedInput;
 import com.ecfeed.junit.annotation.EcFeedModel;

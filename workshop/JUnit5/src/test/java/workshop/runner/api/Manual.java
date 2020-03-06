@@ -1,4 +1,4 @@
-package testify.runner.api;
+package workshop.runner.api;
 
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.Unirest;
