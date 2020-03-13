@@ -1,9 +1,0 @@
-/home/krzysztof/ecfeed.super/samples/workshop/runners/CSharp/src/EcFeed/bin/Debug/netstandard2.0/EcFeed.deps.json
-/home/krzysztof/ecfeed.super/samples/workshop/runners/CSharp/src/EcFeed/bin/Debug/netstandard2.0/EcFeed.dll
-/home/krzysztof/ecfeed.super/samples/workshop/runners/CSharp/src/EcFeed/bin/Debug/netstandard2.0/EcFeed.pdb
-/home/krzysztof/ecfeed.super/samples/workshop/runners/CSharp/src/EcFeed/obj/Debug/netstandard2.0/EcFeed.csprojAssemblyReference.cache
-/home/krzysztof/ecfeed.super/samples/workshop/runners/CSharp/src/EcFeed/obj/Debug/netstandard2.0/EcFeed.csproj.CoreCompileInputs.cache
-/home/krzysztof/ecfeed.super/samples/workshop/runners/CSharp/src/EcFeed/obj/Debug/netstandard2.0/EcFeed.AssemblyInfoInputs.cache
-/home/krzysztof/ecfeed.super/samples/workshop/runners/CSharp/src/EcFeed/obj/Debug/netstandard2.0/EcFeed.AssemblyInfo.cs
-/home/krzysztof/ecfeed.super/samples/workshop/runners/CSharp/src/EcFeed/obj/Debug/netstandard2.0/EcFeed.dll
-/home/krzysztof/ecfeed.super/samples/workshop/runners/CSharp/src/EcFeed/obj/Debug/netstandard2.0/EcFeed.pdb
