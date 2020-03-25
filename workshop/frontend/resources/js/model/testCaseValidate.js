@@ -17,7 +17,7 @@ export const validate = (test, mode = 'standard', api = false) => {
             return response;
         }
     }
-   
+
     for (const value in test) {
         validateField(test, response)[value](test[value].trim());
     }
@@ -96,10 +96,10 @@ const validateInputErrors = (test) => {
 //------------------------------------------------
 
 const processErrorMode = (test, response) => {
-    breakRealationProductColor(test, response);
+    breakRelationProductColor(test, response);
 }
 
-const breakRealationProductColor = (test, response) => {
+const breakRelationProductColor = (test, response) => {
     const parsedColor = test.color.trim().toLowerCase();
     const parsedSize = test.size.toLowerCase();
 

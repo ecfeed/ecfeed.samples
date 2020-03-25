@@ -41,7 +41,7 @@ $('#modal-error').on($.modal.BEFORE_OPEN, () => {
 });
 
 $('#modal-result').on($.modal.BEFORE_OPEN, () => {
-    formEffects.backgroundBlur(true);
+   formEffects.backgroundBlur(true);
 });
 
 $('#modal-error').on($.modal.AFTER_CLOSE, () => {

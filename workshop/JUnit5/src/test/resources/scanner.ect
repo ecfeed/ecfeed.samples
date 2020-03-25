@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Model name="SkyScanner" version="3">
+    <Class name="com.ecfeed.SkyScanner">
+        <Properties>
+            <Property name="runOnAndroid" type="boolean" value="false"/>
+        </Properties>
+        <Method name="execute">
+            <Properties>
+                <Property name="methodRunner" type="String" value="Java Runner"/>
+                <Property name="wbMapBrowserToParam" type="boolean" value="false"/>
+                <Property name="wbBrowser" type="String" value="Chrome"/>
+                <Property name="wbMapStartUrlToParam" type="boolean" value="false"/>
+            </Properties>
+            <Parameter name="From" type="String" isExpected="false" expected="0" linked="false">
+                <Properties>
+                    <Property name="wbIsOptional" type="boolean" value="false"/>
+                </Properties>
+                <Comments>
+                    <TypeComments/>
+                </Comments>
+                <Choice name="choice1" value="Oslo\sGardermoen\s(OSL)" isRandomized="false"/>
+                <Choice name="choice2" value="Wroclaw\s(WRO)" isRandomized="false"/>
+            </Parameter>
+            <Parameter name="To" type="String" isExpected="false" expected="0" linked="false">
+                <Properties>
+                    <Property name="wbIsOptional" type="boolean" value="false"/>
+                </Properties>
+                <Comments>
+                    <TypeComments/>
+                </Comments>
+                <Choice name="choice1" value="London\sHeathrow\s(LHR)" isRandomized="false"/>
+                <Choice name="choice2" value="Paris\sOrly\s(ORY)" isRandomized="false"/>
+                <Choice name="choice3" value="Rome\sCiampino\s(CIA)" isRandomized="false"/>
+                <Choice name="choice4" value="Berlin\sTegel\s(TXL)" isRandomized="false"/>
+            </Parameter>
+            <Parameter name="Depart" type="String" isExpected="false" expected="0" linked="false">
+                <Properties>
+                    <Property name="wbIsOptional" type="boolean" value="false"/>
+                </Properties>
+                <Comments>
+                    <TypeComments/>
+                </Comments>
+                <Choice name="choice1" value="April" isRandomized="false"/>
+                <Choice name="choice2" value="May" isRandomized="false"/>
+            </Parameter>
+            <Parameter name="Return" type="String" isExpected="false" expected="0" linked="false">
+                <Properties>
+                    <Property name="wbIsOptional" type="boolean" value="false"/>
+                </Properties>
+                <Comments>
+                    <TypeComments/>
+                </Comments>
+                <Choice name="choice1" value="May" isRandomized="false"/>
+                <Choice name="choice2" value="June" isRandomized="false"/>
+                <Choice name="choice3" value="July" isRandomized="false"/>
+            </Parameter>
+        </Method>
+    </Class>
+</Model>

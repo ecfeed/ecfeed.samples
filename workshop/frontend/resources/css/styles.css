@@ -24,7 +24,6 @@ body {
     color: black;
     text-rendering: optimizeLegibility;
     padding: 15px;
-    height: 100vh;
 }
 
 /* -------------------------------------------------- */
@@ -326,6 +325,7 @@ label {
 .modal {
     text-align: center;
 }
+
 .modal__content {
     text-align: left;
 }
