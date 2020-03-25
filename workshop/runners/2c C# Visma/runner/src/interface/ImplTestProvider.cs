@@ -49,7 +49,7 @@ namespace Testify.EcFeed.Runner.Export
 
         private string SetDefaultKeyStorePath()
         {
-            foreach (string path in EcFeedConstants.DefaultKeyStorePath)
+            foreach (string path in EcFeedConstants.DefaultProviderKeyStorePath)
             {
                 try
                 {
@@ -69,17 +69,17 @@ namespace Testify.EcFeed.Runner.Export
 
         private string SetDefaultKeyStorePassword()
         {
-            return EcFeedConstants.DefaultKeyStorePassword;
+            return EcFeedConstants.DefaultProviderKeyStorePassword;
         }
 
         private string SetDefaultCertificateHash()
         {
-            return EcFeedConstants.DefaultCertificateHash;
+            return EcFeedConstants.DefaultProviderCertificateHash;
         }
 
         private string SetDefaultServiceAddress()
         {
-            return EcFeedConstants.DefaultServiceAddress;
+            return EcFeedConstants.DefaultProviderGeneratorAddress;
         }
 
         public async void ValidateConnectionSettings() 
@@ -168,7 +168,8 @@ namespace Testify.EcFeed.Runner.Export
 
         private void ValidateServiceAddressCorectness() { }
 
-        public async Task<string> Generate(ITestProviderContext testProviderContext, string template = "JSON")
+        public async Task<string> Generate(ITestProviderContext testProviderContext, 
+            string template = EcFeedConstants.DefaultContextTemplate)
         {
             testProviderContext.Template = template;
 
@@ -178,7 +179,8 @@ namespace Testify.EcFeed.Runner.Export
             return await response;
         }
 
-        public async Task<string> GenerateCartesian(ITestProviderContext testProviderContext, string template = "JSON")
+        public async Task<string> GenerateCartesian(ITestProviderContext testProviderContext, 
+            string template = EcFeedConstants.DefaultContextTemplate)
         {
             Dictionary<string, object> additionalData = new Dictionary<string, object> { { "dataSource", "genCartesian" } };
 
@@ -191,7 +193,10 @@ namespace Testify.EcFeed.Runner.Export
             return await response;
         }
 
-        public async Task<string> GenerateNWise(ITestProviderContext testProviderContext, int n = 2, int coverage = 100, string template = "JSON")
+        public async Task<string> GenerateNWise(ITestProviderContext testProviderContext, 
+            int n = EcFeedConstants.DefaultContextN, 
+            int coverage = EcFeedConstants.DefaultContextCoverage, 
+            string template = EcFeedConstants.DefaultContextTemplate)
         {
             Dictionary<string, object> additionalData = new Dictionary<string, object> { { "dataSource", "genNWise" }, { "n", n }, { "coverage", coverage } };
 
@@ -204,7 +209,10 @@ namespace Testify.EcFeed.Runner.Export
             return await response;
         }
 
-        public async Task<string> GenerateRandom(ITestProviderContext testProviderContext, int length = 10, bool duplicates = true, string template = "JSON")
+        public async Task<string> GenerateRandom(ITestProviderContext testProviderContext, 
+            int length = EcFeedConstants.DefaultContextLength, 
+            bool duplicates = EcFeedConstants.DefaultContextDuplicates, 
+            string template = EcFeedConstants.DefaultContextTemplate)
         {
             Dictionary<string, object> additionalData = new Dictionary<string, object> { { "dataSource", "random" }, { "length", length }, { "duplicates", duplicates } };
 
@@ -217,9 +225,13 @@ namespace Testify.EcFeed.Runner.Export
             return await response;
         }
 
-        public async Task<string> GenerateStatic(ITestProviderContext testProviderContext, string[] testSuites, string template = "JSON")
+        public async Task<string> GenerateStatic(ITestProviderContext testProviderContext, 
+            string[] testSuites = null, 
+            string template = EcFeedConstants.DefaultContextTemplate)
         {
-            Dictionary<string, object> additionalData = new Dictionary<string, object> { { "dataSource", "static" }, { "testSuites", testSuites } };
+            string[] updateTestSuites = testSuites == null ? EcFeedConstants.DefaultContextTestSuite : testSuites;
+
+            Dictionary<string, object> additionalData = new Dictionary<string, object> { { "dataSource", "static" }, { "testSuites", updateTestSuites } };
 
             testProviderContext.Settings = ContextHelper.MergeContextSettings(additionalData, testProviderContext.Settings);
             testProviderContext.Template = template;
