@@ -6,7 +6,7 @@ using NUnit.Framework;
 
 namespace Testify.EcFeed
 {
-    public class TestQueue : IEnumerable<TestCaseData>
+    public sealed class TestQueue : ITestQueue
     {
         private BlockingCollection<TestCaseData> _fifo = new BlockingCollection<TestCaseData>();
 
@@ -15,13 +15,18 @@ namespace Testify.EcFeed
             get => _fifo.Count;
         }
 
-        public TestQueue(ITestProvider testProvider, ITestProviderContext testProviderContext)
+        public int Size()
+        {
+            return Count;
+        }
+
+        public TestQueue(ITestProvider testProvider)
         {
             ITestProvider fifoTestProvider = testProvider.Copy();
             fifoTestProvider.AddTestEventHandler(TestEventHandler);
             fifoTestProvider.AddStatusEventHandler(StatusEventHandler);
             
-            fifoTestProvider.Generate(testProviderContext, "Stream");
+            fifoTestProvider.Generate("Stream");
         }
 
         IEnumerator IEnumerable.GetEnumerator()
@@ -48,12 +53,12 @@ namespace Testify.EcFeed
             }
         }
 
-        private void TestEventHandler(object sender, ITestEventArgs args)
+        private void TestEventHandler(object sender, TestEventArgs args)
         {
-            _fifo.Add(args.TestNUnit);
+            _fifo.Add(args.TestData);
         }
 
-        private void StatusEventHandler(object sender, IStatusEventArgs args)
+        private void StatusEventHandler(object sender, StatusEventArgs args)
         {
             if (args.Completed)
             {

@@ -12,24 +12,22 @@ namespace Testify.EcFeed.Example
         {
             // return await Synchronous();
             // return await Asynchronous();
-            return await Event();
+            // return await Event();
             // ExampleTestQueue();
-            // ExampleTestList();
+            ExampleTestList();
 
-            // return 0;
+            return 0;
         }
 
         public static async Task<int> Synchronous()
         {
             ITestProvider testProvider = new TestProvider();
-
+            testProvider.Model = "7482-5194-2849-1943-2448";
+            testProvider.Method = "com.example.test.Demo.typeString(String,String,String,String,String,String,String,String,String,String,String)";
+            
             Console.WriteLine(testProvider);
 
-            ITestProviderContext testProviderContext = new TestProviderContext();
-            testProviderContext.Model = "7482-5194-2849-1943-2448";
-            testProviderContext.Method = "com.example.test.Demo.typeString(String,String,String,String,String,String,String,String,String,String,String)";
-            
-            Console.WriteLine(await testProvider.GenerateNWise(testProviderContext, template: "XML"));
+            Console.WriteLine(await testProvider.GenerateNWise(template: "CSV"));
 
             return 0;
         }
@@ -37,17 +35,15 @@ namespace Testify.EcFeed.Example
         public static async Task<int> Asynchronous()
         {
             ITestProvider testProvider = new TestProvider();
+            testProvider.Model = "7482-5194-2849-1943-2448";
+            testProvider.Method = "com.example.test.Demo.typeString(String,String,String,String,String,String,String,String,String,String,String)";
+            testProvider.Settings = new Dictionary<string, object> { { "dataSource", "genNWise" }, { "constraints", "NONE" } };
 
             Console.WriteLine(testProvider);
 
-            ITestProviderContext testProviderContext = new TestProviderContext();
-            testProviderContext.Model = "7482-5194-2849-1943-2448";
-            testProviderContext.Method = "com.example.test.Demo.typeString(String,String,String,String,String,String,String,String,String,String,String)";
-            testProviderContext.Settings = new Dictionary<string, object> { { "dataSource", "genNWise" }, { "constraints", "NONE" } };
+            Task<string> response = testProvider.Generate(template: "CSV");
 
-            Task<string> response = testProvider.Generate(testProviderContext, template: "JSON");
-
-            Console.WriteLine("Waiting\n");
+            Console.WriteLine("\nWaiting...\n");
 
             Console.WriteLine(await response);
 
@@ -57,16 +53,14 @@ namespace Testify.EcFeed.Example
         public static async Task<int> Event()
         {
             ITestProvider testProvider = new TestProvider();
-
+            testProvider.Model = "7482-5194-2849-1943-2448";
+            testProvider.Method = "com.example.test.Demo.typeString(String,String,String,String,String,String,String,String,String,String,String)";
+            testProvider.Settings = new Dictionary<string, object> { { "dataSource", "genNWise" }, { "constraints", "NONE" } };
+            
             testProvider.AddTestEventHandler(TestEventHandler);
             testProvider.AddStatusEventHandler(StatusEventHandler);
 
-            ITestProviderContext testProviderContext = new TestProviderContext();
-            testProviderContext.Model = "7482-5194-2849-1943-2448";
-            testProviderContext.Method = "com.example.test.Demo.typeString(String,String,String,String,String,String,String,String,String,String,String)";
-            testProviderContext.Settings = new Dictionary<string, object> { { "dataSource", "genNWise" }, { "constraints", "NONE" } };
-
-            await testProvider.Generate(testProviderContext, template: "Stream");
+            await testProvider.Generate(template: "Stream");
 
             return 0;
         }
@@ -74,13 +68,11 @@ namespace Testify.EcFeed.Example
         public static void ExampleTestQueue()
         {
             ITestProvider testProvider = new TestProvider();
+            testProvider.Model = "7482-5194-2849-1943-2448";
+            testProvider.Method = "com.example.test.Demo.typeString(String,String,String,String,String,String,String,String,String,String,String)";
+            testProvider.Settings = new Dictionary<string, object> { { "dataSource", "genNWise" }, { "constraints", "NONE" } };
 
-            ITestProviderContext testProviderContext = new TestProviderContext();
-            testProviderContext.Model = "7482-5194-2849-1943-2448";
-            testProviderContext.Method = "com.example.test.Demo.typeString(String,String,String,String,String,String,String,String,String,String,String)";
-            testProviderContext.Settings = new Dictionary<string, object> { { "dataSource", "genNWise" }, { "constraints", "NONE" } };
-
-            TestQueue queue = new TestQueue(testProvider,testProviderContext);
+            TestQueue queue = new TestQueue(testProvider);
 
             Console.WriteLine(queue);
             Thread.Sleep(2000);
@@ -97,13 +89,11 @@ namespace Testify.EcFeed.Example
         public static void ExampleTestList()
         {
             ITestProvider testProvider = new TestProvider();
+            testProvider.Model = "7482-5194-2849-1943-2448";
+            testProvider.Method = "com.example.test.Demo.typeString(String,String,String,String,String,String,String,String,String,String,String)";
+            testProvider.Settings = new Dictionary<string, object> { { "dataSource", "genNWise" }, { "constraints", "NONE" } };
 
-            ITestProviderContext testProviderContext = new TestProviderContext();
-            testProviderContext.Model = "7482-5194-2849-1943-2448";
-            testProviderContext.Method = "com.example.test.Demo.typeString(String,String,String,String,String,String,String,String,String,String,String)";
-            testProviderContext.Settings = new Dictionary<string, object> { { "dataSource", "genNWise" }, { "constraints", "NONE" } };
-
-            TestList list = new TestList(testProvider,testProviderContext);
+            TestList list = new TestList(testProvider);
 
             Console.WriteLine(list);
             list.WaitUntilFinished();
@@ -111,7 +101,7 @@ namespace Testify.EcFeed.Example
 
             Console.WriteLine(list[0]);
 
-            foreach(ITestEventArgs element in list)
+            foreach(TestEventArgs element in list)
             {
                 Console.WriteLine("HANDLER: [{0}]", string.Join(", ", element));
             }
@@ -119,18 +109,18 @@ namespace Testify.EcFeed.Example
             Console.WriteLine(list);
         }
 
-        static void TestEventHandler(object sender, ITestEventArgs args)
+        static void TestEventHandler(object sender, TestEventArgs args)
         {
         //    Console.WriteLine("TEST HANDLER: " + args);
         //    Console.WriteLine("TEST HANDLER: " + args.DataRaw);
         //    Console.WriteLine("TEST HANDLER: " + args.DataType);
         //    Console.WriteLine("TEST HANDLER: " + args.Schema);
-           Console.WriteLine("TEST HANDLER: [{0}]", string.Join(", ", args.TestNUnit.Arguments));
+           Console.WriteLine("TEST HANDLER: [{0}]", string.Join(", ", args.TestData.Arguments));
         }
 
-        static void StatusEventHandler(object sender, IStatusEventArgs args)
+        static void StatusEventHandler(object sender, StatusEventArgs args)
         {
-           Console.WriteLine("STATUS HANDLER: " + args.Schema);
+           Console.WriteLine("STATUS HANDLER: " + args.Structure);
         }
     }
 }

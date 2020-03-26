@@ -2,7 +2,7 @@ using Newtonsoft.Json;
 
 namespace Testify.EcFeed
 {
-    public struct MessageTestArgument
+    public struct TestCaseArgument
     {
         [JsonProperty("name")] public string Name { get; set; }
         [JsonProperty("value")] public object Value { get; set; }
@@ -10,5 +10,5 @@ namespace Testify.EcFeed
         public override string ToString() => $"\t[ { Value.GetType() } : { Name } : { Value } ]";
     }
 
-    static class MessageTestArgumentHelper { }
+    static class TestCaseArgumentHelper { }
 }

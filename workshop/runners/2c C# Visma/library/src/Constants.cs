@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Testify.EcFeed
 {
-    sealed class EcFeedConstants
+    static class Constants
     {
     // Production
 
@@ -22,23 +22,17 @@ namespace Testify.EcFeed
             "./security.p12"
         };
 
-        internal const string DefaultContextTemplate = "JSON";
+        internal const string DefaultTemplate = "JSON";
+        
+        internal const string DefaultContextTestSuite = "ALL";
         internal const bool DefaultContextDuplicates = true;
         internal const int DefaultContextN = 2;
         internal const int DefaultContextCoverage = 100;
         internal const int DefaultContextLength = 10;
-        internal static readonly string[] DefaultContextTestSuite = 
-        { 
-            "default suite" 
-        };
 
         internal const string EndpointHealthCheck = "genServiceVersion";
         internal const string EndpointGenerator = "testCaseService";
 
         internal static readonly Dictionary<string, object> DefaultContextSettings = new Dictionary<string, object> { { "dataSource", "genNWise" } };
-
-        
-
-        
     }    
 }

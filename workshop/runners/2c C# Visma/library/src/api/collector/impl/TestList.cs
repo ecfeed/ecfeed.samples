@@ -5,9 +5,9 @@ using System.Collections.Generic;
 
 namespace Testify.EcFeed
 {
-    public class TestList : IEnumerable<ITestEventArgs>
+    public sealed class TestList : ITestList
     {
-        private List<ITestEventArgs> _list = new List<ITestEventArgs>();
+        private List<TestEventArgs> _list = new List<TestEventArgs>();
         private volatile bool _addingCompleted = false;
 
         public int Count
@@ -15,13 +15,18 @@ namespace Testify.EcFeed
             get => _list.Count;
         }
 
-        public TestList(ITestProvider testProvider, ITestProviderContext testProviderContext)
+        public int Size()
+        {
+            return Count;
+        }
+
+        public TestList(ITestProvider testProvider)
         {
             ITestProvider fifoTestProvider = testProvider.Copy();
             fifoTestProvider.AddTestEventHandler(TestEventHandler);
             fifoTestProvider.AddStatusEventHandler(StatusEventHandler);
             
-            fifoTestProvider.Generate(testProviderContext, "Stream");
+            fifoTestProvider.Generate("Stream");
         }
 
         IEnumerator IEnumerable.GetEnumerator()
@@ -29,12 +34,12 @@ namespace Testify.EcFeed
             return _list.GetEnumerator();
         }
 
-        public IEnumerator<ITestEventArgs> GetEnumerator()
+        public IEnumerator<TestEventArgs> GetEnumerator()
         {
             return _list.GetEnumerator();
         }
 
-        public ITestEventArgs this[int index]
+        public TestEventArgs this[int index]
         {
             get
             {
@@ -46,7 +51,7 @@ namespace Testify.EcFeed
 
             set
             {
-                throw new EcFeedException("The test list cannot be modified manually");
+                throw new TestProviderException("The test list cannot be modified manually");
             }
         }
 
@@ -63,12 +68,12 @@ namespace Testify.EcFeed
             }
         }
 
-        private void TestEventHandler(object sender, ITestEventArgs args)
+        private void TestEventHandler(object sender, TestEventArgs args)
         {
             _list.Add(args);
         }
 
-        private void StatusEventHandler(object sender, IStatusEventArgs args)
+        private void StatusEventHandler(object sender, StatusEventArgs args)
         {
             if (args.Completed)
             {
