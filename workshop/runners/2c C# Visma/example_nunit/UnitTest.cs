@@ -17,21 +17,17 @@ namespace example_nunit
 
     class Feed : IEnumerable
     {
-        TestQueue fifo;
+        private ITestProvider _testProvider = new TestProvider();
 
         public Feed()
         {
-            ITestProvider testProvider = new TestProvider();
-            testProvider.Model = "7482-5194-2849-1943-2448";
-            testProvider.Method = "com.example.test.Demo.typeString(String,String,String,String,String,String,String,String,String,String,String)";
-            testProvider.Settings = new Dictionary<string, object> { { "dataSource", "genNWise" }, { "constraints", "NONE" } };
-
-            fifo = new TestQueue(testProvider);
+            _testProvider.Model = "7482-5194-2849-1943-2448";
+            _testProvider.Method = "com.example.test.Demo.typeString(String,String,String,String,String,String,String,String,String,String,String)";
         }
 
         public IEnumerator GetEnumerator()
         {
-            return fifo.GetEnumerator();
+            return _testProvider.QueueNWise().GetEnumerator();
         }
     }
 }

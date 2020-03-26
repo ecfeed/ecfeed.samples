@@ -20,7 +20,7 @@ namespace Testify.EcFeed
             return Count;
         }
 
-        public TestQueue(ITestProvider testProvider)
+        internal TestQueue(ITestProvider testProvider)
         {
             ITestProvider fifoTestProvider = testProvider.Copy();
             fifoTestProvider.AddTestEventHandler(TestEventHandler);

@@ -70,9 +70,8 @@ namespace Testify.EcFeed.Example
             ITestProvider testProvider = new TestProvider();
             testProvider.Model = "7482-5194-2849-1943-2448";
             testProvider.Method = "com.example.test.Demo.typeString(String,String,String,String,String,String,String,String,String,String,String)";
-            testProvider.Settings = new Dictionary<string, object> { { "dataSource", "genNWise" }, { "constraints", "NONE" } };
 
-            TestQueue queue = new TestQueue(testProvider);
+            TestQueue queue = testProvider.QueueNWise();
 
             Console.WriteLine(queue);
             Thread.Sleep(2000);
@@ -91,9 +90,8 @@ namespace Testify.EcFeed.Example
             ITestProvider testProvider = new TestProvider();
             testProvider.Model = "7482-5194-2849-1943-2448";
             testProvider.Method = "com.example.test.Demo.typeString(String,String,String,String,String,String,String,String,String,String,String)";
-            testProvider.Settings = new Dictionary<string, object> { { "dataSource", "genNWise" }, { "constraints", "NONE" } };
 
-            TestList list = new TestList(testProvider);
+            TestList list = testProvider.ListNWise();
 
             Console.WriteLine(list);
             list.WaitUntilFinished();

@@ -206,6 +206,16 @@ namespace Testify.EcFeed
             return await response;
         }
 
+        public TestQueue Queue()
+        {
+            return new TestQueue(this);
+        }
+
+        public TestList List()
+        {
+            return new TestList(this);
+        }
+
         public async Task<string> GenerateCartesian(
             string template = Constants.DefaultTemplate)
         {
@@ -220,6 +230,26 @@ namespace Testify.EcFeed
             Task<string> response = SendRequest(request, template.Equals("Stream"));
 
             return await response;
+        }
+
+        public TestQueue QueueCartesian()
+        {
+            Dictionary<string, object> additionalData = new Dictionary<string, object> { { "dataSource", "genCartesian" } };
+
+            ITestProvider provider = this.Copy();
+            provider.Settings = TestProviderContextHelper.MergeTestProviderContextSettings(additionalData, _testProviderContext.Settings);
+
+            return new TestQueue(provider);
+        }
+
+        public TestList ListCartesian()
+        {
+            Dictionary<string, object> additionalData = new Dictionary<string, object> { { "dataSource", "genCartesian" } };
+
+            ITestProvider provider = this.Copy();
+            provider.Settings = TestProviderContextHelper.MergeTestProviderContextSettings(additionalData, _testProviderContext.Settings);
+
+            return new TestList(provider);
         }
 
         public async Task<string> GenerateNWise(
@@ -240,6 +270,30 @@ namespace Testify.EcFeed
             return await response;
         }
 
+        public TestQueue QueueNWise(
+            int n = Constants.DefaultContextN, 
+            int coverage = Constants.DefaultContextCoverage)
+        {
+            Dictionary<string, object> additionalData = new Dictionary<string, object> { { "dataSource", "genNWise" }, { "n", n }, { "coverage", coverage } };
+
+            ITestProvider provider = this.Copy();
+            provider.Settings = TestProviderContextHelper.MergeTestProviderContextSettings(additionalData, _testProviderContext.Settings);
+
+            return new TestQueue(provider);
+        }
+
+        public TestList ListNWise(
+            int n = Constants.DefaultContextN, 
+            int coverage = Constants.DefaultContextCoverage)
+        {
+            Dictionary<string, object> additionalData = new Dictionary<string, object> { { "dataSource", "genNWise" }, { "n", n }, { "coverage", coverage } };
+
+            ITestProvider provider = this.Copy();
+            provider.Settings = TestProviderContextHelper.MergeTestProviderContextSettings(additionalData, _testProviderContext.Settings);
+
+            return new TestList(provider);
+        }
+
         public async Task<string> GenerateRandom(
             string template = Constants.DefaultTemplate,
             int length = Constants.DefaultContextLength, 
@@ -256,6 +310,30 @@ namespace Testify.EcFeed
             Task<string> response = SendRequest(request, template.Equals("Stream"));
 
             return await response;
+        }
+
+        public TestQueue QueueRandom(
+            int length = Constants.DefaultContextLength, 
+            bool duplicates = Constants.DefaultContextDuplicates)
+        {
+            Dictionary<string, object> additionalData = new Dictionary<string, object> { { "dataSource", "random" }, { "length", length }, { "duplicates", duplicates } };
+
+            ITestProvider provider = this.Copy();
+            provider.Settings = TestProviderContextHelper.MergeTestProviderContextSettings(additionalData, _testProviderContext.Settings);
+
+            return new TestQueue(provider);
+        }
+
+        public TestList ListRandom(
+            int length = Constants.DefaultContextLength, 
+            bool duplicates = Constants.DefaultContextDuplicates)
+        {
+            Dictionary<string, object> additionalData = new Dictionary<string, object> { { "dataSource", "random" }, { "length", length }, { "duplicates", duplicates } };
+
+            ITestProvider provider = this.Copy();
+            provider.Settings = TestProviderContextHelper.MergeTestProviderContextSettings(additionalData, _testProviderContext.Settings);
+
+            return new TestList(provider);
         }
 
         public async Task<string> GenerateStatic(
@@ -275,6 +353,30 @@ namespace Testify.EcFeed
             Task<string> response = SendRequest(request, template.Equals("Stream"));
 
             return await response;
+        }
+
+        public TestQueue QueueStatic(
+            object testSuites = null)
+        {
+            object updateTestSuites = testSuites == null ? Constants.DefaultContextTestSuite : testSuites;
+            Dictionary<string, object> additionalData = new Dictionary<string, object> { { "dataSource", "static" }, { "testSuites", updateTestSuites } };
+
+            ITestProvider provider = this.Copy();
+            provider.Settings = TestProviderContextHelper.MergeTestProviderContextSettings(additionalData, _testProviderContext.Settings);
+
+            return new TestQueue(provider);
+        }
+
+        public TestList ListStatic(
+            object testSuites = null)
+        {
+            object updateTestSuites = testSuites == null ? Constants.DefaultContextTestSuite : testSuites;
+            Dictionary<string, object> additionalData = new Dictionary<string, object> { { "dataSource", "static" }, { "testSuites", updateTestSuites } };
+
+            ITestProvider provider = this.Copy();
+            provider.Settings = TestProviderContextHelper.MergeTestProviderContextSettings(additionalData, _testProviderContext.Settings);
+
+            return new TestList(provider);
         }
 
         private string GetRequestType(string template)
@@ -494,20 +596,28 @@ namespace Testify.EcFeed
         public override string ToString()
         { 
             List<string> settings = new List<string>();
-            foreach (var (key, value) in Settings)
+
+            if (Settings != null)
             {
-                settings.Add("{" + $"{ key }: { value }" + "}");
+                foreach (var (key, value) in Settings)
+                {
+                    settings.Add("{" + $"{ key }: { value }" + "}");
+                }
+            }
+            else
+            {
+                settings.Add("EMPTY");
             }
 
             return
                 $"TestProvider:\n" +
-                $"\t[KeyStorePath: { Path.GetFullPath(KeyStorePath) }]\n" +
-                $"\t[KeyStorePassword: { KeyStorePassword }]\n" +
-                $"\t[CertificateHash: { CertificateHash }]\n" +
-                $"\t[GeneratorAddress: { GeneratorAddress }]\n" +
-                $"\t[Model: { Model }]\n" +
-                $"\t[Method: { Method }]\n" +
-                $"\t[Settings: { string.Join(", ", settings) }]";
+                $"\t[KeyStorePath: '{ Path.GetFullPath(KeyStorePath) }']\n" +
+                $"\t[KeyStorePassword: '{ KeyStorePassword }']\n" +
+                $"\t[CertificateHash: '{ CertificateHash }']\n" +
+                $"\t[GeneratorAddress: '{ GeneratorAddress }']\n" +
+                $"\t[Model: '{ Model }']\n" +
+                $"\t[Method: '{ Method }']\n" +
+                $"\t[Settings: '{ string.Join(", ", settings) }']";
         }
     }
 }
