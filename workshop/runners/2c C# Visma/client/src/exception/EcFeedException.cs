@@ -1,7 +1,7 @@
 using System;
 using System.Runtime.Serialization;
 
-namespace Testify.EcFeed.Runner.Export
+namespace Testify.EcFeed
 {
     [Serializable()]
     public class EcFeedException : Exception

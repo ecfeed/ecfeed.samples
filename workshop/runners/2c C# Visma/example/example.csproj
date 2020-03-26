@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="newtonsoft.json" Version="12.0.3" />
+    <ProjectReference Include="..\client\client.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 
-namespace Testify.EcFeed.Runner.Export
+namespace Testify.EcFeed
 {
-    struct TestProviderContext : ITestProviderContext
+    public struct TestProviderContext : ITestProviderContext
     {
         public string Model { get; set; }
         public string Method { get; set; }

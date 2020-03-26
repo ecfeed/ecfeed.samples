@@ -3,9 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Concurrent;
 
-namespace Testify.EcFeed.Runner.Export
+namespace Testify.EcFeed
 {
-    class TestQueue : IEnumerable<object[]>
+    public class TestQueue : IEnumerable<object[]>
     {
         private BlockingCollection<object[]> _fifo = new BlockingCollection<object[]>();
 

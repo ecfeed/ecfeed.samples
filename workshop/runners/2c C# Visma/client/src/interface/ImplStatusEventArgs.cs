@@ -1,4 +1,4 @@
-namespace Testify.EcFeed.Runner.Export
+namespace Testify.EcFeed
 {
     public struct StatusEventArgs : IStatusEventArgs
     {

@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace Testify.EcFeed.Runner.Export
+namespace Testify.EcFeed
 {
     public interface ITestProviderContext
     {

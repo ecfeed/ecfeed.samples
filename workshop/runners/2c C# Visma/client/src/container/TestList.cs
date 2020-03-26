@@ -3,9 +3,9 @@ using System.Threading;
 using System.Collections;
 using System.Collections.Generic;
 
-namespace Testify.EcFeed.Runner.Export
+namespace Testify.EcFeed
 {
-    class TestList : IEnumerable<ITestEventArgs>
+    public class TestList : IEnumerable<ITestEventArgs>
     {
         private List<ITestEventArgs> _list = new List<ITestEventArgs>();
         private volatile bool _addingCompleted = false;

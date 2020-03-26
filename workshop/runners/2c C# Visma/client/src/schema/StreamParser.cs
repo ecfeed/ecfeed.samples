@@ -1,6 +1,6 @@
 using Newtonsoft.Json;
 
-namespace Testify.EcFeed.Runner.Export
+namespace Testify.EcFeed
 {
     public static class StreamParser
     {

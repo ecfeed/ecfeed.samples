@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Testify.EcFeed.Runner.Export
+namespace Testify.EcFeed
 {
     sealed class EcFeedConstants
     {

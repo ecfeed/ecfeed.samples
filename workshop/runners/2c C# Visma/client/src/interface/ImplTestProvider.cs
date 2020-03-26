@@ -9,7 +9,7 @@ using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
 using Newtonsoft.Json;
 
-namespace Testify.EcFeed.Runner.Export
+namespace Testify.EcFeed
 {
     public sealed class TestProvider : ITestProvider
     {

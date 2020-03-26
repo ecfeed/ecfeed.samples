@@ -1,6 +1,6 @@
 using System;
 
-namespace Testify.EcFeed.Runner.Export
+namespace Testify.EcFeed
 {
     public class TestEventArgs : EventArgs, ITestEventArgs
     {

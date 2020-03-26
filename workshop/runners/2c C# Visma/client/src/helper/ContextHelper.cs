@@ -2,7 +2,7 @@ using System.Linq;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 
-namespace Testify.EcFeed.Runner.Export
+namespace Testify.EcFeed
 {
     public static class ContextHelper
     {
