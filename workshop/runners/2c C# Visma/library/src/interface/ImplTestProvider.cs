@@ -383,19 +383,19 @@ namespace Testify.EcFeed
         {
             try
             {
-                StatusEventArgs statusEventArgs = new StatusEventArgs() { StatusString = line };
-                statusEventArgs.StatusStructure = JsonConvert.DeserializeObject<MessageStatus>(line);
+                StatusEventArgs statusEventArgs = new StatusEventArgs() { DataRaw = line };
+                statusEventArgs.Schema = JsonConvert.DeserializeObject<MessageStatus>(line);
 
-                if (statusEventArgs.StatusStructure.Status != null)
+                if (statusEventArgs.Schema.Status != null)
                 {
 
-                    if (statusEventArgs.StatusStructure.Status.Equals("END_DATA"))
+                    if (statusEventArgs.Schema.Status.Equals("END_DATA"))
                     {
-                        statusEventArgs.TerminateExecution = true;
+                        statusEventArgs.Completed = true;
                     }
                     else 
                     {
-                        statusEventArgs.TerminateExecution = false;
+                        statusEventArgs.Completed = false;
                     }
                         
                     GenerateStatusEvent(statusEventArgs);
@@ -407,18 +407,19 @@ namespace Testify.EcFeed
 
         private void ProcessSingleTestResponse(string line, bool streamFilter, StringBuilder responseBuilder)
         {
-            TestEventArgs testEventArgs = new TestEventArgs() { TestString = line };
+            TestEventArgs testEventArgs = new TestEventArgs() { DataRaw = line };
 
             try
             {
-                testEventArgs.TestStructure = JsonConvert.DeserializeObject<MessageTest>(line);
+                testEventArgs.Schema = JsonConvert.DeserializeObject<MessageTest>(line);
 
-                if (testEventArgs.TestStructure.TestArguments == null)
+                if (testEventArgs.Schema.TestArguments == null)
                 {
                     throw new EcFeedException("The message cannot be parsed.");
                 }
 
-                testEventArgs.TestObject = StreamParser.ParseTestSchema(testEventArgs.TestStructure);
+                testEventArgs.DataType = StreamParser.ParseTestToDataType(testEventArgs.Schema);
+                testEventArgs.TestNUnit = StreamParser.ParseTestToNUnit(testEventArgs.Schema);
 
                 responseBuilder.AppendLine(line);
                 GenerateTestEvent(testEventArgs);

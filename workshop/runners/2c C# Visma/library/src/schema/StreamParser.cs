@@ -1,4 +1,5 @@
 using Newtonsoft.Json;
+using NUnit.Framework;
 
 namespace Testify.EcFeed
 {
@@ -14,11 +15,11 @@ namespace Testify.EcFeed
             return JsonConvert.DeserializeObject<MessageStatus>(data);
         }
 
-        public static object[] ParseTestSchema(string data)
+        public static object[] ParseTestToDataType(string data)
         {
-            return ParseTestSchema(ParseTest(data));
+            return ParseTestToDataType(ParseTest(data));
         }
-        public static object[] ParseTestSchema(MessageTest data)
+        public static object[] ParseTestToDataType(MessageTest data)
         {
             object[] result = new object[data.TestArguments.Length];
 
@@ -28,6 +29,16 @@ namespace Testify.EcFeed
             }
 
             return result;
+        }
+
+        public static TestCaseData ParseTestToNUnit(string data)
+        {
+            return ParseTestToNUnit(ParseTest(data));
+        }
+
+        public static TestCaseData ParseTestToNUnit(MessageTest data)
+        {
+            return new TestCaseData(ParseTestToDataType(data));
         }
 
     }

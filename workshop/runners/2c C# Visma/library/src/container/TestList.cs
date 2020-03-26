@@ -70,7 +70,7 @@ namespace Testify.EcFeed
 
         private void StatusEventHandler(object sender, IStatusEventArgs args)
         {
-            if (args.TerminateExecution)
+            if (args.Completed)
             {
                 _addingCompleted = true;
             }

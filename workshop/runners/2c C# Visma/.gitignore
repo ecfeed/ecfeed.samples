@@ -1,4 +1,6 @@
-client/bin/
-client/obj/
-example/bin/
-example/obj/
+library/bin/
+library/obj/
+example_console/bin/
+example_console/obj/
+example_nunit/bin/
+example_nunit/obj/

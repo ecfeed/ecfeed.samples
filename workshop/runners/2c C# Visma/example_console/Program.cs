@@ -2,7 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-using Testify.EcFeed;
+using NUnit.Framework;
 
 namespace Testify.EcFeed.Example
 {
@@ -12,11 +12,11 @@ namespace Testify.EcFeed.Example
         {
             // return await Synchronous();
             // return await Asynchronous();
-            // return await Event();
+            return await Event();
             // ExampleTestQueue();
-            ExampleTestList();
+            // ExampleTestList();
 
-            return 0;
+            // return 0;
         }
 
         public static async Task<int> Synchronous()
@@ -86,9 +86,9 @@ namespace Testify.EcFeed.Example
             Thread.Sleep(2000);
             Console.WriteLine(queue);
 
-            foreach(object[] element in queue)
+            foreach(TestCaseData element in queue)
             {
-                Console.WriteLine("HANDLER: [{0}]", string.Join(", ", element));
+                Console.WriteLine("HANDLER: [{0}]", string.Join(", ", element.Arguments));
             }
 
             Console.WriteLine(queue);
@@ -122,14 +122,15 @@ namespace Testify.EcFeed.Example
         static void TestEventHandler(object sender, ITestEventArgs args)
         {
         //    Console.WriteLine("TEST HANDLER: " + args);
-           Console.WriteLine("TEST HANDLER: " + args.TestString);
-        //    Console.WriteLine("TEST HANDLER: " + args.TestStructure);
-        //    Console.WriteLine("TEST HANDLER: [{0}]", string.Join(", ", args.TestObject));
+        //    Console.WriteLine("TEST HANDLER: " + args.DataRaw);
+        //    Console.WriteLine("TEST HANDLER: " + args.DataType);
+        //    Console.WriteLine("TEST HANDLER: " + args.Schema);
+           Console.WriteLine("TEST HANDLER: [{0}]", string.Join(", ", args.TestNUnit.Arguments));
         }
 
         static void StatusEventHandler(object sender, IStatusEventArgs args)
         {
-           Console.WriteLine("STATUS HANDLER: " + args.StatusStructure);
+           Console.WriteLine("STATUS HANDLER: " + args.Schema);
         }
     }
 }

@@ -2,12 +2,13 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Concurrent;
+using NUnit.Framework;
 
 namespace Testify.EcFeed
 {
-    public class TestQueue : IEnumerable<object[]>
+    public class TestQueue : IEnumerable<TestCaseData>
     {
-        private BlockingCollection<object[]> _fifo = new BlockingCollection<object[]>();
+        private BlockingCollection<TestCaseData> _fifo = new BlockingCollection<TestCaseData>();
 
         public int Count
         {
@@ -28,11 +29,11 @@ namespace Testify.EcFeed
             return this.GetEnumerator();
         }
 
-        public IEnumerator<object[]> GetEnumerator()
+        public IEnumerator<TestCaseData> GetEnumerator()
         {
             while (!_fifo.IsCompleted)
             {
-                object[] element = null;
+                TestCaseData element = null;
 
                 try
                 {
@@ -49,12 +50,12 @@ namespace Testify.EcFeed
 
         private void TestEventHandler(object sender, ITestEventArgs args)
         {
-            _fifo.Add(args.TestObject);
+            _fifo.Add(args.TestNUnit);
         }
 
         private void StatusEventHandler(object sender, IStatusEventArgs args)
         {
-            if (args.TerminateExecution)
+            if (args.Completed)
             {
                 _fifo.CompleteAdding();
             }
