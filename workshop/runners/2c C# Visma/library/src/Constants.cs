@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Testify.EcFeed
+namespace EcFeed
 {
     static class Constants
     {

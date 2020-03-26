@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace Testify.EcFeed
+namespace EcFeed
 {
     public interface ITestList : IEnumerable<TestEventArgs>
     {

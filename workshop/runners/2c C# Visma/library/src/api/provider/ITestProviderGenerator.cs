@@ -1,6 +1,6 @@
 using System.Threading.Tasks;
 
-namespace Testify.EcFeed
+namespace EcFeed
 {
     public interface ITestProviderGenerator
     {

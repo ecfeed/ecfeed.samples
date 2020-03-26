@@ -1,7 +1,6 @@
 using System.Collections;
-using System.Collections.Generic;
 using NUnit.Framework;
-using Testify.EcFeed;
+using EcFeed;
 
 namespace example_nunit
 {
@@ -17,17 +16,13 @@ namespace example_nunit
 
     class Feed : IEnumerable
     {
-        private ITestProvider _testProvider = new TestProvider();
-
-        public Feed()
-        {
-            _testProvider.Model = "7482-5194-2849-1943-2448";
-            _testProvider.Method = "com.example.test.Demo.typeString(String,String,String,String,String,String,String,String,String,String,String)";
-        }
-
         public IEnumerator GetEnumerator()
         {
-            return _testProvider.QueueNWise().GetEnumerator();
+            ITestProvider testProvider = new TestProvider();
+            testProvider.Model = "7482-5194-2849-1943-2448";
+            testProvider.Method = "com.example.test.Demo.typeString(String,String,String,String,String,String,String,String,String,String,String)";
+
+            return testProvider.QueueNWise().GetEnumerator();
         }
     }
 }

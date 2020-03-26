@@ -1,7 +1,6 @@
 using System;
-using System.Runtime.Serialization;
 
-namespace Testify.EcFeed
+namespace EcFeed
 {
     [Serializable()]
     public sealed class TestProviderException : Exception

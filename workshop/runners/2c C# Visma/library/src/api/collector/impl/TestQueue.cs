@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Collections.Concurrent;
 using NUnit.Framework;
 
-namespace Testify.EcFeed
+namespace EcFeed
 {
     public sealed class TestQueue : ITestQueue
     {
@@ -55,7 +55,7 @@ namespace Testify.EcFeed
 
         private void TestEventHandler(object sender, TestEventArgs args)
         {
-            _fifo.Add(args.TestData);
+            _fifo.Add(args.DataTest);
         }
 
         private void StatusEventHandler(object sender, StatusEventArgs args)

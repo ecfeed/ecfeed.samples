@@ -1,8 +1,7 @@
 using System;
-using System.Threading.Tasks;
 using System.Collections.Generic;
 
-namespace Testify.EcFeed
+namespace EcFeed
 {
     public interface ITestProvider : ITestProviderGenerator, ITestProviderQueue, ITestProviderList
     {
@@ -17,8 +16,6 @@ namespace Testify.EcFeed
         Dictionary<string, object> Settings { get; set; }
 
         void ValidateConnectionSettings();
-
-        
 
         void AddTestEventHandler(EventHandler<TestEventArgs> testEventHandler);
         void RemoveTestEventHandler(EventHandler<TestEventArgs> testEventHandler);

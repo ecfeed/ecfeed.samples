@@ -1,4 +1,4 @@
-namespace Testify.EcFeed
+namespace EcFeed
 {
     public interface ITestProviderQueue
     {

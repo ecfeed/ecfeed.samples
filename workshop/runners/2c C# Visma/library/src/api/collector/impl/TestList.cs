@@ -3,7 +3,7 @@ using System.Threading;
 using System.Collections;
 using System.Collections.Generic;
 
-namespace Testify.EcFeed
+namespace EcFeed
 {
     public sealed class TestList : ITestList
     {

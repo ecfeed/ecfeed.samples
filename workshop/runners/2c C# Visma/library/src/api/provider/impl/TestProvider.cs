@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.IO;
 using System.Text;
 using System.Net;
@@ -9,7 +10,7 @@ using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
 using Newtonsoft.Json;
 
-namespace Testify.EcFeed
+namespace EcFeed
 {
     public sealed class TestProvider : ITestProvider
     {
@@ -18,25 +19,14 @@ namespace Testify.EcFeed
             System.Net.ServicePointManager.SecurityProtocol = System.Net.SecurityProtocolType.Tls12;
         }
 
-        private TestProviderContext _testProviderContext;
-
         public string KeyStorePath { get; set; }
         public string KeyStorePassword { get; set; }
         public string CertificateHash { get; set; }
         public string GeneratorAddress { get; set; }
 
-        public string Model { 
-            get => _testProviderContext.Model; 
-            set => _testProviderContext.Model = value; 
-        }
-        public string Method { 
-            get => _testProviderContext.Method; 
-            set => _testProviderContext.Method = value; 
-        }
-        public Dictionary<string, object> Settings { 
-            get => _testProviderContext.Settings; 
-            set => _testProviderContext.Settings = value; 
-        }       
+        public string Model { get; set; }
+        public string Method { get; set; }
+        public Dictionary<string, object> Settings { get; set; }       
 
         public event EventHandler<TestEventArgs> TestEventHandler;
         public event EventHandler<StatusEventArgs> StatusEventHandler;
@@ -46,8 +36,6 @@ namespace Testify.EcFeed
             string model = null, string method = null, Dictionary<string, object> settings = null,
             bool verify = true)
         {
-            _testProviderContext = new TestProviderContext();
-
             KeyStorePath = string.IsNullOrEmpty(keyStorePath) ? SetDefaultKeyStorePath() : keyStorePath;
             KeyStorePassword = string.IsNullOrEmpty(keyStorePassword) ? SetDefaultKeyStorePassword() : keyStorePassword;
             CertificateHash = string.IsNullOrEmpty(certificateHash) ? SetDefaultCertificateHash() : certificateHash;
@@ -111,7 +99,6 @@ namespace Testify.EcFeed
 
         public async void ValidateConnectionSettings() 
         {
-
             ValidateKeyStorePathSyntax();
             ValidateKeyStorePathCorectness();
 
@@ -129,37 +116,30 @@ namespace Testify.EcFeed
 
         private void ValidateKeyStorePathSyntax()
         {
-
             if (string.IsNullOrEmpty(KeyStorePath))
             {
                 throw new TestProviderException("The keystore path is not defined.");
             }
-
         }
 
         private void ValidateKeyStorePathCorectness()
         {
-
             if (!File.Exists(KeyStorePath)) 
             {
                 throw new TestProviderException($"The keystore path is incorrect. It does not point to a file. Keystore path: '{ Path.GetFullPath(KeyStorePath) }'");
             }
-
         }
 
         private void ValidateKeyStorePasswordSyntax()
         {
-
             if (string.IsNullOrEmpty(KeyStorePassword))
             {
                 throw new TestProviderException("The certificate password is not defined.");
             }
-
         }
 
         private void ValidateKeyStorePasswordCorectness()
         {
-
             try 
             {
                 new X509Certificate2(KeyStorePath, KeyStorePassword);
@@ -168,29 +148,24 @@ namespace Testify.EcFeed
             {
                 throw new TestProviderException($"The certificate password is incorrect. Keystore path: '{ Path.GetFullPath(KeyStorePath) }'");
             }
-
         }
 
         private void ValidateCertificateHashSyntax()
         {
-
             if (string.IsNullOrEmpty(CertificateHash))
             {
                 throw new TestProviderException("The certificate hash is not defined.");
             }
-
         }
 
         private void ValidateCertificateHashCorectness() { }
 
         private void ValidateServiceAddressSyntax()
         {
-
             if (string.IsNullOrEmpty(GeneratorAddress))
             {
                 throw new TestProviderException("The service address is not defined.");
             }
-
         }
 
         private void ValidateServiceAddressCorectness() { }
@@ -198,58 +173,17 @@ namespace Testify.EcFeed
         public async Task<string> Generate(
             string template = Constants.DefaultTemplate)
         {
-            _testProviderContext.Template = template;
+            Dictionary<string, object> additionalData = new Dictionary<string, object> { };
 
-            string request = GenerateRequestURL(_testProviderContext, GeneratorAddress, GetRequestType(template));
-            Task<string> response = SendRequest(request, template.Equals("Stream"));
-
-            return await response;
-        }
-
-        public TestQueue Queue()
-        {
-            return new TestQueue(this);
-        }
-
-        public TestList List()
-        {
-            return new TestList(this);
+            return await RequestGenerate(additionalData, template);
         }
 
         public async Task<string> GenerateCartesian(
             string template = Constants.DefaultTemplate)
         {
-            _testProviderContext.Template = template;
-
             Dictionary<string, object> additionalData = new Dictionary<string, object> { { "dataSource", "genCartesian" } };
 
-            TestProviderContext testProviderContext = _testProviderContext.Copy();
-            testProviderContext.Settings = TestProviderContextHelper.MergeTestProviderContextSettings(additionalData, _testProviderContext.Settings);
-
-            string request = GenerateRequestURL(testProviderContext, GeneratorAddress, GetRequestType(template));
-            Task<string> response = SendRequest(request, template.Equals("Stream"));
-
-            return await response;
-        }
-
-        public TestQueue QueueCartesian()
-        {
-            Dictionary<string, object> additionalData = new Dictionary<string, object> { { "dataSource", "genCartesian" } };
-
-            ITestProvider provider = this.Copy();
-            provider.Settings = TestProviderContextHelper.MergeTestProviderContextSettings(additionalData, _testProviderContext.Settings);
-
-            return new TestQueue(provider);
-        }
-
-        public TestList ListCartesian()
-        {
-            Dictionary<string, object> additionalData = new Dictionary<string, object> { { "dataSource", "genCartesian" } };
-
-            ITestProvider provider = this.Copy();
-            provider.Settings = TestProviderContextHelper.MergeTestProviderContextSettings(additionalData, _testProviderContext.Settings);
-
-            return new TestList(provider);
+            return await RequestGenerate(additionalData, template);
         }
 
         public async Task<string> GenerateNWise(
@@ -257,17 +191,54 @@ namespace Testify.EcFeed
             int n = Constants.DefaultContextN, 
             int coverage = Constants.DefaultContextCoverage)
         {
-            _testProviderContext.Template = template;
-
             Dictionary<string, object> additionalData = new Dictionary<string, object> { { "dataSource", "genNWise" }, { "n", n }, { "coverage", coverage } };
 
-            TestProviderContext testProviderContext = _testProviderContext;
-            testProviderContext.Settings = TestProviderContextHelper.MergeTestProviderContextSettings(additionalData, _testProviderContext.Settings);
+            return await RequestGenerate(additionalData, template);
+        }
 
-            string request = GenerateRequestURL(_testProviderContext, GeneratorAddress, GetRequestType(template));
+        public async Task<string> GenerateRandom(
+            string template = Constants.DefaultTemplate,
+            int length = Constants.DefaultContextLength, 
+            bool duplicates = Constants.DefaultContextDuplicates)
+        {
+            Dictionary<string, object> additionalData = new Dictionary<string, object> { { "dataSource", "random" }, { "length", length }, { "duplicates", duplicates } };
+
+            return await RequestGenerate(additionalData, template);
+        }
+
+        public async Task<string> GenerateStatic(
+            string template = Constants.DefaultTemplate,
+            object testSuites = null)
+        {
+            object updateTestSuites = testSuites == null ? Constants.DefaultContextTestSuite : testSuites;
+            Dictionary<string, object> additionalData = new Dictionary<string, object> { { "dataSource", "static" }, { "testSuites", updateTestSuites } };
+
+            return await RequestGenerate(additionalData, template);
+        }
+
+        private async Task<string> RequestGenerate(Dictionary<string, object> additionalData, string template)
+        {
+            ITestProvider context = this.Copy();
+            context.Settings = MergeTestProviderSettings(additionalData, context.Settings);
+
+            string request = GenerateRequestURL(context, template);
             Task<string> response = SendRequest(request, template.Equals("Stream"));
 
             return await response;
+        }
+
+        public TestQueue Queue()
+        {
+            Dictionary<string, object> additionalData = new Dictionary<string, object> { };
+            
+            return RequestQueue(additionalData);
+        }
+
+        public TestQueue QueueCartesian()
+        {
+            Dictionary<string, object> additionalData = new Dictionary<string, object> { { "dataSource", "genCartesian" } };
+
+            return RequestQueue(additionalData);
         }
 
         public TestQueue QueueNWise(
@@ -276,40 +247,7 @@ namespace Testify.EcFeed
         {
             Dictionary<string, object> additionalData = new Dictionary<string, object> { { "dataSource", "genNWise" }, { "n", n }, { "coverage", coverage } };
 
-            ITestProvider provider = this.Copy();
-            provider.Settings = TestProviderContextHelper.MergeTestProviderContextSettings(additionalData, _testProviderContext.Settings);
-
-            return new TestQueue(provider);
-        }
-
-        public TestList ListNWise(
-            int n = Constants.DefaultContextN, 
-            int coverage = Constants.DefaultContextCoverage)
-        {
-            Dictionary<string, object> additionalData = new Dictionary<string, object> { { "dataSource", "genNWise" }, { "n", n }, { "coverage", coverage } };
-
-            ITestProvider provider = this.Copy();
-            provider.Settings = TestProviderContextHelper.MergeTestProviderContextSettings(additionalData, _testProviderContext.Settings);
-
-            return new TestList(provider);
-        }
-
-        public async Task<string> GenerateRandom(
-            string template = Constants.DefaultTemplate,
-            int length = Constants.DefaultContextLength, 
-            bool duplicates = Constants.DefaultContextDuplicates)
-        {
-            _testProviderContext.Template = template;
-
-            Dictionary<string, object> additionalData = new Dictionary<string, object> { { "dataSource", "random" }, { "length", length }, { "duplicates", duplicates } };
-
-            TestProviderContext testProviderContext = _testProviderContext;
-            testProviderContext.Settings = TestProviderContextHelper.MergeTestProviderContextSettings(additionalData, _testProviderContext.Settings);
-
-            string request = GenerateRequestURL(_testProviderContext, GeneratorAddress, GetRequestType(template));
-            Task<string> response = SendRequest(request, template.Equals("Stream"));
-
-            return await response;
+            return RequestQueue(additionalData);
         }
 
         public TestQueue QueueRandom(
@@ -318,41 +256,7 @@ namespace Testify.EcFeed
         {
             Dictionary<string, object> additionalData = new Dictionary<string, object> { { "dataSource", "random" }, { "length", length }, { "duplicates", duplicates } };
 
-            ITestProvider provider = this.Copy();
-            provider.Settings = TestProviderContextHelper.MergeTestProviderContextSettings(additionalData, _testProviderContext.Settings);
-
-            return new TestQueue(provider);
-        }
-
-        public TestList ListRandom(
-            int length = Constants.DefaultContextLength, 
-            bool duplicates = Constants.DefaultContextDuplicates)
-        {
-            Dictionary<string, object> additionalData = new Dictionary<string, object> { { "dataSource", "random" }, { "length", length }, { "duplicates", duplicates } };
-
-            ITestProvider provider = this.Copy();
-            provider.Settings = TestProviderContextHelper.MergeTestProviderContextSettings(additionalData, _testProviderContext.Settings);
-
-            return new TestList(provider);
-        }
-
-        public async Task<string> GenerateStatic(
-            string template = Constants.DefaultTemplate,
-            object testSuites = null)
-        {
-            _testProviderContext.Template = template;
-            
-            object updateTestSuites = testSuites == null ? Constants.DefaultContextTestSuite : testSuites;
-
-            Dictionary<string, object> additionalData = new Dictionary<string, object> { { "dataSource", "static" }, { "testSuites", updateTestSuites } };
-
-            TestProviderContext testProviderContext = _testProviderContext;
-            testProviderContext.Settings = TestProviderContextHelper.MergeTestProviderContextSettings(additionalData, _testProviderContext.Settings);
-
-            string request = GenerateRequestURL(_testProviderContext, GeneratorAddress, GetRequestType(template));
-            Task<string> response = SendRequest(request, template.Equals("Stream"));
-
-            return await response;
+            return RequestQueue(additionalData);
         }
 
         public TestQueue QueueStatic(
@@ -361,10 +265,47 @@ namespace Testify.EcFeed
             object updateTestSuites = testSuites == null ? Constants.DefaultContextTestSuite : testSuites;
             Dictionary<string, object> additionalData = new Dictionary<string, object> { { "dataSource", "static" }, { "testSuites", updateTestSuites } };
 
-            ITestProvider provider = this.Copy();
-            provider.Settings = TestProviderContextHelper.MergeTestProviderContextSettings(additionalData, _testProviderContext.Settings);
+            return RequestQueue(additionalData);
+        }
 
-            return new TestQueue(provider);
+        private TestQueue RequestQueue(Dictionary<string, object> additionalData)
+        {
+            ITestProvider context = this.Copy();
+            context.Settings = MergeTestProviderSettings(additionalData, context.Settings);
+
+            return new TestQueue(context);
+        }
+
+        public TestList List()
+        {
+            Dictionary<string, object> additionalData = new Dictionary<string, object> { };
+
+            return RequestList(additionalData);
+        }
+
+        public TestList ListCartesian()
+        {
+            Dictionary<string, object> additionalData = new Dictionary<string, object> { { "dataSource", "genCartesian" } };
+
+            return RequestList(additionalData);
+        }
+
+        public TestList ListNWise(
+            int n = Constants.DefaultContextN, 
+            int coverage = Constants.DefaultContextCoverage)
+        {
+            Dictionary<string, object> additionalData = new Dictionary<string, object> { { "dataSource", "genNWise" }, { "n", n }, { "coverage", coverage } };
+
+            return RequestList(additionalData);
+        }
+
+        public TestList ListRandom(
+            int length = Constants.DefaultContextLength, 
+            bool duplicates = Constants.DefaultContextDuplicates)
+        {
+            Dictionary<string, object> additionalData = new Dictionary<string, object> { { "dataSource", "random" }, { "length", length }, { "duplicates", duplicates } };
+
+            return RequestList(additionalData);
         }
 
         public TestList ListStatic(
@@ -373,12 +314,34 @@ namespace Testify.EcFeed
             object updateTestSuites = testSuites == null ? Constants.DefaultContextTestSuite : testSuites;
             Dictionary<string, object> additionalData = new Dictionary<string, object> { { "dataSource", "static" }, { "testSuites", updateTestSuites } };
 
-            ITestProvider provider = this.Copy();
-            provider.Settings = TestProviderContextHelper.MergeTestProviderContextSettings(additionalData, _testProviderContext.Settings);
-
-            return new TestList(provider);
+            return RequestList(additionalData);
         }
 
+        private TestList RequestList(Dictionary<string, object> additionalData)
+        {
+            ITestProvider context = this.Copy();
+            context.Settings = MergeTestProviderSettings(additionalData, context.Settings);
+
+            return new TestList(context);
+        }
+
+        private Dictionary<string, object> MergeTestProviderSettings(Dictionary<string, object> settingsFrom, Dictionary<string, object> settingsTo)
+        {
+
+            if (settingsFrom == null)
+            {
+                settingsFrom = new Dictionary<string, object> { };
+            }
+
+            if (settingsTo == null)
+            {
+                settingsTo = new Dictionary<string, object> { };
+            }
+
+            settingsFrom.ToList().ForEach(x => settingsTo[x.Key] = x.Value);
+
+            return settingsTo;
+        }
         private string GetRequestType(string template)
         {
             return template.Equals("Stream") || template.Equals("StreamRaw") ? "requestData" : "requestExport";
@@ -464,12 +427,47 @@ namespace Testify.EcFeed
             return request;
         }
 
-        private string GenerateRequestURL(TestProviderContext context, string address, string type)
+        private string GenerateRequestURL(ITestProvider provider, string template)
         {
-            string requestData = TestProviderContextHelper.SerializeTestProviderContext(context);
-            string request = $"{ address }/{ Constants.EndpointGenerator }?requestType={ type }&request={ requestData }";
+            string requestData = SerializeTestProvider(provider, template);
+            string request = $"{ GeneratorAddress }/{ Constants.EndpointGenerator }?requestType={ GetRequestType(template) }&request={ requestData }";
 
             return request;
+        }
+
+        private string SerializeTestProvider(ITestProvider context, string template)
+        {
+            ValidateTestProvider(context);
+
+            var parsedRequest = new
+            {
+                model = context.Model,
+                method = context.Method,
+                template = template,
+                userData = JsonConvert.SerializeObject(context.Settings, Formatting.None).Replace("\"", "\'")
+            };
+
+            return JsonConvert.SerializeObject(parsedRequest);
+        }
+
+        private void ValidateTestProvider(ITestProvider context)
+        {
+
+            if (string.IsNullOrEmpty(context.Model))
+            {
+                throw new TestProviderException("The model ID is not defined and the default value cannot be used.");
+            }
+
+            if (string.IsNullOrEmpty(context.Method))
+            {
+                throw new TestProviderException("The method name is not defined and the default value cannot be used.");
+            }
+
+            if (context.Settings == null)
+            {
+                context.Settings = Constants.DefaultContextSettings;
+            }
+
         }
 
         private async Task<string> SendRequest(string request, bool streamFilter)
@@ -520,13 +518,13 @@ namespace Testify.EcFeed
         {
             try
             {
-                StatusEventArgs statusEventArgs = new StatusEventArgs() { RawData = line };
-                statusEventArgs.Structure = JsonConvert.DeserializeObject<StatusMessage>(line);
+                StatusEventArgs statusEventArgs = new StatusEventArgs() { DataRaw = line };
+                statusEventArgs.Schema = JsonConvert.DeserializeObject<StatusMessage>(line);
 
-                if (statusEventArgs.Structure.Status != null)
+                if (statusEventArgs.Schema.Status != null)
                 {
 
-                    if (statusEventArgs.Structure.Status.Equals("END_DATA"))
+                    if (statusEventArgs.Schema.Status.Equals("END_DATA"))
                     {
                         statusEventArgs.Completed = true;
                     }
@@ -544,19 +542,19 @@ namespace Testify.EcFeed
 
         private void ProcessSingleTestResponse(string line, bool streamFilter, StringBuilder responseBuilder)
         {
-            TestEventArgs testEventArgs = new TestEventArgs() { RawData = line };
+            TestEventArgs testEventArgs = new TestEventArgs() { DataRaw = line };
 
             try
             {
-                testEventArgs.Structure = JsonConvert.DeserializeObject<TestCase>(line);
+                testEventArgs.Schema = JsonConvert.DeserializeObject<TestCase>(line);
 
-                if (testEventArgs.Structure.TestCaseArguments == null)
+                if (testEventArgs.Schema.TestCaseArguments == null)
                 {
                     throw new TestProviderException("The message cannot be parsed.");
                 }
 
-                testEventArgs.ObjectData = StreamParser.ParseTestCaseToDataType(testEventArgs.Structure);
-                testEventArgs.TestData = StreamParser.ParseTestToNUnit(testEventArgs.Structure);
+                testEventArgs.DataObject = StreamParser.ParseTestCaseToDataType(testEventArgs.Schema);
+                testEventArgs.DataTest = StreamParser.ParseTestToNUnit(testEventArgs.Schema);
 
                 responseBuilder.AppendLine(line);
                 GenerateTestEvent(testEventArgs);

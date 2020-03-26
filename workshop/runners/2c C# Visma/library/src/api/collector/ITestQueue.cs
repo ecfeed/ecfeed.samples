@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using NUnit.Framework;
 
-namespace Testify.EcFeed
+namespace EcFeed
 {
     public interface ITestQueue : IEnumerable<TestCaseData>
     {

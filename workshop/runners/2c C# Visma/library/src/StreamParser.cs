@@ -1,7 +1,7 @@
 using Newtonsoft.Json;
 using NUnit.Framework;
 
-namespace Testify.EcFeed
+namespace EcFeed
 {
     static class StreamParser
     {
