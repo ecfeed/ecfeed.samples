@@ -12,11 +12,11 @@ namespace Testify.EcFeed.Example
         public static async Task<int> Main(string[] args)
         {
             // SELECT ONE 
-            return await Synchronous();
+            // return await Synchronous();
             // return await Asynchronous();
             // return await Event();
             // ExampleTestQueue();
-            // ExampleTestList();
+            ExampleTestList();
 
             return 0;
         }
@@ -25,7 +25,7 @@ namespace Testify.EcFeed.Example
         {
             ITestProvider testProvider = new TestProvider();
             testProvider.Model = "7482-5194-2849-1943-2448";
-            testProvider.Method = "com.example.test.Demo.typeString(String,String,String,String,String,String,String,String,String,String,String)";
+            testProvider.Method = "com.example.test.Demo.typeString";
             
             Console.WriteLine(testProvider); // DEBUG
 
@@ -38,7 +38,7 @@ namespace Testify.EcFeed.Example
         {
             ITestProvider testProvider = new TestProvider();
             testProvider.Model = "7482-5194-2849-1943-2448";
-            testProvider.Method = "com.example.test.Demo.typeString(String,String,String,String,String,String,String,String,String,String,String)";
+            testProvider.Method = "com.example.test.Demo.typeString";
             testProvider.Settings = new Dictionary<string, object> { { "dataSource", "genNWise" }, { "constraints", "NONE" } };
 
             Console.WriteLine(testProvider); // DEBUG
@@ -56,7 +56,7 @@ namespace Testify.EcFeed.Example
         {
             ITestProvider testProvider = new TestProvider();
             testProvider.Model = "7482-5194-2849-1943-2448";
-            testProvider.Method = "com.example.test.Demo.typeString(String,String,String,String,String,String,String,String,String,String,String)";
+            testProvider.Method = "com.example.test.Demo.typeString";
             testProvider.Settings = new Dictionary<string, object> { { "dataSource", "genNWise" }, { "constraints", "NONE" } };
             
             testProvider.AddTestEventHandler(TestEventHandler);
@@ -71,7 +71,7 @@ namespace Testify.EcFeed.Example
         {
             ITestProvider testProvider = new TestProvider();
             testProvider.Model = "7482-5194-2849-1943-2448";
-            testProvider.Method = "com.example.test.Demo.typeString(String,String,String,String,String,String,String,String,String,String,String)";
+            testProvider.Method = "com.example.test.Demo.typeString";
 
             TestQueue queue = testProvider.QueueNWise();
 
@@ -91,7 +91,7 @@ namespace Testify.EcFeed.Example
         {
             ITestProvider testProvider = new TestProvider();
             testProvider.Model = "7482-5194-2849-1943-2448";
-            testProvider.Method = "com.example.test.Demo.typeString(String,String,String,String,String,String,String,String,String,String,String)";
+            testProvider.Method = "com.example.test.Demo.typeString";
 
             TestList list = testProvider.ListNWise();
 

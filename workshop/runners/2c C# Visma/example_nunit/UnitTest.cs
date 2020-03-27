@@ -20,7 +20,7 @@ namespace example_nunit
         {
             ITestProvider testProvider = new TestProvider();
             testProvider.Model = "7482-5194-2849-1943-2448";
-            testProvider.Method = "com.example.test.Demo.typeString(String,String,String,String,String,String,String,String,String,String,String)";
+            testProvider.Method = "com.example.test.Demo.typeString";
 
             return testProvider.QueueNWise().GetEnumerator();
         }
