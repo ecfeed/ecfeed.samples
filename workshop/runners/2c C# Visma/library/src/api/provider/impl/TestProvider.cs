@@ -191,7 +191,8 @@ namespace EcFeed
             int n = Constants.DefaultContextN, 
             int coverage = Constants.DefaultContextCoverage)
         {
-            Dictionary<string, object> additionalData = new Dictionary<string, object> { { "dataSource", "genNWise" }, { "n", n }, { "coverage", coverage } };
+            Dictionary<string, string> additionalDataProperties = new Dictionary<string, string> { { "n", "" + n }, { "coverage", "" + coverage } };
+            Dictionary<string, object> additionalData = new Dictionary<string, object> { { "dataSource", "genNWise" }, { "properties", additionalDataProperties } };
 
             return await RequestGenerate(additionalData, template);
         }
@@ -201,7 +202,8 @@ namespace EcFeed
             int length = Constants.DefaultContextLength, 
             bool duplicates = Constants.DefaultContextDuplicates)
         {
-            Dictionary<string, object> additionalData = new Dictionary<string, object> { { "dataSource", "random" }, { "length", length }, { "duplicates", duplicates } };
+            Dictionary<string, object> additionalDataProperties = new Dictionary<string, object> { { "length", "" + length }, { "duplicates", duplicates ? "true" : "false" } };
+            Dictionary<string, object> additionalData = new Dictionary<string, object> { { "dataSource", "genRandom" }, { "properties", additionalDataProperties } };
 
             return await RequestGenerate(additionalData, template);
         }
@@ -245,7 +247,8 @@ namespace EcFeed
             int n = Constants.DefaultContextN, 
             int coverage = Constants.DefaultContextCoverage)
         {
-            Dictionary<string, object> additionalData = new Dictionary<string, object> { { "dataSource", "genNWise" }, { "n", n }, { "coverage", coverage } };
+            Dictionary<string, string> additionalDataProperties = new Dictionary<string, string> { { "n", "" + n }, { "coverage", "" + coverage } };
+            Dictionary<string, object> additionalData = new Dictionary<string, object> { { "dataSource", "genNWise" }, { "properties", additionalDataProperties } };
 
             return RequestQueue(additionalData);
         }
@@ -254,7 +257,8 @@ namespace EcFeed
             int length = Constants.DefaultContextLength, 
             bool duplicates = Constants.DefaultContextDuplicates)
         {
-            Dictionary<string, object> additionalData = new Dictionary<string, object> { { "dataSource", "random" }, { "length", length }, { "duplicates", duplicates } };
+            Dictionary<string, object> additionalDataProperties = new Dictionary<string, object> { { "length", "" + length }, { "duplicates", duplicates ? "true" : "false" } };
+            Dictionary<string, object> additionalData = new Dictionary<string, object> { { "dataSource", "genRandom" }, { "properties", additionalDataProperties } };
 
             return RequestQueue(additionalData);
         }
@@ -262,7 +266,7 @@ namespace EcFeed
         public TestQueue QueueStatic(
             object testSuites = null)
         {
-            object updateTestSuites = testSuites == null ? Constants.DefaultContextTestSuite : testSuites;
+            object updateTestSuites = testSuites == null ? Constants.DefaultContextTestSuite : testSuites;Console.WriteLine(updateTestSuites);
             Dictionary<string, object> additionalData = new Dictionary<string, object> { { "dataSource", "static" }, { "testSuites", updateTestSuites } };
 
             return RequestQueue(additionalData);
@@ -294,7 +298,8 @@ namespace EcFeed
             int n = Constants.DefaultContextN, 
             int coverage = Constants.DefaultContextCoverage)
         {
-            Dictionary<string, object> additionalData = new Dictionary<string, object> { { "dataSource", "genNWise" }, { "n", n }, { "coverage", coverage } };
+            Dictionary<string, string> additionalDataProperties = new Dictionary<string, string> { { "n", "" + n }, { "coverage", "" + coverage } };
+            Dictionary<string, object> additionalData = new Dictionary<string, object> { { "dataSource", "genNWise" }, { "properties", additionalDataProperties } };
 
             return RequestList(additionalData);
         }
@@ -303,7 +308,8 @@ namespace EcFeed
             int length = Constants.DefaultContextLength, 
             bool duplicates = Constants.DefaultContextDuplicates)
         {
-            Dictionary<string, object> additionalData = new Dictionary<string, object> { { "dataSource", "random" }, { "length", length }, { "duplicates", duplicates } };
+            Dictionary<string, object> additionalDataProperties = new Dictionary<string, object> { { "length", "" + length }, { "duplicates", duplicates ? "true" : "false" } };
+            Dictionary<string, object> additionalData = new Dictionary<string, object> { { "dataSource", "genRandom" }, { "properties", additionalDataProperties } };
 
             return RequestList(additionalData);
         }
@@ -472,7 +478,6 @@ namespace EcFeed
 
         private async Task<string> SendRequest(string request, bool streamFilter)
         {
-
             try 
             {
                 HttpWebRequest httpWebRequest = (HttpWebRequest) HttpWebRequest.Create(request);
@@ -483,17 +488,30 @@ namespace EcFeed
             }
             catch (CryptographicException)
             {
-                throw new TestProviderException($"The keystore password is incorrect. Keystore path: '{ Path.GetFullPath(KeyStorePath) }'");
+                string message = $"The keystore password is incorrect. Keystore path: '{ Path.GetFullPath(KeyStorePath) }'";
+                StatusEventArgs statusEventArgs = new StatusEventArgs() { DataRaw = message, StatusCode = HttpStatusCode.BadRequest, Completed = true };
+                
+                throw new TestProviderException(message);
             }
             catch (WebException e)
             {
+                StatusEventArgs statusEventArgs = new StatusEventArgs() { DataRaw = e.Message, StatusCode = ((HttpWebResponse) e.Response).StatusCode, Completed = true };
+                GenerateStatusEvent(statusEventArgs);
+
                 throw new TestProviderException(e.Message);
             }
-
         }
 
         private async Task<string> ProcessResponse(HttpWebResponse response, bool streamFilter) 
-        {    
+        {
+            if (!response.StatusCode.ToString().Equals("OK"))
+            {
+                StatusEventArgs statusEventArgs = new StatusEventArgs() { DataRaw = response.StatusDescription, StatusCode = response.StatusCode, Completed = true };
+                GenerateStatusEvent(statusEventArgs);
+
+                return response.StatusDescription;
+            }
+
             StringBuilder responseBuilder = new StringBuilder("");
 
             using (StreamReader reader = new StreamReader(response.GetResponseStream(), Encoding.UTF8)) {
@@ -518,7 +536,7 @@ namespace EcFeed
         {
             try
             {
-                StatusEventArgs statusEventArgs = new StatusEventArgs() { DataRaw = line };
+                StatusEventArgs statusEventArgs = new StatusEventArgs() { DataRaw = line, StatusCode = HttpStatusCode.OK };
                 statusEventArgs.Schema = JsonConvert.DeserializeObject<StatusMessage>(line);
 
                 if (statusEventArgs.Schema.Status != null)
@@ -573,22 +591,18 @@ namespace EcFeed
 
         private void GenerateStatusEvent(StatusEventArgs args)
         {
-
             if (StatusEventHandler != null && StatusEventHandler.GetInvocationList().Length > 0)
             {
                 StatusEventHandler(this, args);
             }
-
         }
 
         private void GenerateTestEvent(TestEventArgs args)
         {
-
             if (TestEventHandler != null && TestEventHandler.GetInvocationList().Length > 0)
             {
                 TestEventHandler(this, args);
             }
-
         }
 
         public override string ToString()

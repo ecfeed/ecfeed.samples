@@ -14,7 +14,7 @@ namespace EcFeed
 
         internal const string DefaultProviderKeyStorePassword = "changeit";
         internal const string DefaultProviderGeneratorAddress = "https://develop-gen.ecfeed.com";
-        internal const string DefaultProviderCertificateHash = "2E2E935816C95225719F9D6DAD07F5699F7B947E";
+        internal const string DefaultProviderCertificateHash = "FD3D44720A70F2A22454AAA0B3F1E8AE6FC0D84E";
         internal static readonly string[] DefaultProviderKeyStorePath =
         {
             Environment.GetEnvironmentVariable("HOME") + "/.ecfeed/security.p12",
