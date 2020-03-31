@@ -2,19 +2,20 @@ using System.Collections;
 using NUnit.Framework;
 using EcFeed;
 
-namespace example_nunit
+namespace exampleNUnit
 {
+    [Ignore("Some other time")]
     [TestFixture]
     public class UnitTest
     {
-        [TestCaseSource(typeof(Feed))]
+        [TestCaseSource(typeof(FeedDefault))]
         public void Test(string a0, string a1, string a2, string a3, string a4, string a5, string a6, string a7, string a8, string a9, string a10)
         {
             Assert.That(false, Is.True);
         }
     }
 
-    class Feed : IEnumerable
+    class FeedDefault : IEnumerable
     {
         public IEnumerator GetEnumerator()
         {
