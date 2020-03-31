@@ -1,6 +1,6 @@
 library/bin/
 library/obj/
-example_console/bin/
-example_console/obj/
-example_nunit/bin/
-example_nunit/obj/
+exampleConsole/bin/
+exampleConsole/obj/
+exampleNUnit/bin/
+exampleNUnit/obj/
