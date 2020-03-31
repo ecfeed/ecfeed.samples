@@ -26,7 +26,7 @@ namespace EcFeed
             fifoTestProvider.AddTestEventHandler(TestEventHandler);
             fifoTestProvider.AddStatusEventHandler(StatusEventHandler);
             
-            fifoTestProvider.Generate("Stream");
+            fifoTestProvider.Generate(Template.Stream);
         }
 
         IEnumerator IEnumerable.GetEnumerator()
@@ -60,7 +60,7 @@ namespace EcFeed
 
         private void StatusEventHandler(object sender, StatusEventArgs args)
         {
-            if (args.Completed)
+            if (args.IsCompleted)
             {
                 _fifo.CompleteAdding();
             }

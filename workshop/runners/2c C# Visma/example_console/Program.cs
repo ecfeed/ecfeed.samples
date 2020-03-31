@@ -29,7 +29,7 @@ namespace Testify.EcFeed.Example
             
             Console.WriteLine(testProvider); // DEBUG
 
-            Console.WriteLine(await testProvider.GenerateNWise(template: "CSV"));
+            Console.WriteLine(await testProvider.GenerateNWise(template: Template.CSV));
 
             return 0;
         }
@@ -43,7 +43,7 @@ namespace Testify.EcFeed.Example
 
             Console.WriteLine(testProvider); // DEBUG
 
-            Task<string> response = testProvider.Generate(template: "CSV");
+            Task<string> response = testProvider.Generate(template: Template.CSV);
 
             Console.WriteLine("\nWaiting...\n"); // DEBUG
 
@@ -62,7 +62,7 @@ namespace Testify.EcFeed.Example
             testProvider.AddTestEventHandler(TestEventHandler);
             testProvider.AddStatusEventHandler(StatusEventHandler);
 
-            await testProvider.Generate(template: "Stream");
+            await testProvider.Generate(template: Template.StreamRaw);
 
             return 0;
         }

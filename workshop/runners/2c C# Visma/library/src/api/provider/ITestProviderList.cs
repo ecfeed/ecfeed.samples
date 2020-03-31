@@ -7,12 +7,12 @@ namespace EcFeed
         TestList ListCartesian();
         
         TestList ListNWise(
-            int n = Constants.DefaultContextN, 
-            int coverage = Constants.DefaultContextCoverage);
+            int n = Default.ParameterN, 
+            int coverage = Default.ParameterCoverage);
         
         TestList ListRandom(
-            int length = Constants.DefaultContextLength, 
-            bool duplicates = Constants.DefaultContextDuplicates);
+            int length = Default.ParameterLength, 
+            bool duplicates = Default.ParameterDuplicates);
         
         TestList ListStatic(
             object testSuites = null);

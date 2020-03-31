@@ -8,7 +8,7 @@ namespace EcFeed
     public sealed class TestList : ITestList
     {
         private List<TestEventArgs> _list = new List<TestEventArgs>();
-        private volatile bool _addingCompleted = false;
+        private volatile bool _isAddingCompleted = false;
 
         public int Count
         {
@@ -26,7 +26,7 @@ namespace EcFeed
             fifoTestProvider.AddTestEventHandler(TestEventHandler);
             fifoTestProvider.AddStatusEventHandler(StatusEventHandler);
             
-            fifoTestProvider.Generate("Stream");
+            fifoTestProvider.Generate(Template.Stream);
         }
 
         IEnumerator IEnumerable.GetEnumerator()
@@ -57,12 +57,12 @@ namespace EcFeed
 
         public void WaitUntilFinished()
         {
-            if (_addingCompleted)
+            if (_isAddingCompleted)
             {
                 return;
             }
 
-            while (!_addingCompleted)
+            while (!_isAddingCompleted)
             {
                 Thread.Sleep(100);
             }
@@ -75,15 +75,15 @@ namespace EcFeed
 
         private void StatusEventHandler(object sender, StatusEventArgs args)
         {
-            if (args.Completed)
+            if (args.IsCompleted)
             {
-                _addingCompleted = true;
+                _isAddingCompleted = true;
             }
         }
 
         public override string ToString()
         {
-            string progress = _addingCompleted ? "Completed" : "In progress";
+            string progress = _isAddingCompleted ? "Completed" : "In progress";
             return $"Test cases: { _list.Count }, Generation status: { progress }.";
         }
 

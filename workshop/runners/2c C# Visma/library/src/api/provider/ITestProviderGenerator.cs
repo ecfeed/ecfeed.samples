@@ -5,23 +5,23 @@ namespace EcFeed
     public interface ITestProviderGenerator
     {
         Task<string> Generate(
-            string template = Constants.DefaultTemplate);
+            string template = Default.Template);
         
         Task<string> GenerateCartesian(
-            string template = Constants.DefaultTemplate);
+            string template = Default.Template);
         
         Task<string> GenerateNWise(
-            string template = Constants.DefaultTemplate,
-            int n = Constants.DefaultContextN, 
-            int coverage = Constants.DefaultContextCoverage);
+            string template = Default.Template,
+            int n = Default.ParameterN, 
+            int coverage = Default.ParameterCoverage);
         
         Task<string> GenerateRandom(
-            string template = Constants.DefaultTemplate,
-            int length = Constants.DefaultContextLength, 
-            bool duplicates = Constants.DefaultContextDuplicates);
+            string template = Default.Template,
+            int length = Default.ParameterLength, 
+            bool duplicates = Default.ParameterDuplicates);
         
         Task<string> GenerateStatic(
-            string template = Constants.DefaultTemplate,
+            string template = Default.Template,
             object testSuites = null);
     }
 }
