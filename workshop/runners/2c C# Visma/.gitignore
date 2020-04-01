@@ -1,5 +1,5 @@
-library/bin/
-library/obj/
+ecfeed/bin/
+ecfeed/obj/
 exampleConsole/bin/
 exampleConsole/obj/
 exampleNUnit/bin/

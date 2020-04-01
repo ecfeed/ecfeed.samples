@@ -14,9 +14,9 @@ namespace Testify.EcFeed.Example
             // SELECT ONE 
             // return await Synchronous();
             // return await Asynchronous();
-            // return await Event();
+            return await Event();
             // ExampleTestQueue();
-            ExampleTestList();
+            // ExampleTestList();
 
             return 0;
         }
@@ -57,12 +57,11 @@ namespace Testify.EcFeed.Example
             ITestProvider testProvider = new TestProvider();
             testProvider.Model = "7482-5194-2849-1943-2448";
             testProvider.Method = "com.example.test.Demo.typeString";
-            testProvider.Settings = new Dictionary<string, object> { { "dataSource", "genNWise" }, { "constraints", "NONE" } };
             
             testProvider.AddTestEventHandler(TestEventHandler);
             testProvider.AddStatusEventHandler(StatusEventHandler);
 
-            await testProvider.Generate(template: Template.StreamRaw);
+            await testProvider.GenerateNWise(template: Template.Stream);
 
             return 0;
         }
