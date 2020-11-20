@@ -1,10 +1,11 @@
 package workshop.runner.selenium;
 
-import com.ecfeed.junit.annotation.EcFeedInput;
-import com.ecfeed.junit.annotation.EcFeedModel;
-import com.ecfeed.junit.annotation.EcFeedTest;
+import com.ecfeed.Param;
+import com.ecfeed.TestProvider;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.remote.RemoteWebDriver;
@@ -13,7 +14,6 @@ import org.openqa.selenium.support.ui.Select;
 import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.fail;
 
 public class TypeString {
 
@@ -93,6 +93,10 @@ public class TypeString {
 
 //------------------------------------------------------------------------------
 
+    private static Iterable<Object[]> testProviderNWise() {
+        return TestProvider.create("0603-5525-0414-9188-9919").generateNWise("com.example.test.Demo.typeString", new Param.ParamsNWise().constraints("NONE"));
+    }
+
     private static RemoteWebDriver driver;
 
     @BeforeAll
@@ -111,10 +115,8 @@ public class TypeString {
          driver.quit();
     }
 
-// The annotations are described in the 'testify.runner.api.TypeString' file.
-    @EcFeedTest
-    @EcFeedModel("0603-5525-0414-9188-9919")
-    @EcFeedInput("'method':'com.example.test.Demo.typeString', 'dataSource':'genNWise', 'constraints':'NONE'")
+    @ParameterizedTest
+    @MethodSource("testProviderNWise")
     void seleniumValidate(String country, String name, String address, String product, String color, String size, String quantity, String payment, String delivery, String phone, String email) {
 
         String[][] input = {

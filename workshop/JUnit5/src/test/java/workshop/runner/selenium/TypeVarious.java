@@ -1,10 +1,11 @@
 package workshop.runner.selenium;
 
-import com.ecfeed.junit.annotation.EcFeedInput;
-import com.ecfeed.junit.annotation.EcFeedModel;
-import com.ecfeed.junit.annotation.EcFeedTest;
+import com.ecfeed.Param;
+import com.ecfeed.TestProvider;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.remote.RemoteWebDriver;
@@ -14,7 +15,6 @@ import workshop.data.*;
 import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.fail;
 
 public class TypeVarious {
 
@@ -94,6 +94,10 @@ public class TypeVarious {
 
 //------------------------------------------------------------------------------
 
+    private static Iterable<Object[]> testProviderNWise() {
+        return TestProvider.create("0603-5525-0414-9188-9919").generateNWise("com.example.test.Demo.typeVarious", new Param.ParamsNWise().constraints("NONE"));
+    }
+
     private static RemoteWebDriver driver;
 
     @BeforeAll
@@ -110,9 +114,8 @@ public class TypeVarious {
          driver.quit();
     }
 
-    @EcFeedTest
-    @EcFeedModel("0603-5525-0414-9188-9919")
-    @EcFeedInput("'method':'com.example.test.Demo.typeVarious', 'dataSource':'genNWise', 'constraints':'NONE'")
+    @ParameterizedTest
+    @MethodSource("testProviderNWise")
     void seleniumValidate(Country country, String name, String address, Product product, Color color, Size size, int quantity, Payment payment, Delivery delivery, String phone, String email) {
 
         String[][] input = {

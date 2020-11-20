@@ -1,11 +1,12 @@
 package workshop.runner.api;
 
-import com.ecfeed.junit.annotation.EcFeedInput;
-import com.ecfeed.junit.annotation.EcFeedModel;
-import com.ecfeed.junit.annotation.EcFeedTest;
+import com.ecfeed.Param;
+import com.ecfeed.TestProvider;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 import workshop.data.*;
 
 import java.util.HashMap;
@@ -24,9 +25,12 @@ public class TypeVarious {
 
 //------------------------------------------------------------------------------
 
-    @EcFeedTest
-    @EcFeedModel("0603-5525-0414-9188-9919")
-    @EcFeedInput("'method':'com.example.test.Demo.typeVarious', 'dataSource':'genNWise', 'constraints':'NONE'")
+    private static Iterable<Object[]> testProviderNWise() {
+        return TestProvider.create("0603-5525-0414-9188-9919").generateNWise("com.example.test.Demo.typeVarious", new Param.ParamsNWise().constraints("NONE"));
+    }
+
+    @ParameterizedTest
+    @MethodSource("testProviderNWise")
     void apiValidate(Country country, String name, String address, Product product, Color color, Size size, int quantity, Payment payment, Delivery delivery, String phone, String email) {
         Map<String, Object> parameters = new HashMap<>();
 

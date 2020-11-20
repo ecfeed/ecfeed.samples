@@ -1,11 +1,12 @@
 package workshop.runner.api;
 
-import com.ecfeed.junit.annotation.EcFeedInput;
-import com.ecfeed.junit.annotation.EcFeedModel;
-import com.ecfeed.junit.annotation.EcFeedTest;
+import com.ecfeed.Param;
+import com.ecfeed.TestProvider;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -18,7 +19,6 @@ public class TypeString {
 // It can be done on the official 'ecFeed' web page, i.e. 'https://www.ecfeed.com/'.
 // After logging in, go to the 'settings' menu (hover the mouse pointer over your email address), open the 'security' section and click on the 'generate keystore' button.
 // The name of the downloaded file, which is 'keystore.p12', must not changed and the keystore should be placed in the '~/.ecfeed/' directory (or `~/ecfeed' for Windows users).
-// However, if it is not possible, use the '@EcFeedKeyStore' annotation to determine its position.
 // The described keystore installation procedure must be done only once. It grants an automatic access to all current and future 'ecFeed' services.
 
 //------------------------------------------------------------------------------
@@ -27,19 +27,17 @@ public class TypeString {
 
 //------------------------------------------------------------------------------
 
-// The annotation states that the following test method should be executed with the 'ecFeed' jUnit extension.
-    @EcFeedTest
 // Each user can have multiple models, and therefore, it is required to provide a valid UUID.
 // It can be found on the official 'ecFeed' web page, in the 'my projects' section. Also, it can be extracted from the editor window URL.
 // Note, that this is the only value that you have to change in order to run the following test.
-    @EcFeedModel("0603-5525-0414-9188-9919")
-// Generation parameters.
-// The 'method' annotation points to a specific method in the model.
-// The 'dataSource' annotation defines the generation technique. Here, it is N-Wise with N=2 (the default value).
 // The 'constraint' annotation contains a list of constraint names that should be used. It also accepts values 'NONE' and 'ALL' (the default value).
-// The full list of customizable parameters, along with examples, can be found on the web page 'https://ecfeed.com/tutorials/junit-documentation#ecfeedinput'.
-    @EcFeedInput("'method':'com.example.test.Demo.typeString', 'dataSource':'genNWise', 'constraints':'NONE'")
+    private static Iterable<Object[]> testProviderNWise() {
+        return TestProvider.create("0603-5525-0414-9188-9919").generateNWise("com.example.test.Demo.typeString", new Param.ParamsNWise().constraints("NONE"));
+    }
+
 // The name of the test method can be arbitrary. However, it must contain the same arguments as in the model version positioned in the same order.
+    @ParameterizedTest
+    @MethodSource("testProviderNWise")
     void apiValidate(String country, String name, String address, String product, String color, String size, String quantity, String payment, String delivery, String phone, String email) {
         Map<String, Object> parameters = new HashMap<>();
 

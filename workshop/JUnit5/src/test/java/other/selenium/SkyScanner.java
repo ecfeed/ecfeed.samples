@@ -1,11 +1,15 @@
 package other.selenium;
 
-import com.ecfeed.junit.annotation.EcFeedInput;
-import com.ecfeed.junit.annotation.EcFeedModel;
-import com.ecfeed.junit.annotation.EcFeedTest;
+import com.ecfeed.Param;
+import com.ecfeed.TestProvider;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
-import org.openqa.selenium.*;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
+import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -35,6 +39,10 @@ public class SkyScanner {
 
 //------------------------------------------------------------------------------
 
+    private static Iterable<Object[]> testProviderNWise() {
+        return TestProvider.create("4408-1001-3225-0620-6211").generateNWise("com.ecfeed.SkyScanner.execute", new Param.ParamsNWise().constraints("NONE"));
+    }
+
     private static RemoteWebDriver driver;
     private static Wait<RemoteWebDriver> driverWait;
 
@@ -56,9 +64,8 @@ public class SkyScanner {
          driver.quit();
     }
 
-    @EcFeedTest
-    @EcFeedModel("4408-1001-3225-0620-6211")
-    @EcFeedInput("'method':'com.ecfeed.SkyScanner.execute', 'dataSource':'genNWise', 'constraints':'ALL'")
+    @ParameterizedTest
+    @MethodSource("testProviderNWise")
     void seleniumValidate(String fFrom, String fTo, String fDepart, String fReturn) {
 
         CharSequence[] clear = {Keys.BACK_SPACE, Keys.BACK_SPACE, Keys.BACK_SPACE, Keys.BACK_SPACE, Keys.BACK_SPACE,
