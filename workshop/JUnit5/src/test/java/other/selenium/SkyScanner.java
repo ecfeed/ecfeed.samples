@@ -40,7 +40,7 @@ public class SkyScanner {
 //------------------------------------------------------------------------------
 
     private static Iterable<Object[]> testProviderNWise() {
-        return TestProvider.create("4408-1001-3225-0620-6211").generateNWise("com.ecfeed.SkyScanner.execute", new Param.ParamsNWise().constraints("NONE"));
+        return TestProvider.create("T8R2-38VQ-25HY-E5KD-4I57").generateNWise("com.ecfeed.SkyScanner.execute", new Param.ParamsNWise().constraints("NONE"));
     }
 
     private static RemoteWebDriver driver;
