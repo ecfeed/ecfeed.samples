@@ -15,15 +15,15 @@ import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class TypeString {
+public class TestPurchase {
 
 // The following test uses the 'ecFeed' library. To run it, you need to install a personal keystore first (if you do not already have it).
 // The procedure is described in the 'testify.runner.api.TyeString' file.
 
 //------------------------------------------------------------------------------
 
-    private static final String webDriver = "/home/patryk/selenium/geckodriver";      // If you want to use the 'chrome' driver, comment this line.
-    // private static final String webDriver = "/home/patryk/selenium/chromedriver";  // If you want to use the 'chrome' driver, uncomment this line.
+    private static final String webDriver = System.getProperty("user.home") + "/selenium/geckodriver";      // If you want to use the 'chrome' driver, comment this line.
+//    private static final String webDriver = System.getProperty("user.home") + "/selenium/chromedriver";      // If you want to use the 'firefox' driver, comment this line.
 
 //------------------------------------------------------------------------------
 
@@ -93,8 +93,11 @@ public class TypeString {
 
 //------------------------------------------------------------------------------
 
-    private static Iterable<Object[]> testProviderNWise() {
+    private static Iterable<Object[]> testProvider() {
+//        return TestProvider.create("6EG2-YL4S-LMAK-Y5VW-VPV9").generateRandom("com.example.test.Demo.testPurchase", new Param.ParamsRandom().adaptive(false).length(30).duplicates(true));
+//        return TestProvider.create("6EG2-YL4S-LMAK-Y5VW-VPV9").generateNWise("com.example.test.Demo.testPurchase", new Param.ParamsNWise().constraints("NONE"));
         return TestProvider.create("6EG2-YL4S-LMAK-Y5VW-VPV9").generateNWise("com.example.test.Demo.testPurchase", new Param.ParamsNWise());
+//        return TestProvider.create("6EG2-YL4S-LMAK-Y5VW-VPV9").generateStatic("com.example.test.Demo.testPurchase", new Param.ParamsStatic().testSuites("regression"));
     }
 
     private static RemoteWebDriver driver;
@@ -116,7 +119,7 @@ public class TypeString {
     }
 
     @ParameterizedTest
-    @MethodSource("testProviderNWise")
+    @MethodSource("testProvider")
     void seleniumValidate(String country, String name, String address, String product, String color, String size, String quantity, String payment, String delivery, String phone, String email) {
 
         String[][] input = {
@@ -128,7 +131,7 @@ public class TypeString {
 
 // Delay the invocation of the next test case (for debugging).
         try {
-            Thread.sleep(1000);
+            Thread.sleep(10);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
