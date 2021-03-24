@@ -22,8 +22,8 @@ public class TypeString {
 
 //------------------------------------------------------------------------------
 
-    private static final String webDriver = "/home/patryk/selenium/geckodriver";      // If you want to use the 'chrome' driver, comment this line.
-    // private static final String webDriver = "/home/patryk/selenium/chromedriver";  // If you want to use the 'chrome' driver, uncomment this line.
+    private static final String webDriver = "/home/krzysztof/geckodriver";      // If you want to use the 'chrome' driver, comment this line.
+    // private static final String webDriver = "/home/krzysztof/chromedriver";  // If you want to use the 'chrome' driver, uncomment this line.
 
 //------------------------------------------------------------------------------
 
