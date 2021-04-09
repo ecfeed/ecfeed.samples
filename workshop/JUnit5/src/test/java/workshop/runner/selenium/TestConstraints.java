@@ -15,7 +15,7 @@ import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class TypeString {
+public class TestConstraints {
 
 // The following test uses the 'ecFeed' library. To run it, you need to install a personal keystore first (if you do not already have it).
 // The procedure is described in the 'testify.runner.api.TypeString' file.
@@ -94,8 +94,8 @@ public class TypeString {
 //------------------------------------------------------------------------------
 
     private static Iterable<Object[]> testProviderNWise() {
-//      return TestProvider.create("6EG2-YL4S-LMAK-Y5VW-VPV9").generateNWise("com.example.test.Demo.typeString", new Param.ParamsNWise().constraints("NONE"));
-        return TestProvider.create("6EG2-YL4S-LMAK-Y5VW-VPV9").generateNWise("com.example.test.Demo.typeString", new Param.ParamsNWise());
+//      return TestProvider.create("6EG2-YL4S-LMAK-Y5VW-VPV9").generateNWise("com.example.test.Demo.testConstraints", new Param.ParamsNWise().constraints("NONE"));
+        return TestProvider.create("6EG2-YL4S-LMAK-Y5VW-VPV9").generateNWise("com.example.test.Demo.testConstraints", new Param.ParamsNWise());
     }
 
     private static RemoteWebDriver driver;
@@ -109,11 +109,11 @@ public class TypeString {
         driver.get(webPageAddress);
     }
 
-// The annotation states that the method should be invoked once before all tests.
+    // The annotation states that the method should be invoked once before all tests.
     @AfterAll
 // The name of the method can be arbitrary.
     static void afterAll() {
-         driver.quit();
+        driver.quit();
     }
 
     @ParameterizedTest

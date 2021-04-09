@@ -13,7 +13,7 @@ import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class TypeString {
+public class TestConstraints {
 
 // The following test uses the 'ecFeed' library. To run it, you must generate a personal keystore first.
 // It can be done on the official 'ecFeed' web page, i.e. 'https://www.ecfeed.com/'.
@@ -27,16 +27,16 @@ public class TypeString {
 
 //------------------------------------------------------------------------------
 
-// Each user can have multiple models, and therefore, it is required to provide a valid UUID.
+    // Each user can have multiple models, and therefore, it is required to provide a valid UUID.
 // It can be found on the official 'ecFeed' web page, in the 'my projects' section. Also, it can be extracted from the editor window URL.
 // Note, that this is the only value that you have to change in order to run the following test.
 // The 'constraint' annotation contains a list of constraint names that should be used. It also accepts values 'NONE' and 'ALL' (the default value).
     private static Iterable<Object[]> testProviderNWise() {
-//      return TestProvider.create("6EG2-YL4S-LMAK-Y5VW-VPV9").generateNWise("com.example.test.Demo.typeString", new Param.ParamsNWise().constraints("NONE"));
-        return TestProvider.create("6EG2-YL4S-LMAK-Y5VW-VPV9").generateNWise("com.example.test.Demo.typeString");
+//      return TestProvider.create("6EG2-YL4S-LMAK-Y5VW-VPV9").generateNWise("com.example.test.Demo.testConstraints", new Param.ParamsNWise().constraints("NONE"));
+        return TestProvider.create("6EG2-YL4S-LMAK-Y5VW-VPV9").generateNWise("com.example.test.Demo.testConstraints");
     }
 
-// The name of the test method can be arbitrary. However, it must contain the same arguments as in the model version positioned in the same order.
+    // The name of the test method can be arbitrary. However, it must contain the same arguments as in the model version positioned in the same order.
     @ParameterizedTest
     @MethodSource("testProviderNWise")
     void apiValidate(String country, String name, String address, String product, String color, String size, String quantity, String payment, String delivery, String phone, String email) {
@@ -61,8 +61,8 @@ public class TypeString {
             System.out.println(responseBody);
 
             assertAll("The returned JSON file contains error description(s).",
-                () -> assertTrue(responseBody.contains("\"errorInput\":[]"), "The list of input errors is not empty."),
-                () -> assertTrue(responseBody.contains("\"errorOutput\":[]"), "The list of output errors is not empty.")
+                    () -> assertTrue(responseBody.contains("\"errorInput\":[]"), "The list of input errors is not empty."),
+                    () -> assertTrue(responseBody.contains("\"errorOutput\":[]"), "The list of output errors is not empty.")
             );
 
         } catch (UnirestException e) {

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Model name="workshop" version="3">
+<Model name="Workshop" version="4">
     <Class name="com.example.test.Demo">
         <Properties>
             <Property name="runOnAndroid" type="boolean" value="false"/>
@@ -41,7 +41,7 @@
                 <Comments>
                     <TypeComments/>
                 </Comments>
-                <Choice name="address\s1" value="Aleja\sPysiowa\s129.\s81-384\sWarszawa" isRandomized="false"/>
+                <Choice name="address\s1" value="Aleja\sTargowa\s129.\s03-728\sWarszawa" isRandomized="false"/>
                 <Choice name="address\s2" value="Tollbodgata\s138.\s0484\sLangtvekkistan" isRandomized="false"/>
                 <Choice name="address\s3" value="Timmersloher\sLandstraße\s300.\sD-12129\sKuhdorf" isRandomized="false"/>
             </Parameter>
@@ -88,9 +88,9 @@
                 <Comments>
                     <TypeComments/>
                 </Comments>
-                <Choice name="almost\snothing" value="1" isRandomized="false"/>
-                <Choice name="a\sfew" value="2" isRandomized="false"/>
-                <Choice name="a\slot" value="3" isRandomized="false"/>
+                <Choice name="a\sfew" value="[1-5]" isRandomized="true"/>
+                <Choice name="regular" value="[6-9]" isRandomized="true"/>
+                <Choice name="a\slot" value="[1-9][0-9]" isRandomized="true"/>
             </Parameter>
             <Parameter name="Payment" type="String" isExpected="false" expected="VISA" linked="false">
                 <Properties>
@@ -121,8 +121,9 @@
                 <Comments>
                     <TypeComments/>
                 </Comments>
-                <Choice name="phone\s1" value="+47123456789" isRandomized="false"/>
-                <Choice name="phone\s2" value="+48123456789" isRandomized="false"/>
+                <Choice name="norway" value="+47123456789" isRandomized="false"/>
+                <Choice name="poland" value="+48123456789" isRandomized="false"/>
+                <Choice name="other" value="+00123456789" isRandomized="false"/>
             </Parameter>
             <Parameter name="Email" type="String" isExpected="false" expected="0" linked="false">
                 <Properties>
@@ -131,42 +132,10 @@
                 <Comments>
                     <TypeComments/>
                 </Comments>
-                <Choice name="email\s1" value="ola@nordmann.no" isRandomized="false"/>
-                <Choice name="email\s2" value="anna@kowalska.pl" isRandomized="false"/>
+                <Choice name="email\s1" value="[a-zA-Z1-9]{3,5}\\@[a-zA-Z1-9]{2,3}\\.com" isRandomized="true"/>
+                <Choice name="email\s2" value="[a-zA-Z1-9]{3,5}\\@[a-zA-Z1-9]{2,3}\\.net" isRandomized="true"/>
             </Parameter>
-            <Constraint name="countryOtherPayment">
-                <Premise>
-                    <Statement choice="other" parameter="Country" relation="equal"/>
-                </Premise>
-                <Consequence>
-                    <Statement choice="cash\son\sdelivery" parameter="Payment" relation="notequal"/>
-                </Consequence>
-            </Constraint>
-            <Constraint name="countryOtherDelivery">
-                <Premise>
-                    <Statement choice="other" parameter="Country" relation="equal"/>
-                </Premise>
-                <Consequence>
-                    <Statement choice="express" parameter="Delivery" relation="notequal"/>
-                </Consequence>
-            </Constraint>
-            <Constraint name="countryNorwayPhone">
-                <Premise>
-                    <Statement choice="norway" parameter="Country" relation="equal"/>
-                </Premise>
-                <Consequence>
-                    <Statement choice="phone\s1" parameter="Phone" relation="equal"/>
-                </Consequence>
-            </Constraint>
-            <Constraint name="countryPolandPhone">
-                <Premise>
-                    <Statement choice="poland" parameter="Country" relation="equal"/>
-                </Premise>
-                <Consequence>
-                    <Statement choice="phone\s2" parameter="Phone" relation="equal"/>
-                </Consequence>
-            </Constraint>
-            <Constraint name="productHoodieColor">
+            <Constraint name="productHoodieColor" type="EF">
                 <Premise>
                     <Statement choice="hoodie" parameter="Product" relation="equal"/>
                 </Premise>
@@ -176,6 +145,46 @@
                         <Statement choice="green" parameter="Color" relation="notequal"/>
                         <Statement choice="blue" parameter="Color" relation="notequal"/>
                     </StatementArray>
+                </Consequence>
+            </Constraint>
+            <Constraint name="countryOtherPayment" type="EF">
+                <Premise>
+                    <Statement choice="other" parameter="Country" relation="equal"/>
+                </Premise>
+                <Consequence>
+                    <Statement choice="cash\son\sdelivery" parameter="Payment" relation="notequal"/>
+                </Consequence>
+            </Constraint>
+            <Constraint name="countryOtherDelivery" type="EF">
+                <Premise>
+                    <Statement choice="other" parameter="Country" relation="equal"/>
+                </Premise>
+                <Consequence>
+                    <Statement choice="express" parameter="Delivery" relation="notequal"/>
+                </Consequence>
+            </Constraint>
+            <Constraint name="countryNorwayPhone" type="EF">
+                <Premise>
+                    <Statement choice="norway" parameter="Country" relation="equal"/>
+                </Premise>
+                <Consequence>
+                    <Statement choice="norway" parameter="Phone" relation="equal"/>
+                </Consequence>
+            </Constraint>
+            <Constraint name="countryPolandPhone" type="EF">
+                <Premise>
+                    <Statement choice="poland" parameter="Country" relation="equal"/>
+                </Premise>
+                <Consequence>
+                    <Statement choice="poland" parameter="Phone" relation="equal"/>
+                </Consequence>
+            </Constraint>
+            <Constraint name="countryOtherPhone" type="EF">
+                <Premise>
+                    <Statement choice="other" parameter="Country" relation="equal"/>
+                </Premise>
+                <Consequence>
+                    <Statement choice="other" parameter="Phone" relation="equal"/>
                 </Consequence>
             </Constraint>
         </Method>
@@ -216,7 +225,7 @@
                 <Comments>
                     <TypeComments/>
                 </Comments>
-                <Choice name="address\s1" value="Aleja\sPysiowa\s129.\s81-384\sWarszawa" isRandomized="false"/>
+                <Choice name="address\s1" value="Aleja\sTargowa\s129.\s03-728\sWarszawa" isRandomized="false"/>
                 <Choice name="address\s2" value="Tollbodgata\s138.\s0484\sLangtvekkistan" isRandomized="false"/>
                 <Choice name="address\s3" value="Timmersloher\sLandstraße\s300.\sD-12129\sKuhdorf" isRandomized="false"/>
             </Parameter>
@@ -263,9 +272,9 @@
                 <Comments>
                     <TypeComments/>
                 </Comments>
-                <Choice name="almost\snothing" value="1" isRandomized="false"/>
-                <Choice name="a\sfew" value="2" isRandomized="false"/>
-                <Choice name="a\slot" value="3" isRandomized="false"/>
+                <Choice name="a\sfew" value="1:5" isRandomized="true"/>
+                <Choice name="regular" value="6:9" isRandomized="true"/>
+                <Choice name="a\slot" value="10:99" isRandomized="true"/>
             </Parameter>
             <Parameter name="Payment" type="workshop.data.Payment" isExpected="false" expected="VISA" linked="false">
                 <Properties>
@@ -296,8 +305,9 @@
                 <Comments>
                     <TypeComments/>
                 </Comments>
-                <Choice name="phone\s1" value="+47123456789" isRandomized="false"/>
-                <Choice name="phone\s2" value="+48123456789" isRandomized="false"/>
+                <Choice name="norway" value="+47123456789" isRandomized="false"/>
+                <Choice name="poland" value="+48123456789" isRandomized="false"/>
+                <Choice name="other" value="+00123456789" isRandomized="false"/>
             </Parameter>
             <Parameter name="Email" type="String" isExpected="false" expected="0" linked="false">
                 <Properties>
@@ -306,42 +316,10 @@
                 <Comments>
                     <TypeComments/>
                 </Comments>
-                <Choice name="email\s1" value="ola@nordmann.no" isRandomized="false"/>
-                <Choice name="email\s2" value="anna@kowalska.pl" isRandomized="false"/>
+                <Choice name="email\s1" value="[a-zA-Z1-9]{3,5}\\@[a-zA-Z1-9]{2,3}\\.com" isRandomized="true"/>
+                <Choice name="email\s2" value="[a-zA-Z1-9]{3,5}\\@[a-zA-Z1-9]{2,3}\\.net" isRandomized="true"/>
             </Parameter>
-            <Constraint name="countryOtherPayment">
-                <Premise>
-                    <Statement choice="other" parameter="Country" relation="equal"/>
-                </Premise>
-                <Consequence>
-                    <Statement choice="cash_on_delivery" parameter="Payment" relation="notequal"/>
-                </Consequence>
-            </Constraint>
-            <Constraint name="countryOtherDelivery">
-                <Premise>
-                    <Statement choice="other" parameter="Country" relation="equal"/>
-                </Premise>
-                <Consequence>
-                    <Statement choice="express" parameter="Delivery" relation="notequal"/>
-                </Consequence>
-            </Constraint>
-            <Constraint name="countryNorwayPhone">
-                <Premise>
-                    <Statement choice="norway" parameter="Country" relation="equal"/>
-                </Premise>
-                <Consequence>
-                    <Statement choice="phone\s1" parameter="Phone" relation="equal"/>
-                </Consequence>
-            </Constraint>
-            <Constraint name="countryPolandPhone">
-                <Premise>
-                    <Statement choice="poland" parameter="Country" relation="equal"/>
-                </Premise>
-                <Consequence>
-                    <Statement choice="phone\s2" parameter="Phone" relation="equal"/>
-                </Consequence>
-            </Constraint>
-            <Constraint name="productHoodieColor">
+            <Constraint name="productHoodieColor" type="EF">
                 <Premise>
                     <Statement choice="hoodie" parameter="Product" relation="equal"/>
                 </Premise>
@@ -350,6 +328,227 @@
                         <Statement choice="red" parameter="Color" relation="notequal"/>
                         <Statement choice="green" parameter="Color" relation="notequal"/>
                         <Statement choice="blue" parameter="Color" relation="notequal"/>
+                    </StatementArray>
+                </Consequence>
+            </Constraint>
+            <Constraint name="countryOtherPayment" type="EF">
+                <Premise>
+                    <Statement choice="other" parameter="Country" relation="equal"/>
+                </Premise>
+                <Consequence>
+                    <Statement choice="cash_on_delivery" parameter="Payment" relation="notequal"/>
+                </Consequence>
+            </Constraint>
+            <Constraint name="countryOtherDelivery" type="EF">
+                <Premise>
+                    <Statement choice="other" parameter="Country" relation="equal"/>
+                </Premise>
+                <Consequence>
+                    <Statement choice="express" parameter="Delivery" relation="notequal"/>
+                </Consequence>
+            </Constraint>
+            <Constraint name="countryNorwayPhone" type="EF">
+                <Premise>
+                    <Statement choice="norway" parameter="Country" relation="equal"/>
+                </Premise>
+                <Consequence>
+                    <Statement choice="norway" parameter="Phone" relation="equal"/>
+                </Consequence>
+            </Constraint>
+            <Constraint name="countryPolandPhone" type="EF">
+                <Premise>
+                    <Statement choice="poland" parameter="Country" relation="equal"/>
+                </Premise>
+                <Consequence>
+                    <Statement choice="poland" parameter="Phone" relation="equal"/>
+                </Consequence>
+            </Constraint>
+            <Constraint name="countryOtherPhone" type="EF">
+                <Premise>
+                    <Statement choice="other" parameter="Country" relation="equal"/>
+                </Premise>
+                <Consequence>
+                    <Statement choice="other" parameter="Phone" relation="equal"/>
+                </Consequence>
+            </Constraint>
+        </Method>
+        <Method name="testConstraints">
+            <Properties>
+                <Property name="methodRunner" type="String" value="Java Runner"/>
+                <Property name="wbMapBrowserToParam" type="boolean" value="false"/>
+                <Property name="wbBrowser" type="String" value="Chrome"/>
+                <Property name="wbMapStartUrlToParam" type="boolean" value="false"/>
+            </Properties>
+            <Parameter name="Country" type="String" isExpected="false" expected="Norway" linked="false">
+                <Properties>
+                    <Property name="wbIsOptional" type="boolean" value="false"/>
+                </Properties>
+                <Comments>
+                    <TypeComments/>
+                </Comments>
+                <Choice name="germany" value="Germany" isRandomized="false"/>
+                <Choice name="norway" value="Norway" isRandomized="false"/>
+                <Choice name="poland" value="Poland" isRandomized="false"/>
+                <Choice name="other" value="other" isRandomized="false"/>
+            </Parameter>
+            <Parameter name="Name" type="String" isExpected="false" expected="0" linked="false">
+                <Properties>
+                    <Property name="wbIsOptional" type="boolean" value="false"/>
+                </Properties>
+                <Comments>
+                    <TypeComments/>
+                </Comments>
+                <Choice name="name\s1" value="John\sDoe" isRandomized="false"/>
+                <Choice name="name\s2" value="Anna\sKowalska" isRandomized="false"/>
+                <Choice name="name\s3" value="Ola\sNordmann" isRandomized="false"/>
+                <Choice name="name\s4" value="Max\sMustermann" isRandomized="false"/>
+            </Parameter>
+            <Parameter name="Address" type="String" isExpected="false" expected="0" linked="false">
+                <Properties>
+                    <Property name="wbIsOptional" type="boolean" value="false"/>
+                </Properties>
+                <Comments>
+                    <TypeComments/>
+                </Comments>
+                <Choice name="address\s1" value="Aleja\sTargowa\s129.\s03-728\sWarszawa" isRandomized="false"/>
+                <Choice name="address\s2" value="Tollbodgata\s138.\s0484\sLangtvekkistan" isRandomized="false"/>
+                <Choice name="address\s3" value="Timmersloher\sLandstraße\s300.\sD-12129\sKuhdorf" isRandomized="false"/>
+            </Parameter>
+            <Parameter name="Product" type="String" isExpected="false" expected="tshirt" linked="false">
+                <Properties>
+                    <Property name="wbIsOptional" type="boolean" value="false"/>
+                </Properties>
+                <Comments>
+                    <TypeComments/>
+                </Comments>
+                <Choice name="t-shirt" value="t-shirt" isRandomized="false"/>
+                <Choice name="hoodie" value="hoodie" isRandomized="false"/>
+            </Parameter>
+            <Parameter name="Color" type="String" isExpected="false" expected="white" linked="false">
+                <Properties>
+                    <Property name="wbIsOptional" type="boolean" value="false"/>
+                </Properties>
+                <Comments>
+                    <TypeComments/>
+                </Comments>
+                <Choice name="white" value="white" isRandomized="false"/>
+                <Choice name="black" value="black" isRandomized="false"/>
+                <Choice name="red" value="red" isRandomized="false"/>
+                <Choice name="green" value="green" isRandomized="false"/>
+                <Choice name="blue" value="blue" isRandomized="false"/>
+            </Parameter>
+            <Parameter name="Size" type="String" isExpected="false" expected="XS" linked="false">
+                <Properties>
+                    <Property name="wbIsOptional" type="boolean" value="false"/>
+                </Properties>
+                <Comments>
+                    <TypeComments/>
+                </Comments>
+                <Choice name="xs" value="XS" isRandomized="false"/>
+                <Choice name="s" value="S" isRandomized="false"/>
+                <Choice name="m" value="M" isRandomized="false"/>
+                <Choice name="l" value="L" isRandomized="false"/>
+                <Choice name="xl" value="XL" isRandomized="false"/>
+            </Parameter>
+            <Parameter name="Quantity" type="String" isExpected="false" expected="0" linked="false">
+                <Properties>
+                    <Property name="wbIsOptional" type="boolean" value="false"/>
+                </Properties>
+                <Comments>
+                    <TypeComments/>
+                </Comments>
+                <Choice name="a\sfew" value="[1-5]" isRandomized="true"/>
+                <Choice name="regular" value="[6-9]" isRandomized="true"/>
+                <Choice name="a\slot" value="[1-9][0-9]" isRandomized="true"/>
+            </Parameter>
+            <Parameter name="Payment" type="String" isExpected="false" expected="VISA" linked="false">
+                <Properties>
+                    <Property name="wbIsOptional" type="boolean" value="false"/>
+                </Properties>
+                <Comments>
+                    <TypeComments/>
+                </Comments>
+                <Choice name="visa" value="VISA" isRandomized="false"/>
+                <Choice name="mastercard" value="MASTERCARD" isRandomized="false"/>
+                <Choice name="bank\stransfer" value="bank\stransfer" isRandomized="false"/>
+                <Choice name="cash\son\sdelivery" value="cash\son\sdelivery" isRandomized="false"/>
+            </Parameter>
+            <Parameter name="Delivery" type="String" isExpected="false" expected="standard" linked="false">
+                <Properties>
+                    <Property name="wbIsOptional" type="boolean" value="false"/>
+                </Properties>
+                <Comments>
+                    <TypeComments/>
+                </Comments>
+                <Choice name="standard" value="standard" isRandomized="false"/>
+                <Choice name="express" value="express" isRandomized="false"/>
+            </Parameter>
+            <Parameter name="Phone" type="String" isExpected="true" expected="+00123456789" linked="false">
+                <Properties>
+                    <Property name="wbIsOptional" type="boolean" value="false"/>
+                </Properties>
+                <Comments>
+                    <TypeComments/>
+                </Comments>
+                <Choice name="phone\s1" value="+48[1-9]{9}" isRandomized="true"/>
+            </Parameter>
+            <Parameter name="Email" type="String" isExpected="true" expected="example@example.com" linked="false">
+                <Properties>
+                    <Property name="wbIsOptional" type="boolean" value="false"/>
+                </Properties>
+                <Comments>
+                    <TypeComments/>
+                </Comments>
+            </Parameter>
+            <Constraint name="productHoodie" type="EF">
+                <Premise>
+                    <Statement choice="hoodie" parameter="Product" relation="equal"/>
+                </Premise>
+                <Consequence>
+                    <StatementArray operator="or">
+                        <Statement choice="white" parameter="Color" relation="equal"/>
+                        <Statement choice="black" parameter="Color" relation="equal"/>
+                    </StatementArray>
+                </Consequence>
+            </Constraint>
+            <Constraint name="countryGermany" type="BF">
+                <Premise>
+                    <StaticStatement value="true"/>
+                </Premise>
+                <Consequence>
+                    <Statement choice="germany" parameter="Country" relation="notequal"/>
+                </Consequence>
+            </Constraint>
+            <Constraint name="countryNorway" type="AS">
+                <Premise>
+                    <Statement choice="norway" parameter="Country" relation="equal"/>
+                </Premise>
+                <Consequence>
+                    <StatementArray operator="assign">
+                        <ValueStatement rightValue="+47123456789" parameter="Phone" relation="assign"/>
+                        <ValueStatement rightValue="example@example.no" parameter="Email" relation="assign"/>
+                    </StatementArray>
+                </Consequence>
+            </Constraint>
+            <Constraint name="countryPoland" type="AS">
+                <Premise>
+                    <Statement choice="poland" parameter="Country" relation="equal"/>
+                </Premise>
+                <Consequence>
+                    <StatementArray operator="assign">
+                        <ValueStatement rightValue="+48123456789" parameter="Phone" relation="assign"/>
+                        <ValueStatement rightValue="example@example.pl" parameter="Email" relation="assign"/>
+                    </StatementArray>
+                </Consequence>
+            </Constraint>
+            <Constraint name="countryOther" type="EF">
+                <Premise>
+                    <Statement choice="other" parameter="Country" relation="equal"/>
+                </Premise>
+                <Consequence>
+                    <StatementArray operator="and">
+                        <Statement choice="cash\son\sdelivery" parameter="Payment" relation="notequal"/>
+                        <Statement choice="express" parameter="Delivery" relation="notequal"/>
                     </StatementArray>
                 </Consequence>
             </Constraint>
