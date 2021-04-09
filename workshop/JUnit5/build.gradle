@@ -2,7 +2,7 @@ plugins {
     id 'java'
 }
 
-group 'workshop-2019-november'
+group 'workshop-2020-march'
 version '1.0-SNAPSHOT'
 
 sourceCompatibility = 1.8
@@ -20,7 +20,7 @@ dependencies {
     testCompile 'org.junit.jupiter:junit-jupiter-engine:5.5.1'
     testCompile 'org.junit.jupiter:junit-jupiter-params:5.5.1'
     // https://mvnrepository.com/artifact/com.ecfeed/ecfeed.junit
-    compile 'com.ecfeed:ecfeed.junit:1.0.0'
+    compile 'com.ecfeed:ecfeed.runner:2.1.0'
     // https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-java
     compile group: 'org.seleniumhq.selenium', name: 'selenium-java', version: '4.0.0-alpha-3'
     // https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-firefox-driver

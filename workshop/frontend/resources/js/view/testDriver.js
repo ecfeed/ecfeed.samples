@@ -96,7 +96,7 @@ export const processTestCase = (response) => {
         formManipulate.updateResponse('Request rejected', response.errorOutput.map(val => `- ${val}`).join('\n'));
         formManipulate.updateResponseValid(false);
     } else {
-        formManipulate.updateResponse('Request accepted', 'Order processsed without errors! Please wait for the delivery...');
+        formManipulate.updateResponse('Request accepted', 'Order processed without errors! Please wait for the delivery...');
         formManipulate.updateResponseValid(true);
     }
 

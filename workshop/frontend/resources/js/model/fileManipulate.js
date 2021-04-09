@@ -43,7 +43,7 @@ const fileParseTest = (header, body) => {
 
     let index = 0;
     for (const val of content) {
-        test[header[index++]] = val.toLowerCase();
+        test[header[index++]] = val;
     }
 
     return test;

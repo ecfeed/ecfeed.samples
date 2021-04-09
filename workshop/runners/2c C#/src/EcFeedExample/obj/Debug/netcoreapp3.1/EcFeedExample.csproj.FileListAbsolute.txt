@@ -1,0 +1,14 @@
+/home/krzysztof/Desktop/git/ecfeed.super/samples/workshop/runners/2c CSharp/src/EcFeedExample/bin/Debug/netcoreapp3.1/EcFeedExample
+/home/krzysztof/Desktop/git/ecfeed.super/samples/workshop/runners/2c CSharp/src/EcFeedExample/bin/Debug/netcoreapp3.1/EcFeedExample.deps.json
+/home/krzysztof/Desktop/git/ecfeed.super/samples/workshop/runners/2c CSharp/src/EcFeedExample/bin/Debug/netcoreapp3.1/EcFeedExample.runtimeconfig.json
+/home/krzysztof/Desktop/git/ecfeed.super/samples/workshop/runners/2c CSharp/src/EcFeedExample/bin/Debug/netcoreapp3.1/EcFeedExample.runtimeconfig.dev.json
+/home/krzysztof/Desktop/git/ecfeed.super/samples/workshop/runners/2c CSharp/src/EcFeedExample/bin/Debug/netcoreapp3.1/EcFeedExample.dll
+/home/krzysztof/Desktop/git/ecfeed.super/samples/workshop/runners/2c CSharp/src/EcFeedExample/bin/Debug/netcoreapp3.1/EcFeedExample.pdb
+/home/krzysztof/Desktop/git/ecfeed.super/samples/workshop/runners/2c CSharp/src/EcFeedExample/bin/Debug/netcoreapp3.1/EcFeed.dll
+/home/krzysztof/Desktop/git/ecfeed.super/samples/workshop/runners/2c CSharp/src/EcFeedExample/bin/Debug/netcoreapp3.1/EcFeed.pdb
+/home/krzysztof/Desktop/git/ecfeed.super/samples/workshop/runners/2c CSharp/src/EcFeedExample/obj/Debug/netcoreapp3.1/EcFeedExample.csprojAssemblyReference.cache
+/home/krzysztof/Desktop/git/ecfeed.super/samples/workshop/runners/2c CSharp/src/EcFeedExample/obj/Debug/netcoreapp3.1/EcFeedExample.AssemblyInfoInputs.cache
+/home/krzysztof/Desktop/git/ecfeed.super/samples/workshop/runners/2c CSharp/src/EcFeedExample/obj/Debug/netcoreapp3.1/EcFeedExample.AssemblyInfo.cs
+/home/krzysztof/Desktop/git/ecfeed.super/samples/workshop/runners/2c CSharp/src/EcFeedExample/obj/Debug/netcoreapp3.1/EcFeedExample.csproj.CopyComplete
+/home/krzysztof/Desktop/git/ecfeed.super/samples/workshop/runners/2c CSharp/src/EcFeedExample/obj/Debug/netcoreapp3.1/EcFeedExample.dll
+/home/krzysztof/Desktop/git/ecfeed.super/samples/workshop/runners/2c CSharp/src/EcFeedExample/obj/Debug/netcoreapp3.1/EcFeedExample.pdb
