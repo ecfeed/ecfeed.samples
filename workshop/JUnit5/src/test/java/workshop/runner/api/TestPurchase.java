@@ -31,17 +31,17 @@ public class TestPurchase {
 // It can be found on the official 'ecFeed' web page, in the 'my projects' section. Also, it can be extracted from the editor window URL.
 // Note, that this is the only value that you have to change in order to run the following test.
 // The 'constraint' annotation contains a list of constraint names that should be used. It also accepts values 'NONE' and 'ALL' (the default value).
-    private static Iterable<Object[]> testProvider() {
-//        return TestProvider.create("6EG2-YL4S-LMAK-Y5VW-VPV9").generateNWise("com.example.test.Demo.testPurchase", new Param.ParamsNWise().constraints("NONE"));
-        return TestProvider.create("6EG2-YL4S-LMAK-Y5VW-VPV9").generateNWise("com.example.test.Demo.testPurchase", new Param.ParamsNWise());
-//        return TestProvider.create("6EG2-YL4S-LMAK-Y5VW-VPV9").generateRandom("com.example.test.Demo.testPurchase", new Param.ParamsRandom().length(20).adaptive(true));
-//        return TestProvider.create("6EG2-YL4S-LMAK-Y5VW-VPV9").generateStatic("com.example.test.Demo.testPurchase", new Param.ParamsStatic().testSuites(new String[] {"regression"}));
+    private static Iterable<Object[]> testProviderInput() {
+//        return TestProvider.create("6EG2-YL4S-LMAK-Y5VW-VPV9").generateNWise("com.example.test.Demo.testPurchaseInput", new Param.ParamsNWise().constraints("NONE"));
+        return TestProvider.create("6EG2-YL4S-LMAK-Y5VW-VPV9").generateNWise("com.example.test.Demo.testPurchaseInput", new Param.ParamsNWise());
+//        return TestProvider.create("6EG2-YL4S-LMAK-Y5VW-VPV9").generateRandom("com.example.test.Demo.testPurchaseInput", new Param.ParamsRandom().length(30).adaptive(false).duplicates(true));
+//        return TestProvider.create("6EG2-YL4S-LMAK-Y5VW-VPV9").generateStatic("com.example.test.Demo.testPurchaseInput", new Param.ParamsStatic().testSuites(new String[] {"regression"}));
     }
 
 // The name of the test method can be arbitrary. However, it must contain the same arguments as in the model version positioned in the same order.
     @ParameterizedTest
-    @MethodSource("testProvider")
-    void apiValidate(String country, String name, String address, String product, String color, String size, String quantity, String payment, String delivery, String phone, String email) {
+    @MethodSource("testProviderInput")
+    void testPurchaseInput(String country, String name, String address, String product, String color, String size, String quantity, String payment, String delivery, String phone, String email) {
         Map<String, Object> parameters = new HashMap<>();
 
         parameters.put("mode", "error");//comment out for bug free version
