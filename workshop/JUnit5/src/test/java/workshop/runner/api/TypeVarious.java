@@ -26,7 +26,8 @@ public class TypeVarious {
 //------------------------------------------------------------------------------
 
     private static Iterable<Object[]> testProviderNWise() {
-        return TestProvider.create("6EG2-YL4S-LMAK-Y5VW-VPV9").generateNWise("com.example.test.Demo.typeVarious", new Param.ParamsNWise().constraints("NONE"));
+//      return TestProvider.create("6EG2-YL4S-LMAK-Y5VW-VPV9").generateNWise("com.example.test.Demo.typeVarious", new Param.ParamsNWise().constraints("NONE"));
+        return TestProvider.create("6EG2-YL4S-LMAK-Y5VW-VPV9").generateNWise("com.example.test.Demo.typeVarious");
     }
 
     @ParameterizedTest

@@ -10,16 +10,15 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.Select;
-import workshop.data.*;
 
 import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class TypeVarious {
+public class TestConstraints {
 
-// The following test uses the 'ecFeed' library.
-// It is very similar to the previous one, the only difference is that not all parameters are strings.
+// The following test uses the 'ecFeed' library. To run it, you need to install a personal keystore first (if you do not already have it).
+// The procedure is described in the 'testify.runner.api.TypeString' file.
 
 //------------------------------------------------------------------------------
 
@@ -35,8 +34,8 @@ public class TypeVarious {
     private static final String[] webPageFormOutput = { "status", "response" };
 
     private static final String[][] webPageFormInput = {
-            {"name", "address", "quantity", "phone", "email"},                  // Input type - Text.
-            {"country", "product", "color", "size", "payment", "delivery"}      // Input type - Select.
+            {"name", "address", "quantity", "phone", "email"},
+            {"country", "product", "color", "size", "payment", "delivery"}
     };
 
 //------------------------------------------------------------------------------
@@ -72,7 +71,7 @@ public class TypeVarious {
 
     private static void setFormSelect(RemoteWebDriver driver, String[] values) {
         for (int i = 0 ; i < webPageFormInput[1].length ; i++) {
-            (new Select(driver.findElementById(webPageFormInput[1][i]))).selectByValue(values[i].toLowerCase());
+            (new Select(driver.findElementById(webPageFormInput[1][i]))).selectByVisibleText(values[i]);
         }
     }
 
@@ -95,8 +94,8 @@ public class TypeVarious {
 //------------------------------------------------------------------------------
 
     private static Iterable<Object[]> testProviderNWise() {
-//        return TestProvider.create("6EG2-YL4S-LMAK-Y5VW-VPV9").generateNWise("com.example.test.Demo.typeVarious", new Param.ParamsNWise().constraints("NONE"));
-        return TestProvider.create("6EG2-YL4S-LMAK-Y5VW-VPV9").generateNWise("com.example.test.Demo.typeVarious");
+//      return TestProvider.create("6EG2-YL4S-LMAK-Y5VW-VPV9").generateNWise("com.example.test.Demo.testConstraints", new Param.ParamsNWise().constraints("NONE"));
+        return TestProvider.create("6EG2-YL4S-LMAK-Y5VW-VPV9").generateNWise("com.example.test.Demo.testConstraints", new Param.ParamsNWise());
     }
 
     private static RemoteWebDriver driver;
@@ -110,22 +109,25 @@ public class TypeVarious {
         driver.get(webPageAddress);
     }
 
+    // The annotation states that the method should be invoked once before all tests.
     @AfterAll
+// The name of the method can be arbitrary.
     static void afterAll() {
-         driver.quit();
+        driver.quit();
     }
 
     @ParameterizedTest
     @MethodSource("testProviderNWise")
-    void seleniumValidate(Country country, String name, String address, Product product, Color color, Size size, int quantity, Payment payment, Delivery delivery, String phone, String email) {
+    void seleniumValidate(String country, String name, String address, String product, String color, String size, String quantity, String payment, String delivery, String phone, String email) {
 
         String[][] input = {
-                {name, address, quantity + "", phone, email},
-                {country.toString(), product.toString(), color.toString(), size.toString(), payment.toString(), delivery.toString()}
+                {name, address, quantity, phone, email},
+                {country, product, color, size, payment, delivery}
         };
 
         setForm(driver, input);
 
+// Delay the invocation of the next test case (for debugging).
         try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
