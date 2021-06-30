@@ -1,7 +1,9 @@
 package workshop.runner.selenium;
 
-import com.ecfeed.Param;
 import com.ecfeed.TestProvider;
+import com.ecfeed.params.ParamsNWise;
+import com.ecfeed.params.ParamsRandom;
+import com.ecfeed.params.ParamsStatic;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -12,6 +14,8 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.Select;
 
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -22,7 +26,7 @@ public class TestPurchase {
 
 //------------------------------------------------------------------------------
 
-    private static final String webDriver = System.getProperty("user.home") + "/selenium/geckodriver";      // If you want to use the 'chrome' driver, comment this line.
+    private static final String webDriver = "/home/krzysztof/geckodriver";      // If you want to use the 'chrome' driver, comment this line.
 //    private static final String webDriver = System.getProperty("user.home") + "/selenium/chromedriver";      // If you want to use the 'firefox' driver, comment this line.
 
 //------------------------------------------------------------------------------
@@ -94,10 +98,10 @@ public class TestPurchase {
 //------------------------------------------------------------------------------
 
     private static Iterable<Object[]> testProviderInput() {
-        return TestProvider.create("6EG2-YL4S-LMAK-Y5VW-VPV9").generateRandom("com.example.test.Demo.testPurchaseInput", new Param.ParamsRandom().adaptive(false).length(10).duplicates(true));
-//        return TestProvider.create("6EG2-YL4S-LMAK-Y5VW-VPV9").generateNWise("com.example.test.Demo.testPurchaseInput", new Param.ParamsNWise().constraints("NONE"));
-//        return TestProvider.create("6EG2-YL4S-LMAK-Y5VW-VPV9").generateNWise("com.example.test.Demo.testPurchaseInput", new Param.ParamsNWise());
-//        return TestProvider.create("6EG2-YL4S-LMAK-Y5VW-VPV9").generateStatic("com.example.test.Demo.testPurchaseInput", new Param.ParamsStatic().testSuites("regression"));
+        return TestProvider.create("PZS2-W9NH-FRGZ-LZ4N-VGMR").generateRandom("com.example.test.Demo.testPurchaseInput", ParamsRandom.create().adaptive(false).length(10).duplicates(true));
+//        return TestProvider.create("6EG2-YL4S-LMAK-Y5VW-VPV9").generateNWise("com.example.test.Demo.testPurchaseInput", ParamsNWise.create().constraints("NONE"));
+//        return TestProvider.create("6EG2-YL4S-LMAK-Y5VW-VPV9").generateNWise("com.example.test.Demo.testPurchaseInput", ParamsNWise.create());
+//        return TestProvider.create("6EG2-YL4S-LMAK-Y5VW-VPV9").generateStatic("com.example.test.Demo.testPurchaseInput", ParamsStatic.create().testSuites("regression"));
     }
 
     private static RemoteWebDriver driver;
@@ -145,15 +149,19 @@ public class TestPurchase {
 //    }
 
     private static Iterable<Object[]> testProviderOutput() {
-        return TestProvider.create("6EG2-YL4S-LMAK-Y5VW-VPV9").generateRandom("com.example.test.Demo.testPurchase", new Param.ParamsRandom().adaptive(false).length(10).duplicates(true));
-//        return TestProvider.create("6EG2-YL4S-LMAK-Y5VW-VPV9").generateNWise("com.example.test.Demo.testPurchaseOutput", new Param.ParamsNWise().constraints("NONE"));
-//        return TestProvider.create("6EG2-YL4S-LMAK-Y5VW-VPV9").generateNWise("com.example.test.Demo.testPurchaseOutput", new Param.ParamsNWise());
-//        return TestProvider.create("6EG2-YL4S-LMAK-Y5VW-VPV9").generateStatic("com.example.test.Demo.testPurchaseOutput", new Param.ParamsStatic().testSuites("regression"));
+        Map<String, String> config = new HashMap<>();
+        config.put("generatorAddress", "https://develop-gen.ecfeed.com");
+        return TestProvider.create("PZS2-W9NH-FRGZ-LZ4N-VGMR", config).generateRandom("com.example.test.Demo.testPurchase", ParamsRandom.create().adaptive(false).length(10).duplicates(true));
+//        return TestProvider.create("6EG2-YL4S-LMAK-Y5VW-VPV9").generateNWise("com.example.test.Demo.testPurchaseOutput", ParamsNWise.create().constraints("NONE"));
+//        return TestProvider.create("6EG2-YL4S-LMAK-Y5VW-VPV9").generateNWise("com.example.test.Demo.testPurchaseOutput", ParamsNWise.create());
+//        return TestProvider.create("6EG2-YL4S-LMAK-Y5VW-VPV9").generateStatic("com.example.test.Demo.testPurchaseOutput", ParamsStatic.create().testSuites("regression"));
     }
 
     @ParameterizedTest
     @MethodSource("testProviderOutput")
     void testPurchaseOutput(String country, String name, String address, String product, String color, String size, String quantity, String payment, String delivery, String phone, String email, int max_price) {
+
+        System.out.println(max_price);
 
         String[][] input = {
                 {name, address, quantity, phone, email},

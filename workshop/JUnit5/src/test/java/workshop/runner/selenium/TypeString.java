@@ -1,7 +1,8 @@
 package workshop.runner.selenium;
 
-import com.ecfeed.Param;
+import com.ecfeed.TestHandle;
 import com.ecfeed.TestProvider;
+import com.ecfeed.params.ParamsNWise;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -12,6 +13,10 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.Select;
 
 import java.util.Arrays;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -22,7 +27,7 @@ public class TypeString {
 
 //------------------------------------------------------------------------------
 
-    private static final String webDriver = "/home/krzysztof/geckodriver";      // If you want to use the 'chrome' driver, comment this line.
+    private static final String webDriver = "/home/krzysztof/geckodriver";      // If you want to use the 'gecko' driver, comment this line.
     // private static final String webDriver = "/home/krzysztof/chromedriver";  // If you want to use the 'chrome' driver, uncomment this line.
 
 //------------------------------------------------------------------------------
@@ -94,15 +99,15 @@ public class TypeString {
 //------------------------------------------------------------------------------
 
     private static Iterable<Object[]> testProviderNWise() {
-        return TestProvider.create("6EG2-YL4S-LMAK-Y5VW-VPV9").generateNWise("com.example.test.Demo.testPurchase", new Param.ParamsNWise());
+        return TestProvider.create("6EG2-YL4S-LMAK-Y5VW-VPV9").generateNWise("com.example.test.Demo.typeString", ParamsNWise.create().feedback().label("Selenium"));
     }
 
     private static RemoteWebDriver driver;
 
     @BeforeAll
     static void beforeAll() {
-        System.setProperty("webdriver.gecko.driver", webDriver);        // If you want to use the 'chrome' driver, comment this line.
-        driver = new FirefoxDriver();                                   // If you want to use the 'chrome' driver, comment this line.
+        System.setProperty("webdriver.gecko.driver", webDriver);        // If you want to use the 'gecko' driver, comment this line.
+        driver = new FirefoxDriver();                                   // If you want to use the 'gecko' driver, comment this line.
 //      System.setProperty("webdriver.chrome.driver", webDriver);       // If you want to use the 'chrome' driver, uncomment this line
 //      driver = new ChromeDriver();                                    // If you want to use the 'chrome' driver, uncomment this line
         driver.get(webPageAddress);
@@ -117,14 +122,20 @@ public class TypeString {
 
     @ParameterizedTest
     @MethodSource("testProviderNWise")
-    void seleniumValidate(String country, String name, String address, String product, String color, String size, String quantity, String payment, String delivery, String phone, String email) {
+    void seleniumValidate(String country, String name, String address, String product, String color, String size, String quantity, String payment, String delivery, String phone, String email, TestHandle testHandle) {
 
         String[][] input = {
                 {name, address, quantity, phone, email},
                 {country, product, color, size, payment, delivery}
         };
 
-        setForm(driver, input);
+        try {
+            setForm(driver, input);
+        } catch (Exception e) {
+            var custom = Map.of("1", e.getMessage().split("\n")[0] + ".");
+            testHandle.addFeedback(false, "Input error", custom);
+            throw e;
+        }
 
 // Delay the invocation of the next test case (for debugging).
         try {
@@ -138,7 +149,9 @@ public class TypeString {
         String[] response = getResponse(driver);
         Arrays.stream(response).forEach(System.out::println);
 
-        assertTrue(response[0].equals(" Request accepted"), "The order was not processed");
+        var custom = IntStream.range(1, response.length).boxed().collect(Collectors.toMap(e -> "" + e, e -> response[e]));
+        assertTrue(response[0].equals(" Request accepted"), () -> testHandle.addFeedback(false, "Output error", custom));
+        testHandle.addFeedback(true);
     }
 
 //------------------------------------------------------------------------------

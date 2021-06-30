@@ -1,7 +1,7 @@
 package other.selenium;
 
-import com.ecfeed.Param;
 import com.ecfeed.TestProvider;
+import com.ecfeed.params.ParamsNWise;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -40,7 +40,7 @@ public class SkyScanner {
 //------------------------------------------------------------------------------
 
     private static Iterable<Object[]> testProviderNWise() {
-        return TestProvider.create("T8R2-38VQ-25HY-E5KD-4I57").generateNWise("com.ecfeed.SkyScanner.execute", new Param.ParamsNWise().constraints("NONE"));
+        return TestProvider.create("T8R2-38VQ-25HY-E5KD-4I57").generateNWise("com.ecfeed.SkyScanner.execute", ParamsNWise.create().constraints("NONE"));
     }
 
     private static RemoteWebDriver driver;

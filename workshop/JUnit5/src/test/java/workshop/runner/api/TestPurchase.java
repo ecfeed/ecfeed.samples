@@ -1,7 +1,9 @@
 package workshop.runner.api;
 
-import com.ecfeed.Param;
 import com.ecfeed.TestProvider;
+import com.ecfeed.params.ParamsNWise;
+import com.ecfeed.params.ParamsRandom;
+import com.ecfeed.params.ParamsStatic;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
@@ -32,10 +34,10 @@ public class TestPurchase {
 // Note, that this is the only value that you have to change in order to run the following test.
 // The 'constraint' annotation contains a list of constraint names that should be used. It also accepts values 'NONE' and 'ALL' (the default value).
     private static Iterable<Object[]> testProviderInput() {
-//        return TestProvider.create("6EG2-YL4S-LMAK-Y5VW-VPV9").generateNWise("com.example.test.Demo.testPurchaseInput", new Param.ParamsNWise().constraints("NONE"));
-        return TestProvider.create("6EG2-YL4S-LMAK-Y5VW-VPV9").generateNWise("com.example.test.Demo.testPurchaseInput", new Param.ParamsNWise());
-//        return TestProvider.create("6EG2-YL4S-LMAK-Y5VW-VPV9").generateRandom("com.example.test.Demo.testPurchaseInput", new Param.ParamsRandom().length(30).adaptive(false).duplicates(true));
-//        return TestProvider.create("6EG2-YL4S-LMAK-Y5VW-VPV9").generateStatic("com.example.test.Demo.testPurchaseInput", new Param.ParamsStatic().testSuites(new String[] {"regression"}));
+//        return TestProvider.create("6EG2-YL4S-LMAK-Y5VW-VPV9").generateNWise("com.example.test.Demo.testPurchaseInput", ParamsNWise.create().constraints("NONE"));
+        return TestProvider.create("6EG2-YL4S-LMAK-Y5VW-VPV9").generateNWise("com.example.test.Demo.testPurchaseInput", ParamsNWise.create());
+//        return TestProvider.create("6EG2-YL4S-LMAK-Y5VW-VPV9").generateRandom("com.example.test.Demo.testPurchaseInput", ParamsRandom.create().length(30).adaptive(false).duplicates(true));
+//        return TestProvider.create("6EG2-YL4S-LMAK-Y5VW-VPV9").generateStatic("com.example.test.Demo.testPurchaseInput", ParamsStatic.create().testSuites(new String[] {"regression"}));
     }
 
 // The name of the test method can be arbitrary. However, it must contain the same arguments as in the model version positioned in the same order.

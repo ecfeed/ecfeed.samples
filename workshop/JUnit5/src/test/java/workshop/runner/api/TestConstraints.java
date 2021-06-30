@@ -1,6 +1,5 @@
 package workshop.runner.api;
 
-import com.ecfeed.Param;
 import com.ecfeed.TestProvider;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.Unirest;

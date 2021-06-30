@@ -1,7 +1,7 @@
 package workshop.runner.selenium;
 
-import com.ecfeed.Param;
 import com.ecfeed.TestProvider;
+import com.ecfeed.params.ParamsNWise;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -94,8 +94,8 @@ public class TestConstraints {
 //------------------------------------------------------------------------------
 
     private static Iterable<Object[]> testProviderNWise() {
-//      return TestProvider.create("6EG2-YL4S-LMAK-Y5VW-VPV9").generateNWise("com.example.test.Demo.testConstraints", new Param.ParamsNWise().constraints("NONE"));
-        return TestProvider.create("6EG2-YL4S-LMAK-Y5VW-VPV9").generateNWise("com.example.test.Demo.testConstraints", new Param.ParamsNWise());
+//      return TestProvider.create("6EG2-YL4S-LMAK-Y5VW-VPV9").generateNWise("com.example.test.Demo.testConstraints", ParamsNWise.create().constraints("NONE"));
+        return TestProvider.create("6EG2-YL4S-LMAK-Y5VW-VPV9").generateNWise("com.example.test.Demo.testConstraints", ParamsNWise.create());
     }
 
     private static RemoteWebDriver driver;
