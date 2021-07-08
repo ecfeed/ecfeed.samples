@@ -1,0 +1,19 @@
+{
+  "name": "workshop",
+  "version": "1.0.0",
+  "author": "Patryk Chamuczyński, Marek Kuczabiński, Krzysztof Skorupski",
+  "homepage": "https://ecfeed.com",
+  "dependencies": {
+    "axios": "^0.19.2",
+    "ecfeed": "^1.1.0",
+    "https": "^1.0.0"
+  },
+  "devDependencies": {
+    "mocha": "^8.0.1",
+    "mocha-each": "^2.0.1"
+  },
+  "scripts": {
+    "test_selenium": "mocha --timeout 0 ./src/selenium",
+    "test_api": "mocha --timeout 0 ./src/api"
+  }
+}
