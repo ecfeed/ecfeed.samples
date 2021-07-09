@@ -1,13 +1,11 @@
+import sys
+sys.path.append('/home/krzysztof/Desktop/git/ecfeed.python')
 from selenium import webdriver
-from selenium.webdriver.common.keys import Keys
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.support.select import Select
-import ecfeed
-from ecfeed import TestProvider, DataSource, TemplateType
+from ecfeedX import TestProvider
 import pytest
 import time
-import json
-import requests
 
 # The driver should be placed in the '/usr/bin/' directory.
 
@@ -60,23 +58,29 @@ def execute():
         driver.find_element_by_id(element).click()
 
 def get_response():
-    response = []
+    status = driver.find_element_by_id(form["output"][0]).get_attribute("value")
 
-    for i in range(len(form["output"])):
-        response.append(driver.find_element_by_id(form["output"][i]).get_attribute("value"))
-
-    return response
+    return parse_to_dictionary(driver.find_element_by_id(form["output"][1]).get_attribute("value").split("\n")) if "rejected" in status else {}
     
+def parse_to_dictionary(array):
+    index = 1
+    results = {}
+    
+    for x in array:
+        results[str(index)] = x[2:]
+        index += 1
+
+    return results
 # ---------------------------------------------------------
 
-def set_selenium_form(Country, Name, Address, Product, Color, Size, Quantity, Payment, Delivery, Phone, Email, test_id):
+def set_selenium_form(Country, Name, Address, Product, Color, Size, Quantity, Payment, Delivery, Phone, Email, test_handle):
     timeStart = time.time()
 
     try:
         set_form([[Name, Address, Quantity, Phone, Email], [Country, Product, Color, Size, Payment, Delivery]])
         execute()
     except NoSuchElementException as err:
-        assert False, ecfeed.feedback(test_id, False, comment=err.msg, custom={'Error type': 'Input'})
+        assert False, test_handle.add_feedback(False, comment="Input", custom={'1': err.msg})
     
     timeEnd = time.time()
 
@@ -85,11 +89,12 @@ def set_selenium_form(Country, Name, Address, Product, Color, Size, Quantity, Pa
         "time": int(1000 * (timeEnd - timeStart))
     }
 
-def process_selenium_results(response, test_id):
+def process_selenium_results(response, test_handle):
     
-    assert response["response"][0] == " Request accepted", ecfeed.feedback(test_id, False, duration=response["time"], comment=''.join(e + ' ' for e in response["response"]), custom={'Error type': 'Output'})
+    assert len(response["response"]) == 0, test_handle.add_feedback(
+        False, duration=response["time"], comment="Output", custom=response["response"])
     
-    ecfeed.feedback(test_id, True, duration=response["time"])
+    test_handle.add_feedback(True, duration=response["time"])
 
 # ---------------------------------------------------------
 
@@ -99,12 +104,12 @@ def setup():
     yield driver
     driver.close()
 
-@pytest.mark.parametrize(ecfeed.test_header(method, feedback=True), ecfeed.nwise(method=method, feedback=True))
-def test_method_random(Country, Name, Address, Product, Color, Size, Quantity, Payment, Delivery, Phone, Email, test_id):
+@pytest.mark.parametrize(ecfeed.test_header(method, feedback=True), ecfeed.nwise(method=method, feedback=True, constraints="NONE", label="Selenium"))
+def test_method_random(Country, Name, Address, Product, Color, Size, Quantity, Payment, Delivery, Phone, Email, test_handle):
 
-    response = set_selenium_form(Country, Name, Address, Product, Color, Size, Quantity, Payment, Delivery, Phone, Email, test_id)
+    response = set_selenium_form(Country, Name, Address, Product, Color, Size, Quantity, Payment, Delivery, Phone, Email, test_handle)
     time.sleep(1)
-    process_selenium_results(response, test_id)
+    process_selenium_results(response, test_handle)
 
     
     
