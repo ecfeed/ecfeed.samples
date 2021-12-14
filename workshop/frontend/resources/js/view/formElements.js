@@ -54,6 +54,10 @@ export const delivery_express = document.createElement('option');
 delivery_express.setAttribute('value', 'express');
 delivery_express.appendChild(document.createTextNode('express'));
 
+export const delivery_postnl = document.createElement('option');
+delivery_postnl.setAttribute('value', 'PostNL');
+delivery_postnl.appendChild(document.createTextNode('PostNL'));
+
 //------------------------------------------------
 
 export const displayDriver = window.location.href.includes('driver=true');

@@ -111,16 +111,21 @@ const breakRelationProductColor = (test, response) => {
 //------------------------------------------------
 
 const validateField = (test, response) => {
+    
 
     return {
         country: (country) => {
             const parsedCountry = country.toLowerCase();
-            if (parsedCountry === 'norway' || parsedCountry === 'poland' || parsedCountry === 'other') {
+
+            if (parsedCountry === 'norway' || parsedCountry === 'poland' || parsedCountry === 'belgium' || 
+                parsedCountry === 'holland' || parsedCountry === 'luxembourg' || parsedCountry === 'other') {
                 return;
             } 
-            response.errorInput.push("The name of the country is incorrect. Please select a value from the list: 'Norway', 'Poland', 'other'.");
+
+            response.errorInput.push("The name of the country is incorrect. Please select a value from the list: 'Norway', 'Poland', 'Belgium', 'Holland', 'Luxembourg', 'other'.");
         },
         name: (name) => {
+
             if (!name) {
                 response.errorOutput.push("The name of the client is not defined.");
                 return;
@@ -129,8 +134,10 @@ const validateField = (test, response) => {
             if (name.split(" ").length < 2) {
                 response.errorOutput.push("The name of the client must consist of at least two elements: the first name, the second name.");
             }
+
         },
         address: (address) => {
+
             if (!address) {
                 response.errorOutput.push("The address field cannot be empty.");
                 return;
@@ -141,29 +148,37 @@ const validateField = (test, response) => {
             } else if (address.length < 5) {
                 response.errorOutput.push(`For obvious reasons we do not believe that the address is correct. It consists of ${address.length} characters!`);
             }
+
         } ,
         product: (product) => {
             const parsedProduct = product.toLowerCase().replace(/[ -]/g, '_');
+
             if (parsedProduct === 't_shirt' || parsedProduct === 'hoodie') {
                 return;
             } 
+
             response.errorInput.push("We do not have this product in our offer. Please select a value from the list: 't-shirt', 'hoodie'.");
         },
         color: (color) => {
             const parsedColor = color.toLowerCase();
+
             if (parsedColor === 'black' || parsedColor === 'white' || parsedColor === 'red' || parsedColor === 'green' || parsedColor === 'blue') {
                 return;
             } 
+
             response.errorInput.push("The selected color is not available for this product.");
         },
         size: (size) => {
             const parsedSize = size.toLowerCase();
+
             if (parsedSize === 'xs' || parsedSize === 's' || parsedSize === 'm' || parsedSize === 'l' || parsedSize === 'xl') {
                 return;
             } 
+
             response.errorInput.push("We do not have this size in our offer. Please select a value from the list: 'XS', 'S', 'M', 'L', 'XL'.");
         },
         quantity: (quantity) => {
+
             if (!quantity) {
                 response.errorOutput.push("Please define the quantity.");
                 return;
@@ -186,19 +201,31 @@ const validateField = (test, response) => {
         },
         payment: (payment) => {
             const parsedPayment = payment.toLowerCase().replace(/[ -]/g, '_');
+
             if (parsedPayment === 'visa' || parsedPayment === 'mastercard' || parsedPayment === 'bank_transfer' || parsedPayment === 'cash_on_delivery') {
                 return;
+
             } 
             response.errorInput.push("The payment method is not supported. Please select a value from the list: 'VISA', 'MASTERCARD', 'bank transfer', 'cash on delivery'.");
         },
         delivery: (delivery) => {
             const parsedDelivery = delivery.toLowerCase();
-            if (parsedDelivery === 'standard' || parsedDelivery === 'express') {
+            const parsedCountry = test.country.toLowerCase();
+
+            if (parsedDelivery === 'standard' || parsedDelivery === 'express' || parsedDelivery === 'postnl') {
                 return;
             } 
+
+            if (parsedDelivery === 'postnl') {
+                if (parsedCountry !== 'belgium' && parsedCountry !== 'holland' || parsedCountry !== 'luxembourg') {
+                    response.errorInput.push("The requested delivery option is not available in the selected country.")
+                }
+            }
+
             response.errorInput.push("The delivery option is not supported. Please select a value from the list: 'standard', 'express'.");
         },
         phone: (phone) => {
+
             if (!phone) {
                 response.errorOutput.push("Please define the phone number.");
                 return;
@@ -229,6 +256,7 @@ const validateField = (test, response) => {
             }
         },
         email: (email) => {
+            
             if (!email) {
                 response.errorOutput.push("Please define the email address.");
                 return;

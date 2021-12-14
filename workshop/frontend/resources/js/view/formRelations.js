@@ -13,21 +13,32 @@ export const initialSetup = () => {
 }
 
 export const updateProduct = () => {
-    if (formElements.product.value.toLowerCase() === 'hoodie') {
-        optionRemove(formElements.color, formElements.color_red, formElements.color_green, formElements.color_blue);
-    } else {
+    const parsedProduct = formElements.product.value.toLowerCase();
+    
+    optionRemove(formElements.color, formElements.color_red, formElements.color_green, formElements.color_blue);
+
+    if (parsedProduct === 't-shirt') {
         optionAdd(formElements.color, formElements.color_red, formElements.color_green, formElements.color_blue);
     } 
 }
 
 export const updateCountry = () => {
-    if (formElements.country.value.toLowerCase() === 'other') {
-        optionRemove(formElements.payment, formElements.payment_cash_on_delivery);
-        optionRemove(formElements.delivery, formElements.delivery_express);
-    } else {
+    const parsedCountry = formElements.country.value.toLowerCase();
+
+    optionRemove(formElements.payment, formElements.payment_cash_on_delivery);
+    optionRemove(formElements.delivery, formElements.delivery_express);
+    optionRemove(formElements.delivery, formElements.delivery_postnl);
+
+    if (parsedCountry === 'norway' || parsedCountry === 'poland') {
         optionAdd(formElements.payment, formElements.payment_cash_on_delivery);
         optionAdd(formElements.delivery, formElements.delivery_express);
     } 
+
+    if (parsedCountry === 'belgium' || parsedCountry === 'holland' || parsedCountry === 'luxembourg') {
+        optionAdd(formElements.payment, formElements.payment_cash_on_delivery);
+        optionAdd(formElements.delivery, formElements.delivery_express);
+        optionAdd(formElements.delivery, formElements.delivery_postnl);
+    }
 }
 
 //------------------------------------------------
