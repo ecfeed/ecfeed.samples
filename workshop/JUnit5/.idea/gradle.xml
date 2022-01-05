@@ -9,7 +9,7 @@
         <option name="gradleHome" value="D:/Win10/Gradle/gradle-4.10.2" />
         <option name="modules">
           <set>
-            <option value="/media/data/git/ecfeed.samples/workshop/JUnit5" />
+            <option value="$PROJECT_DIR$" />
           </set>
         </option>
       </GradleProjectSettings>

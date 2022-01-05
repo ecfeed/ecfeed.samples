@@ -118,11 +118,11 @@ const validateField = (test, response) => {
             const parsedCountry = country.toLowerCase();
 
             if (parsedCountry === 'norway' || parsedCountry === 'poland' || parsedCountry === 'belgium' || 
-                parsedCountry === 'holland' || parsedCountry === 'luxembourg' || parsedCountry === 'other') {
+                parsedCountry === 'netherlands' || parsedCountry === 'luxembourg' || parsedCountry === 'other') {
                 return;
             } 
 
-            response.errorInput.push("The name of the country is incorrect. Please select a value from the list: 'Norway', 'Poland', 'Belgium', 'Holland', 'Luxembourg', 'other'.");
+            response.errorInput.push("The name of the country is incorrect. Please select a value from the list: 'Norway', 'Poland', 'Belgium', 'Netherlands', 'Luxembourg', 'other'.");
         },
         name: (name) => {
 
@@ -217,7 +217,7 @@ const validateField = (test, response) => {
             } 
 
             if (parsedDelivery === 'postnl') {
-                if (parsedCountry !== 'belgium' && parsedCountry !== 'holland' || parsedCountry !== 'luxembourg') {
+                if (parsedCountry !== 'belgium' && parsedCountry !== 'netherlands' || parsedCountry !== 'luxembourg') {
                     response.errorInput.push("The requested delivery option is not available in the selected country.")
                 }
             }
