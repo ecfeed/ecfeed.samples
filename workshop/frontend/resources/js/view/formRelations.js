@@ -34,7 +34,7 @@ export const updateCountry = () => {
         optionAdd(formElements.delivery, formElements.delivery_express);
     } 
 
-    if (parsedCountry === 'belgium' || parsedCountry === 'holland' || parsedCountry === 'luxembourg') {
+    if (parsedCountry === 'belgium' || parsedCountry === 'netherlands' || parsedCountry === 'luxembourg') {
         optionAdd(formElements.payment, formElements.payment_cash_on_delivery);
         optionAdd(formElements.delivery, formElements.delivery_express);
         optionAdd(formElements.delivery, formElements.delivery_postnl);

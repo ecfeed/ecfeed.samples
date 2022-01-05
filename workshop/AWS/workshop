@@ -1,0 +1,316 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: Workshop API.
+Parameters:
+  VPC:
+    Description: If you want to create the infrastructure as an attachement to the 'develop' environment, do not change the default values. The only thing that must be provided is the GitHub token.
+    Type: AWS::EC2::VPC::Id
+    Default: vpc-0945d5102a51ddaa0
+  PublicSubnets:
+    Description: Available public VPC subnets. The field is not required when an existing Application Load Balancer is used.
+    Type: List<AWS::EC2::Subnet::Id>
+    Default: subnet-0fb9c18ddf6caea07,subnet-097630674c6192a62
+  PrivateSubnets:
+    Description: Available private VPC subnets.
+    Type: List<AWS::EC2::Subnet::Id>
+    Default: subnet-0b2dfa9f8fec2596f,subnet-0ce4fec81c5d99fcd
+  LoadBalancerListener:
+    Description: "[OPTIONAL] The listener of an existing Application Load Balancer."
+    Type: String
+    Default: arn:aws:elasticloadbalancing:us-east-1:750051534534:listener/app/develop-alb/6ede4159cd70969a/e1890e8237c4d01d
+  LoadBalancerDNS:
+    Description: "[OPTIONAL] The DNS name of an existing Application Load Balancer."
+    Type: String
+    Default: develop-alb-357442978.us-east-1.elb.amazonaws.com
+  LoadBalancerHZ:
+    Description: "[OPTIONAL] The hosted zone of an existing Application Load Balancer."
+    Type: String
+    Default: Z35SXDOTRQ7X7K
+  NumberOfInstances:
+    Description: The initial number of running instances.
+    Type: Number
+    Default: 1
+  GitHubBranch:
+    Description: The GitHub branch. Its value also defines the DNS name.
+    Type: String
+    Default: workshop-2022
+  GitHubToken:
+    Description: The GitHub token needed to clone the repository.
+    Type: String
+    NoEcho: true
+  EC2KeyPair:
+    Description: The key pair for accessing instances.
+    Type: AWS::EC2::KeyPair::KeyName
+    Default: 2022
+  Certificate:
+    Description: A certificate issued for the current region.
+    Type: String
+    Default: arn:aws:acm:us-east-1:750051534534:certificate/b984d253-bf48-4949-934f-033d6c18bd65
+Mappings:
+  AmazonLinux2:
+    us-west-2:
+      ami: ami-00f7e5c52c0f43726
+    us-west-1:
+      ami: ami-03af6a70ccd8cb578
+    eu-west-1:
+      ami: ami-04dd4500af104442f
+    eu-west-2:
+      ami: ami-0d37e07bd4ff37148
+    eu-west-3:
+      ami: ami-0d3c032f5934e1b41
+    eu-central-1:
+      ami: ami-05d34d340fb1d89e5
+    ap-northeast-1:
+      ami: ami-0218d08a1f9dac831
+    ap-northeast-2:
+      ami: ami-0eb14fe5735c13eb5
+    ap-southeast-1:
+      ami: ami-0dc5785603ad4ff54
+    ap-southeast-2:
+      ami: ami-0bd2230cfb28832f7
+    ap-south-1:
+      ami: ami-052cef05d01020f1d
+    us-east-1:
+      ami: ami-0ed9277fb7eb570c9
+    us-east-2:
+      ami: ami-002068ed284fb165b
+    ca-central-1:
+      ami: ami-0bae7412735610274
+    sa-east-1:
+      ami: ami-0056d4296b1120bc3
+Resources:
+  wssgec2:
+    Type: 'AWS::EC2::SecurityGroup'
+    Properties:
+      GroupDescription: Security rules for workshop API instances.
+      GroupName: workshop-ec2
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 22
+          ToPort: 22
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: 443
+          ToPort: 443
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: 55000
+          ToPort: 56000
+          CidrIp: 0.0.0.0/0
+      Tags:
+        - Key: Name
+          Value: workshop-ec2
+      VpcId: !Ref VPC
+  wssgalb:
+    Type: 'AWS::EC2::SecurityGroup'
+    Condition: isAlbMissing
+    Properties:
+      GroupDescription: Security rules for the workshop API ALB.
+      GroupName: workshop-alb
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 22
+          ToPort: 22
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: 443
+          ToPort: 443
+          CidrIp: 0.0.0.0/0
+      Tags:
+        - Key: Name
+          Value: workshop-alb
+      VpcId: !Ref VPC
+  wstarget:
+    Type: AWS::ElasticLoadBalancingV2::TargetGroup
+    Properties: 
+      HealthCheckEnabled: true
+      HealthCheckIntervalSeconds: 30
+      HealthCheckProtocol: HTTP
+      HealthCheckTimeoutSeconds: 10
+      HealthyThresholdCount: 3
+      Name: workshop
+      Port: 55555
+      Protocol: HTTP
+      Tags:
+        - Key: Name
+          Value: workshop
+      TargetType: instance
+      UnhealthyThresholdCount: 3
+      VpcId: !Ref VPC
+  wsalb:
+    Type: AWS::ElasticLoadBalancingV2::LoadBalancer
+    Condition: isAlbMissing
+    Properties: 
+      IpAddressType: ipv4
+      LoadBalancerAttributes: 
+        - Key: idle_timeout.timeout_seconds
+          Value: 4000
+      Name: workshop
+      Scheme: internet-facing
+      SecurityGroups: 
+        - !Ref wssgalb
+      Subnets: !Ref PublicSubnets
+      Tags:
+        - Key: Name
+          Value: workshop
+      Type: application
+  wsalbl:
+    Type: 'AWS::ElasticLoadBalancingV2::Listener'
+    Condition: isAlbMissing
+    Properties:
+      Certificates:
+        - CertificateArn: !Ref Certificate
+      DefaultActions:
+        - Type: fixed-response
+          FixedResponseConfig:
+            ContentType: text/plain
+            MessageBody: Not found
+            StatusCode: 503
+      LoadBalancerArn: !Ref wsalb
+      Port: '443'
+      Protocol: HTTPS
+  wsalblr:
+    Type: 'AWS::ElasticLoadBalancingV2::ListenerRule'
+    Properties:
+      Actions:
+        - Type: forward
+          TargetGroupArn: !Ref wstarget
+      Conditions:
+        - Field: host-header
+          HostHeaderConfig:
+            Values:
+              - !Sub ${GitHubBranch}-api.ecfeed.com
+      ListenerArn: !If [isAlbMissing, !Ref wsalbl, !Ref LoadBalancerListener]
+      Priority: 10
+  wslaunch:
+    Type: AWS::AutoScaling::LaunchConfiguration
+    Properties: 
+      ImageId: !FindInMap [ AmazonLinux2, !Ref "AWS::Region", ami ]
+      InstanceMonitoring: false
+      InstanceType: t3.micro
+      KeyName: !Ref EC2KeyPair
+      LaunchConfigurationName: workshop
+      SecurityGroups: 
+        - !Ref wssgec2
+      UserData:
+        "Fn::Base64": 
+          !Sub |
+            #!/bin/bash -xe
+            /opt/aws/bin/cfn-init -v --stack ${AWS::StackName} --resource wslaunch --configsets setup --region ${AWS::Region}
+    Metadata:
+      AWS::CloudFormation::Init:
+        configSets:
+          setup:
+            - "init"
+        init:
+          commands:
+            command_01:
+              cwd: /home/ec2-user
+              command: !Sub |
+                curl -sL https://rpm.nodesource.com/setup_16.x | sudo -E bash - && \
+                yum install nodejs -y && \
+                yum install git -y && \
+                npm install nodemon -g
+            command_02:
+              cwd: /home/ec2-user
+              command: !Sub |
+                git clone https://${GitHubToken}@github.com/ecfeed/ecfeed.samples.git
+            command_03:
+              cwd: /home/ec2-user/ecfeed.samples
+              command: !Sub |
+                git checkout ${GitHubBranch}
+            command_04:
+              cwd: /home/ec2-user/ecfeed.samples/workshop/backend
+              command: npm start
+  wsasg:
+    Type: AWS::AutoScaling::AutoScalingGroup
+    UpdatePolicy:
+      AutoScalingReplacingUpdate:
+        WillReplace: true
+    Properties: 
+      AutoScalingGroupName: workshop
+      AvailabilityZones: 
+        - !Select [0, !GetAZs ]
+        - !Select [1, !GetAZs ]
+      Cooldown: 300
+      DesiredCapacity: !Ref NumberOfInstances
+      HealthCheckGracePeriod: 300
+      HealthCheckType: EC2
+      LaunchConfigurationName: !Ref wslaunch
+      MaxSize: !Ref NumberOfInstances
+      MetricsCollection: 
+        - Granularity: 1Minute
+      MinSize: !Ref NumberOfInstances
+      Tags:
+        - Key: Name
+          PropagateAtLaunch: true
+          Value: workshop
+      TargetGroupARNs: 
+        - !Ref wstarget
+      VPCZoneIdentifier: !Ref PrivateSubnets
+  wsdns:
+    Type: AWS::Route53::RecordSet
+    Properties: 
+      AliasTarget: 
+        DNSName: !If [isAlbMissing, !GetAtt wsalb.DNSName, !Ref LoadBalancerDNS]
+        HostedZoneId: !If [isAlbMissing, !GetAtt wsalb.CanonicalHostedZoneID, !Ref LoadBalancerHZ]
+      HostedZoneName: ecfeed.com.
+      Name: 
+        !Sub |
+          ${GitHubBranch}-api.ecfeed.com
+      Type: A
+Conditions:
+  isAlbMissing: !And 
+    - !Equals 
+      - !Ref LoadBalancerListener
+      - ''
+    - !Equals 
+      - !Ref LoadBalancerDNS
+      - ''
+    - !Equals 
+      - !Ref LoadBalancerHZ
+      - ''
+Metadata:
+  AWS::CloudFormation::Interface:
+    ParameterGroups:
+      -
+        Label:
+          default: Workshop API Infrastructure.
+        Parameters:
+          - VPC
+          - PublicSubnets
+          - PrivateSubnets
+          - LoadBalancerListener
+          - LoadBalancerDNS
+          - LoadBalancerHZ
+          - Certificate
+          - EC2KeyPair
+          - GitHubBranch
+          - GitHubToken
+          - NumberOfInstances
+    ParameterLabels:
+      VPC:
+        default: Infrastructure VPC
+      PublicSubnets:
+        default: List of public subnets (required for ALB)
+      PrivateSubnets:
+        default: List of private subnets (required for ASG)
+      LoadBalancerListener:
+        default: ALB listener
+      LoadBalancerDNS:
+        default: ALB DNS
+      LoadBalancerHZ:
+        default: ALB hosted zone
+      Certificate:
+        default: SSH certificate
+      EC2KeyPair:
+        default: Access key pair
+      GitHubBranch:
+        default: GIT branch
+      GitHubToken:
+        default: GIT token
+      NumberOfInstances:
+        default: Number of instances
