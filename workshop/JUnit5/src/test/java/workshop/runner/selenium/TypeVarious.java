@@ -32,7 +32,7 @@ public class TypeVarious {
 
 //------------------------------------------------------------------------------
 
-    private static final String webPageAddress = "http://www.workshop-2020-march.ecfeed.com?mode=error";
+    private static final String webPageAddress = "http://www.workshop-2021-december.ecfeed.com?mode=error";
 
     private static final String[] webPageFormExecute = { "submit" };
 
