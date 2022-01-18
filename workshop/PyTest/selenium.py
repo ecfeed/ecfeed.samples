@@ -11,7 +11,7 @@ import time
 
 # ---------------------------------------------------------
 
-endpoint = "http://www.workshop-2020-march.ecfeed.com?mode=error"
+endpoint = "http://www.workshop-2021-december.ecfeed.com?mode=error"
 
 form = {
     "execute": ["submit"],

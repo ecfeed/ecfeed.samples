@@ -6,7 +6,7 @@ const {Builder, By, Key, until, Browser} = require('selenium-webdriver');
 
 const testProvider = new TestProvider("6EG2-YL4S-LMAK-Y5VW-VPV9");
 const testMethod = 'com.example.test.Demo.typeString';
-const webpage = 'http://www.workshop-2020-march.ecfeed.com?mode=error';
+const webpage = 'http://www.workshop-2021-december.ecfeed.com?mode=error';
 
 let data = [] 
 let driver = null;
