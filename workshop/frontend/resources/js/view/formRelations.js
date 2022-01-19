@@ -17,7 +17,7 @@ export const updateProduct = () => {
     
     optionRemove(formElements.color, formElements.color_red, formElements.color_green, formElements.color_blue);
 
-    if (parsedProduct === 't-shirt') {
+    if (parsedProduct === 't-shirt' || parsedProduct === 't_shirt') {
         optionAdd(formElements.color, formElements.color_red, formElements.color_green, formElements.color_blue);
     } 
 }
