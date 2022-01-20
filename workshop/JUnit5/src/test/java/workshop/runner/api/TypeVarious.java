@@ -26,7 +26,7 @@ public class TypeVarious {
 
 //------------------------------------------------------------------------------
 
-    private static final String webPageAddress = "https://api.ecfeed.com";
+    private static final String webPageAddress = "https://api.ecfeed.com?mode=error";
 
 //------------------------------------------------------------------------------
 
