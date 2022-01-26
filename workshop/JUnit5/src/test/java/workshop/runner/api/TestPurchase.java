@@ -69,17 +69,19 @@ public class TestPurchase {
             System.out.println(responseBody);
 
             assertAll("The returned JSON file contains error description(s).",
-                () -> assertTrue(responseBody.contains("\"errorInput\":[]")),
-                () -> assertTrue(responseBody.contains("\"errorOutput\":[]"))
+                () -> assertTrue(responseBody.contains("\"errorInput\":[]"),
+                        () -> handle.addFeedback(false)),
+                () -> assertTrue(responseBody.contains("\"errorOutput\":[]"),
+                        () -> handle.addFeedback(false))
             );
 
         } catch (UnirestException e) {
+            handle.addFeedback(false);
             e.printStackTrace();
-            handle.addFeedback(false,"The list of output errors is not empty.");
             fail();
         }
-        handle.addFeedback(true);
 
+        handle.addFeedback(true);
     }
 
 //------------------------------------------------------------------------------
