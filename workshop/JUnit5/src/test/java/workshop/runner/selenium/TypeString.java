@@ -3,6 +3,7 @@ package workshop.runner.selenium;
 import com.ecfeed.TestHandle;
 import com.ecfeed.TestProvider;
 import com.ecfeed.params.ParamsNWise;
+import com.ecfeed.params.ParamsRandom;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -27,8 +28,8 @@ public class TypeString {
 
 //------------------------------------------------------------------------------
 
-    private static final String webDriver = "/home/krzysztof/geckodriver";      // If you want to use the 'gecko' driver, comment this line.
-    // private static final String webDriver = "/home/krzysztof/chromedriver";  // If you want to use the 'chrome' driver, uncomment this line.
+    //    private static final String webDriver = System.getProperty("user.home") + "/selenium/chromedriver";      // If you want to use the 'firefox' driver, comment this line.
+    private static final String webDriver = System.getProperty("user.home") + "/selenium/geckodriver";      // If you want to use the 'firefox' driver, comment this line.
 
 //------------------------------------------------------------------------------
 
@@ -99,7 +100,8 @@ public class TypeString {
 //------------------------------------------------------------------------------
 
     private static Iterable<Object[]> testProviderNWise() {
-        return TestProvider.create("6EG2-YL4S-LMAK-Y5VW-VPV9").generateNWise("com.example.test.Demo.typeString", ParamsNWise.create().feedback().label("Selenium"));
+//        return TestProvider.create("6EG2-YL4S-LMAK-Y5VW-VPV9").generateNWise("com.example.test.Demo.typeString", ParamsNWise.create().feedback().label("Selenium"));
+        return TestProvider.create("6EG2-YL4S-LMAK-Y5VW-VPV9").generateRandom("com.example.test.Demo.typeString", ParamsRandom.create().length(5).feedback().label("Selenium"));
     }
 
     private static RemoteWebDriver driver;
@@ -139,7 +141,7 @@ public class TypeString {
 
 // Delay the invocation of the next test case (for debugging).
         try {
-            Thread.sleep(1000);
+            Thread.sleep(10);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

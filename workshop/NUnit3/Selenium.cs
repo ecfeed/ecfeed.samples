@@ -17,7 +17,7 @@ namespace Workshop
     public class SeleniumWorkshop
     {
         private static IEnumerable dataString = new TestProvider("6EG2-YL4S-LMAK-Y5VW-VPV9").GenerateNWise("com.example.test.Demo.typeString", feedback:true, constraints: "ALL", label:"Selenium");
-        private static RemoteWebDriver seleniumDriver = new FirefoxDriver("/home/krzysztof") { Url = "http://www.workshop-2020-march.ecfeed.com?mode=error"};
+        private static RemoteWebDriver seleniumDriver = new FirefoxDriver("/home/krzysztof") { Url = "http://www.workshop-2021-december.ecfeed.com?mode=error"};
         private static string[] pageFormControl = new string[] { "submit" };
         private static string[] pageFormOutput = new string[] { "status", "response" };
         private static string[][] pageFormInput = new string[2][] { new string[] {"name", "address", "quantity", "phone", "email"}, new string[] {"country", "product", "color", "size", "payment", "delivery"} };

@@ -1,5 +1,6 @@
 package workshop.runner.selenium;
 
+import com.ecfeed.TestHandle;
 import com.ecfeed.TestProvider;
 import com.ecfeed.params.ParamsNWise;
 import com.ecfeed.params.ParamsRandom;
@@ -26,12 +27,13 @@ public class TestPurchase {
 
 //------------------------------------------------------------------------------
 
-    private static final String webDriver = "/home/krzysztof/geckodriver";      // If you want to use the 'chrome' driver, comment this line.
+//    private static final String webDriver = "/home/krzysztof/geckodriver";      // If you want to use the 'chrome' driver, comment this line.
 //    private static final String webDriver = System.getProperty("user.home") + "/selenium/chromedriver";      // If you want to use the 'firefox' driver, comment this line.
+    private static final String webDriver = System.getProperty("user.home") + "/selenium/geckodriver";      // If you want to use the 'firefox' driver, comment this line.
 
 //------------------------------------------------------------------------------
 
-    private static final String webPageAddress = "http://www.workshop-2020-march.ecfeed.com/?mode=error";
+    private static final String webPageAddress = "http://www.workshop-2021-december.ecfeed.com/?mode=error";
 
     private static final String[] webPageFormExecute = { "submit" };
 
@@ -98,9 +100,9 @@ public class TestPurchase {
 //------------------------------------------------------------------------------
 
     private static Iterable<Object[]> testProviderInput() {
-        return TestProvider.create("PZS2-W9NH-FRGZ-LZ4N-VGMR").generateRandom("com.example.test.Demo.testPurchaseInput", ParamsRandom.create().adaptive(false).length(10).duplicates(true));
+//        return TestProvider.create("6EG2-YL4S-LMAK-Y5VW-VPV9").generateRandom("com.example.test.Demo.testPurchaseInput", ParamsRandom.create().adaptive(false).length(10).duplicates(true));
 //        return TestProvider.create("6EG2-YL4S-LMAK-Y5VW-VPV9").generateNWise("com.example.test.Demo.testPurchaseInput", ParamsNWise.create().constraints("NONE"));
-//        return TestProvider.create("6EG2-YL4S-LMAK-Y5VW-VPV9").generateNWise("com.example.test.Demo.testPurchaseInput", ParamsNWise.create());
+        return TestProvider.create("6EG2-YL4S-LMAK-Y5VW-VPV9").generateNWise("com.example.test.Demo.testPurchaseInput", ParamsNWise.create().feedback());
 //        return TestProvider.create("6EG2-YL4S-LMAK-Y5VW-VPV9").generateStatic("com.example.test.Demo.testPurchaseInput", ParamsStatic.create().testSuites("regression"));
     }
 
@@ -122,9 +124,49 @@ public class TestPurchase {
          driver.quit();
     }
 
+    @ParameterizedTest
+    @MethodSource("testProviderInput")
+    void testPurchaseInput(String country, String name, String address, String product, String color, String size,
+                           String quantity, String payment, String delivery, String phone, String email, TestHandle testHandle) {
+
+        String[][] input = {
+                {name, address, quantity, phone, email},
+                {country, product, color, size, payment, delivery}
+        };
+
+        setForm(driver, input);
+
+// Delay the invocation of the next test case (for debugging).
+        try {
+            Thread.sleep(10);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        execute(driver);
+
+        String[] response = getResponse(driver);
+        Arrays.stream(response).forEach(System.out::println);
+
+        assertTrue(response[0].equals(" Request accepted"), () -> testHandle.addFeedback(false, "The order was not processed"));
+
+        testHandle.addFeedback(true);
+    }
+
+//    private static Iterable<Object[]> testProviderOutput() {
+//        Map<String, String> config = new HashMap<>();
+//        config.put("generatorAddress", "https://develop-gen.ecfeed.com");
+//        return TestProvider.create("PZS2-W9NH-FRGZ-LZ4N-VGMR", config).generateRandom("com.example.test.Demo.testPurchase", ParamsRandom.create().adaptive(false).length(10).duplicates(true));
+////        return TestProvider.create("6EG2-YL4S-LMAK-Y5VW-VPV9").generateNWise("com.example.test.Demo.testPurchaseOutput", ParamsNWise.create().constraints("NONE"));
+////        return TestProvider.create("6EG2-YL4S-LMAK-Y5VW-VPV9").generateNWise("com.example.test.Demo.testPurchaseOutput", ParamsNWise.create());
+////        return TestProvider.create("6EG2-YL4S-LMAK-Y5VW-VPV9").generateStatic("com.example.test.Demo.testPurchaseOutput", ParamsStatic.create().testSuites("regression"));
+//    }
+//
 //    @ParameterizedTest
-//    @MethodSource("testProviderInput")
-//    void testPurchaseInput(String country, String name, String address, String product, String color, String size, String quantity, String payment, String delivery, String phone, String email) {
+//    @MethodSource("testProviderOutput")
+//    void testPurchaseOutput(String country, String name, String address, String product, String color, String size, String quantity, String payment, String delivery, String phone, String email, int max_price) {
+//
+//        System.out.println(max_price);
 //
 //        String[][] input = {
 //                {name, address, quantity, phone, email},
@@ -147,43 +189,6 @@ public class TestPurchase {
 //
 //        assertTrue(response[0].equals(" Request accepted"), "The order was not processed");
 //    }
-
-    private static Iterable<Object[]> testProviderOutput() {
-        Map<String, String> config = new HashMap<>();
-        config.put("generatorAddress", "https://develop-gen.ecfeed.com");
-        return TestProvider.create("PZS2-W9NH-FRGZ-LZ4N-VGMR", config).generateRandom("com.example.test.Demo.testPurchase", ParamsRandom.create().adaptive(false).length(10).duplicates(true));
-//        return TestProvider.create("6EG2-YL4S-LMAK-Y5VW-VPV9").generateNWise("com.example.test.Demo.testPurchaseOutput", ParamsNWise.create().constraints("NONE"));
-//        return TestProvider.create("6EG2-YL4S-LMAK-Y5VW-VPV9").generateNWise("com.example.test.Demo.testPurchaseOutput", ParamsNWise.create());
-//        return TestProvider.create("6EG2-YL4S-LMAK-Y5VW-VPV9").generateStatic("com.example.test.Demo.testPurchaseOutput", ParamsStatic.create().testSuites("regression"));
-    }
-
-    @ParameterizedTest
-    @MethodSource("testProviderOutput")
-    void testPurchaseOutput(String country, String name, String address, String product, String color, String size, String quantity, String payment, String delivery, String phone, String email, int max_price) {
-
-        System.out.println(max_price);
-
-        String[][] input = {
-                {name, address, quantity, phone, email},
-                {country, product, color, size, payment, delivery}
-        };
-
-        setForm(driver, input);
-
-// Delay the invocation of the next test case (for debugging).
-        try {
-            Thread.sleep(10);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        execute(driver);
-
-        String[] response = getResponse(driver);
-        Arrays.stream(response).forEach(System.out::println);
-
-        assertTrue(response[0].equals(" Request accepted"), "The order was not processed");
-    }
 
 //------------------------------------------------------------------------------
 

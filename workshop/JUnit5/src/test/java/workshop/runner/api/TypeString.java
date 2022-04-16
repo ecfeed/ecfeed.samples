@@ -23,12 +23,12 @@ public class TypeString {
 // The following test uses the 'ecFeed' library. To run it, you must generate a personal keystore first.
 // It can be done on the official 'ecFeed' web page, i.e. 'https://www.ecfeed.com/'.
 // After logging in, go to the 'settings' menu (hover the mouse pointer over your email address), open the 'security' section and click on the 'generate keystore' button.
-// The name of the downloaded file, which is 'keystore.p12', must not changed and the keystore should be placed in the '~/.ecfeed/' directory (or `~/ecfeed' for Windows users).
-// The described keystore installation procedure must be done only once. It grants an automatic access to all current and future 'ecFeed' services.
+// The name of the downloaded file, which is 'keystore.p12', must not be changed and the keystore should be placed in the '~/.ecfeed/' directory (or `~/ecfeed' for Windows users).
+// The described keystore installation procedure must be done only once. It grants automatic access to all current and future 'ecFeed' services.
 
 //------------------------------------------------------------------------------
 
-    private static final String webPageAddress = "https://api.ecfeed.com";
+    private static final String webPageAddress = "https://api.ecfeed.com?mode=error";
 
 //------------------------------------------------------------------------------
 

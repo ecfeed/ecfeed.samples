@@ -68,18 +68,24 @@ const checkConsistency = (test, response) => {
 const validateInputErrors = (test) => {
     const parsedCountry = test.country.trim().toLowerCase();
     const parsedProduct = test.product.trim().toLowerCase().replace(/[ -]/g, '_');
-    
+    const parsedPayment = test.payment.trim().toLowerCase().replace(/[ -]/g, '_');
+    const parsedDelivery = test.delivery.trim().toLowerCase();
     
     if (parsedCountry === 'other') {
-        const parsedPayment = test.payment.trim().toLowerCase().replace(/[ -]/g, '_');
-        const parsedDelivery = test.delivery.trim().toLowerCase();
-        
+            
         if (parsedPayment === 'cash_on_delivery') {
             test.payment = '';
         }
         
         if (parsedDelivery === "express") {
             test.delivery = '';
+        }
+    }
+
+    if (parsedCountry === 'poland' || parsedCountry === 'norway' || parsedCountry === 'other') {
+
+        if (parsedDelivery === 'postnl') {
+            test.delivery = ''
         }
     }
 
@@ -111,7 +117,6 @@ const breakRelationProductColor = (test, response) => {
 //------------------------------------------------
 
 const validateField = (test, response) => {
-    
 
     return {
         country: (country) => {
@@ -144,7 +149,7 @@ const validateField = (test, response) => {
             }
 
             if (address.length === 0) {
-                response.errorOutput.push("No, the address cannot consist of whitespaces only. Please stick to the rules!");
+                response.errorOutput.push("No, the address cannot consist of white spaces only. Please stick to the rules!");
             } else if (address.length < 5) {
                 response.errorOutput.push(`For obvious reasons we do not believe that the address is correct. It consists of ${address.length} characters!`);
             }
@@ -216,13 +221,12 @@ const validateField = (test, response) => {
                 return;
             } 
 
-            if (parsedDelivery === 'postnl') {
-                if (parsedCountry !== 'belgium' && parsedCountry !== 'netherlands' || parsedCountry !== 'luxembourg') {
-                    response.errorInput.push("The requested delivery option is not available in the selected country.")
-                }
+            if (parsedDelivery === '') {
+                response.errorInput.push("The requested delivery option is not available in the selected country.");
+                return;
             }
 
-            response.errorInput.push("The delivery option is not supported. Please select a value from the list: 'standard', 'express'.");
+            response.errorInput.push("The delivery option is not supported. Please select a value from the list: 'standard', 'express', 'PostNL'.");
         },
         phone: (phone) => {
 

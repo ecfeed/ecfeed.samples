@@ -1,5 +1,6 @@
 package workshop.runner.api;
 
+import com.ecfeed.TestHandle;
 import com.ecfeed.TestProvider;
 import com.ecfeed.params.ParamsNWise;
 import com.ecfeed.params.ParamsRandom;
@@ -35,7 +36,7 @@ public class TestPurchase {
 // The 'constraint' annotation contains a list of constraint names that should be used. It also accepts values 'NONE' and 'ALL' (the default value).
     private static Iterable<Object[]> testProviderInput() {
 //        return TestProvider.create("6EG2-YL4S-LMAK-Y5VW-VPV9").generateNWise("com.example.test.Demo.testPurchaseInput", ParamsNWise.create().constraints("NONE"));
-        return TestProvider.create("6EG2-YL4S-LMAK-Y5VW-VPV9").generateNWise("com.example.test.Demo.testPurchaseInput", ParamsNWise.create());
+        return TestProvider.create("6EG2-YL4S-LMAK-Y5VW-VPV9").generateNWise("com.example.test.Demo.testPurchaseInput", ParamsNWise.create().feedback());
 //        return TestProvider.create("6EG2-YL4S-LMAK-Y5VW-VPV9").generateRandom("com.example.test.Demo.testPurchaseInput", ParamsRandom.create().length(30).adaptive(false).duplicates(true));
 //        return TestProvider.create("6EG2-YL4S-LMAK-Y5VW-VPV9").generateStatic("com.example.test.Demo.testPurchaseInput", ParamsStatic.create().testSuites(new String[] {"regression"}));
     }
@@ -43,7 +44,9 @@ public class TestPurchase {
 // The name of the test method can be arbitrary. However, it must contain the same arguments as in the model version positioned in the same order.
     @ParameterizedTest
     @MethodSource("testProviderInput")
-    void testPurchaseInput(String country, String name, String address, String product, String color, String size, String quantity, String payment, String delivery, String phone, String email) {
+    void testPurchaseInput(String country, String name, String address, String product,
+                           String color, String size, String quantity, String payment, String delivery,
+                           String phone, String email, TestHandle handle) {
         Map<String, Object> parameters = new HashMap<>();
 
         parameters.put("mode", "error");//comment out for bug free version
@@ -66,15 +69,19 @@ public class TestPurchase {
             System.out.println(responseBody);
 
             assertAll("The returned JSON file contains error description(s).",
-                () -> assertTrue(responseBody.contains("\"errorInput\":[]"), "The list of input errors is not empty."),
-                () -> assertTrue(responseBody.contains("\"errorOutput\":[]"), "The list of output errors is not empty.")
+                () -> assertTrue(responseBody.contains("\"errorInput\":[]"),
+                        () -> handle.addFeedback(false)),
+                () -> assertTrue(responseBody.contains("\"errorOutput\":[]"),
+                        () -> handle.addFeedback(false))
             );
 
         } catch (UnirestException e) {
+            handle.addFeedback(false);
             e.printStackTrace();
             fail();
         }
 
+        handle.addFeedback(true);
     }
 
 //------------------------------------------------------------------------------
