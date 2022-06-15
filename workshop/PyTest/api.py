@@ -1,6 +1,5 @@
 import sys
-sys.path.append('/home/krzysztof/Desktop/git/ecfeed.python')
-from ecfeedX import TestProvider
+from ecfeed import TestProvider
 import pytest
 import time
 import requests

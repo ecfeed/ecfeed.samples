@@ -1,13 +1,10 @@
 import sys
-sys.path.append('/home/krzysztof/Desktop/git/ecfeed.python')
 from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.support.select import Select
-from ecfeedX import TestProvider
+from ecfeed import TestProvider
 import pytest
 import time
-
-# The driver should be placed in the '/usr/bin/' directory.
 
 # ---------------------------------------------------------
 
@@ -22,7 +19,7 @@ form = {
 ecfeed = TestProvider(model='6EG2-YL4S-LMAK-Y5VW-VPV9')
 method = 'com.example.test.Demo.typeString'
 
-driver = webdriver.Firefox()
+driver = webdriver.Firefox(executable_path=r'C:\\Users\\kskor\\selenium\\geckodriver.exe')
 
 # ---------------------------------------------------------
 
