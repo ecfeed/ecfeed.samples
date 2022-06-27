@@ -14,6 +14,7 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.Select;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -23,13 +24,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class TypeString {
 
-// The following test uses the 'ecFeed' library. To run it, you need to install a personal keystore first (if you do not already have it).
-// The procedure is described in the 'testify.runner.api.TyeString' file.
-
-//------------------------------------------------------------------------------
-
-    //    private static final String webDriver = System.getProperty("user.home") + "/selenium/chromedriver";      // If you want to use the 'firefox' driver, comment this line.
-    private static final String webDriver = System.getProperty("user.home") + "/selenium/geckodriver";      // If you want to use the 'firefox' driver, comment this line.
+    private static final String webDriver = System.getProperty("user.home") + "/selenium/geckodriver.exe";
 
 //------------------------------------------------------------------------------
 
@@ -100,24 +95,23 @@ public class TypeString {
 //------------------------------------------------------------------------------
 
     private static Iterable<Object[]> testProviderNWise() {
-//        return TestProvider.create("6EG2-YL4S-LMAK-Y5VW-VPV9").generateNWise("com.example.test.Demo.typeString", ParamsNWise.create().feedback().label("Selenium"));
-        return TestProvider.create("6EG2-YL4S-LMAK-Y5VW-VPV9").generateRandom("com.example.test.Demo.typeString", ParamsRandom.create().length(5).feedback().label("Selenium"));
+
+        var parameters = new HashMap<String, String>();
+        parameters.put("keyStorePath", "src/test/resources/demo.p12");
+
+        return TestProvider.create("6EG2-YL4S-LMAK-Y5VW-VPV9", parameters).generateRandom("com.example.test.Demo.typeString", ParamsRandom.create().length(5).feedback().label("Selenium"));
     }
 
     private static RemoteWebDriver driver;
 
     @BeforeAll
     static void beforeAll() {
-        System.setProperty("webdriver.gecko.driver", webDriver);        // If you want to use the 'gecko' driver, comment this line.
-        driver = new FirefoxDriver();                                   // If you want to use the 'gecko' driver, comment this line.
-//      System.setProperty("webdriver.chrome.driver", webDriver);       // If you want to use the 'chrome' driver, uncomment this line
-//      driver = new ChromeDriver();                                    // If you want to use the 'chrome' driver, uncomment this line
+        System.setProperty("webdriver.gecko.driver", webDriver);
+        driver = new FirefoxDriver();
         driver.get(webPageAddress);
     }
 
-// The annotation states that the method should be invoked once before all tests.
     @AfterAll
-// The name of the method can be arbitrary.
     static void afterAll() {
          driver.quit();
     }
@@ -139,7 +133,6 @@ public class TypeString {
             throw e;
         }
 
-// Delay the invocation of the next test case (for debugging).
         try {
             Thread.sleep(10);
         } catch (InterruptedException e) {

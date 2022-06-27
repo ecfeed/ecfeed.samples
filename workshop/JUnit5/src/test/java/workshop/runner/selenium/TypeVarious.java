@@ -14,6 +14,7 @@ import org.openqa.selenium.support.ui.Select;
 import workshop.data.*;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -23,13 +24,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class TypeVarious {
 
-// The following test uses the 'ecFeed' library.
-// It is very similar to the previous one, the only difference is that not all parameters are strings.
-
-//------------------------------------------------------------------------------
-
-    private static final String webDriver = "/home/krzysztof/geckodriver";      // If you want to use the 'gecko' driver, comment this line.
-    // private static final String webDriver = "/home/krzysztof/chromedriver";  // If you want to use the 'chrome' driver, uncomment this line.
+    private static final String webDriver = System.getProperty("user.home") + "/selenium/geckodriver.exe";
 
 //------------------------------------------------------------------------------
 
@@ -40,8 +35,8 @@ public class TypeVarious {
     private static final String[] webPageFormOutput = { "status", "response" };
 
     private static final String[][] webPageFormInput = {
-            {"name", "address", "quantity", "phone", "email"},                  // Input type - Text.
-            {"country", "product", "color", "size", "payment", "delivery"}      // Input type - Select.
+            {"name", "address", "quantity", "phone", "email"},
+            {"country", "product", "color", "size", "payment", "delivery"}
     };
 
 //------------------------------------------------------------------------------
@@ -100,18 +95,19 @@ public class TypeVarious {
 //------------------------------------------------------------------------------
 
     private static Iterable<Object[]> testProviderNWise() {
-//        return TestProvider.create("6EG2-YL4S-LMAK-Y5VW-VPV9").generateNWise("com.example.test.Demo.typeVarious", ParamsNWise.create().feedback().constraints("NONE").label("Selenium"));
-        return TestProvider.create("6EG2-YL4S-LMAK-Y5VW-VPV9").generateNWise("com.example.test.Demo.typeVarious", ParamsNWise.create().feedback().label("Selenium"));
+
+        var parameters = new HashMap<String, String>();
+        parameters.put("keyStorePath", "src/test/resources/demo.p12");
+
+        return TestProvider.create("6EG2-YL4S-LMAK-Y5VW-VPV9", parameters).generateNWise("com.example.test.Demo.typeVarious", ParamsNWise.create().feedback().label("Selenium"));
     }
 
     private static RemoteWebDriver driver;
 
     @BeforeAll
     static void beforeAll() {
-        System.setProperty("webdriver.gecko.driver", webDriver);        // If you want to use the 'gecko' driver, comment this line.
-        driver = new FirefoxDriver();                                   // If you want to use the 'gecko' driver, comment this line.
-//      System.setProperty("webdriver.chrome.driver", webDriver);       // If you want to use the 'chrome' driver, uncomment this line
-//      driver = new ChromeDriver();                                    // If you want to use the 'chrome' driver, uncomment this line
+        System.setProperty("webdriver.gecko.driver", webDriver);
+        driver = new FirefoxDriver();
         driver.get(webPageAddress);
     }
 

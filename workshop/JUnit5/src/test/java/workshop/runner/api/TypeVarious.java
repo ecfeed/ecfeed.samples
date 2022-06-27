@@ -21,18 +21,16 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class TypeVarious {
 
-// The following test uses the 'ecFeed' library.
-// It is very similar to the previous one, the only difference is that not all parameters are strings.
-
-//------------------------------------------------------------------------------
-
     private static final String webPageAddress = "https://api.ecfeed.com?mode=error";
 
 //------------------------------------------------------------------------------
 
     private static Iterable<Object[]> testProviderNWise() {
-//      return TestProvider.create("6EG2-YL4S-LMAK-Y5VW-VPV9").generateNWise("com.example.test.Demo.typeVarious", ParamsNWise.create().feedback().label("API").constraints("NONE"));
-        return TestProvider.create("6EG2-YL4S-LMAK-Y5VW-VPV9").generateNWise("com.example.test.Demo.typeVarious", ParamsNWise.create().feedback().label("API"));
+
+        var parameters = new HashMap<String, String>();
+        parameters.put("keyStorePath", "src/test/resources/demo.p12");
+
+        return TestProvider.create("6EG2-YL4S-LMAK-Y5VW-VPV9", parameters).generateNWise("com.example.test.Demo.typeVarious", ParamsNWise.create().feedback().label("API"));
     }
 
     @ParameterizedTest
@@ -77,7 +75,5 @@ public class TypeVarious {
 
         testHandle.addFeedback(true);
     }
-
-//------------------------------------------------------------------------------
 
 }
