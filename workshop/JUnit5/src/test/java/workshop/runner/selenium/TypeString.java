@@ -2,7 +2,6 @@ package workshop.runner.selenium;
 
 import com.ecfeed.TestHandle;
 import com.ecfeed.TestProvider;
-import com.ecfeed.params.ParamsNWise;
 import com.ecfeed.params.ParamsRandom;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -16,7 +15,6 @@ import org.openqa.selenium.support.ui.Select;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
