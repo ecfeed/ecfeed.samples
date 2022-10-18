@@ -54,6 +54,10 @@ function authBasic(header) {
 };
 
 function authToken(header) {
+    if (header === undefined) {
+        return `The authorization header is not provided.`;
+    }
+
     const elements = header.split(" ");
 
     if (elements.length != 2) {
@@ -69,7 +73,7 @@ function authToken(header) {
 
 app.post('/fsm/m1/success', (req, res) => {
     const params = url.parse(req.url, true);
-    const problems = valInput(params);
+    const problems = valInputM1(params);
 
     if (problems.length > 0) {
         res.status(400);
@@ -82,7 +86,7 @@ app.post('/fsm/m1/success', (req, res) => {
 
 app.post('/fsm/m1/failure', (req, res) => {
     const params = url.parse(req.url, true);
-    const problems = valInput(params);
+    const problems = valInputM1(params);
 
     if (problems.length > 0) {
         res.status(400);
@@ -99,7 +103,39 @@ app.post('/fsm/m1/failure', (req, res) => {
     return res.send('OK');
 });
 
-function valInput(params) {
+app.post('/fsm/m2/success', (req, res) => {
+    const params = url.parse(req.url, true);
+    const problems = valInputM2(params);
+
+    if (problems.length > 0) {
+        res.status(400);
+
+        return res.send(problems);
+    }
+
+    return res.send('OK');
+});
+
+app.post('/fsm/m2/failure', (req, res) => {
+    const params = url.parse(req.url, true);
+    const problems = valInputM2(params);
+
+    if (problems.length > 0) {
+        res.status(400);
+
+        return res.send(problems);
+    }
+
+    if (params.query.p1 === "KRZYSZTOF") {
+        res.status(500);
+
+        return res.send('BROKEN');
+    }
+
+    return res.send('OK');
+});
+
+function valInputM1(params) {
     const problems = [];
 
     if (Object.keys(params.query).length != 5) {
@@ -112,6 +148,29 @@ function valInput(params) {
     valInputParam(problems, params, 'p4');
     valInputParam(problems, params, 'p5');
 
+    if (problems.length > 0) {
+        return;
+    }
+
+    valInputParamInt(problems, params, 'p1');
+    valInputParamInt(problems, params, 'p2');
+    valInputParamInt(problems, params, 'p3');
+    valInputParamInt(problems, params, 'p4');
+    valInputParamInt(problems, params, 'p5');
+
+    return problems;
+};
+
+function valInputM2(params) {
+    const problems = [];
+
+    if (Object.keys(params.query).length != 2) {
+        problems.push(`The query should consist of exactly 2 parameters, i.e. 'p1', 'p2'.`);
+    }
+
+    valInputParam(problems, params, 'p1');
+    valInputParam(problems, params, 'p2');
+
     return problems;
 };
 
@@ -119,14 +178,15 @@ function valInputParam(problems, params, name) {
 
     if (params.query[name] === undefined) {
         problems.push(`The parameter '${name}' is missing.`);
-
-        return;
     }
+};
+
+function valInputParamInt(problems, params, name) {
 
     if (Number.isNaN(Number(params.query[name]))) {
         problems.push(`The parameter '${name}' cannot be parsed to integer.`);
     }
-};
+}
 
 //---------------------------------------------------------------------------------------------------------
 
