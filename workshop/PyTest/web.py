@@ -19,7 +19,8 @@ form = {
 ecfeed = TestProvider(model='6EG2-YL4S-LMAK-Y5VW-VPV9')
 method = 'com.example.test.Demo.typeString'
 
-driver = webdriver.Firefox(executable_path=r'C:\\Users\\kskor\\selenium\\geckodriver.exe')
+driver = webdriver.Firefox()
+#executable_path=r'C:\\Users\\kskor\\selenium\\geckodriver.ex./'
 
 # ---------------------------------------------------------
 
@@ -101,11 +102,13 @@ def setup():
     yield driver
     driver.close()
 
-@pytest.mark.parametrize(ecfeed.test_header(method, feedback=True), ecfeed.nwise(method=method, feedback=True, constraints="ALL", label="Selenium"))
+# @pytest.mark.parametrize(ecfeed.test_header(method, feedback=True), ecfeed.random(length=10, duplicates=False, method=method, feedback=True, constraints="ALL", label="Selenium"))
+@pytest.mark.parametrize(ecfeed.test_header(method, feedback=True), ecfeed.static_suite(method=method, feedback=True, ))
+# @pytest.mark.parametrize(ecfeed.test_header(method, feedback=True), ecfeed.nwise(method=method, feedback=True, constraints="ALL", label="Selenium"))
 def test_method_random(Country, Name, Address, Product, Color, Size, Quantity, Payment, Delivery, Phone, Email, test_handle):
 
     response = set_selenium_form(Country, Name, Address, Product, Color, Size, Quantity, Payment, Delivery, Phone, Email, test_handle)
-    time.sleep(1)
+    # time.sleep(1)
     process_selenium_results(response, test_handle)
 
     

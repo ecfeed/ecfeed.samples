@@ -2,6 +2,7 @@ package workshop.runner.selenium;
 
 import com.ecfeed.TestHandle;
 import com.ecfeed.TestProvider;
+import com.ecfeed.params.ParamsNWise;
 import com.ecfeed.params.ParamsRandom;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -22,7 +23,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class TypeString {
 
-    private static final String webDriver = System.getProperty("user.home") + "/selenium/geckodriver.exe";
+    private static final String webDriver = System.getProperty("user.home") + "/selenium/geckodriver";
 
 //------------------------------------------------------------------------------
 
@@ -92,12 +93,13 @@ public class TypeString {
 
 //------------------------------------------------------------------------------
 
-    private static Iterable<Object[]> testProviderNWise() {
+    private static Iterable<Object[]> testProvider() {
 
         var parameters = new HashMap<String, String>();
         parameters.put("keyStorePath", "src/test/resources/demo.p12");
 
         return TestProvider.create("6EG2-YL4S-LMAK-Y5VW-VPV9", parameters).generateRandom("com.example.test.Demo.typeString", ParamsRandom.create().length(5).feedback().label("Selenium"));
+//        return TestProvider.create("6EG2-YL4S-LMAK-Y5VW-VPV9", parameters).generateNWise("com.example.test.Demo.typeString", ParamsNWise.create().feedback().label("Selenium"));
     }
 
     private static RemoteWebDriver driver;
@@ -115,7 +117,7 @@ public class TypeString {
     }
 
     @ParameterizedTest
-    @MethodSource("testProviderNWise")
+    @MethodSource("testProvider")
     void seleniumValidate(String country, String name, String address, String product, String color, String size, String quantity, String payment, String delivery, String phone, String email, TestHandle testHandle) {
 
         String[][] input = {

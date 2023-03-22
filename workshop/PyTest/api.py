@@ -72,7 +72,8 @@ def process_response(response, test_handle):
 
 # ---------------------------------------------------------
 
-@pytest.mark.parametrize(ecfeed.test_header(method, feedback=True), ecfeed.nwise(method=method, feedback=True, constraints="ALL", label="API"))
+@pytest.mark.parametrize(ecfeed.test_header(method, feedback=True), ecfeed.random(length=10, duplicates=True, method=method, feedback=True, constraints="ALL", label="API"))
+# @pytest.mark.parametrize(ecfeed.test_header(method, feedback=True), ecfeed.nwise(method=method, feedback=True, constraints="ALL", label="API"))
 def test_method_nwise(Country, Name, Address, Product, Color, Size, Quantity, Payment, Delivery, Phone, Email, test_handle):
 
     response = process_request(Country, Name, Address, Product, Color, Size, Quantity, Payment, Delivery, Phone, Email)
