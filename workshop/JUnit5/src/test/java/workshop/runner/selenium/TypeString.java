@@ -2,6 +2,7 @@ package workshop.runner.selenium;
 
 import com.ecfeed.TestHandle;
 import com.ecfeed.TestProvider;
+import com.ecfeed.params.ParamsNWise;
 import com.ecfeed.params.ParamsRandom;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -97,7 +98,7 @@ public class TypeString {
         var parameters = new HashMap<String, String>();
         parameters.put("keyStorePath", "src/test/resources/demo.p12");
 
-        return TestProvider.create("6EG2-YL4S-LMAK-Y5VW-VPV9", parameters).generateRandom("com.example.test.Demo.typeString", ParamsRandom.create().length(5).feedback().label("Selenium"));
+        return TestProvider.create("6EG2-YL4S-LMAK-Y5VW-VPV9", parameters).generateNWise("com.example.test.Demo.typeString", ParamsNWise.create().feedback().label("Selenium"));
     }
 
     private static RemoteWebDriver driver;
