@@ -1,0 +1,25 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "cypress - open",
+            "command": "npx cypress open",
+            "type": "shell",
+            "group": "build"
+        },
+        {
+            "label": "cypress - generate source",
+            "command": "python3",
+            "args": [
+                "cypress/script/ecfeed_cli.py",
+                "--model", "0603-5525-0414-9188-9919",
+                "--method", "com.example.test.Demo.typeString",
+                "--template", "CSV",
+                "--output", "cypress/source/source.csv",
+                "--nwise"
+            ],
+            "type": "shell",
+            "group": "build"
+        }
+    ]
+}

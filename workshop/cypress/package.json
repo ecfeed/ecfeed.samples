@@ -1,0 +1,17 @@
+{
+  "name": "cypress-integration",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@cypress/webpack-preprocessor": "^5.17.1",
+    "csv-loader": "^3.0.5",
+    "cypress": "^12.16.0",
+    "papaparse": "^5.4.1"
+  }
+}
