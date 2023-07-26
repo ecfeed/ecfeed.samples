@@ -10,8 +10,7 @@
   "license": "ISC",
   "devDependencies": {
     "@cypress/webpack-preprocessor": "^5.17.1",
-    "csv-loader": "^3.0.5",
     "cypress": "^12.16.0",
-    "papaparse": "^5.4.1"
+    "csv-loader": "^3.0.5"
   }
 }

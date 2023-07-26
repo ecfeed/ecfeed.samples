@@ -1,4 +1,4 @@
-const webpackPreprocessor = require('@cypress/webpack-preprocessor')
+const webpackPreprocessor = require('@cypress/webpack-preprocessor');
 const { defineConfig } = require("cypress");
 
 module.exports = defineConfig({
