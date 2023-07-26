@@ -15,9 +15,21 @@
                 "--model", "0603-5525-0414-9188-9919",
                 "--method", "com.example.test.Demo.typeString",
                 "--template", "CSV",
-                "--output", "cypress/source/source.csv",
+                "--output", "cypress/fixtures/source.csv",
                 "--nwise"
             ],
+            "type": "shell",
+            "group": "build"
+        },
+        {
+            "label": "cypress - run",
+            "command": "npx cypress run --spec cypress/e2e/csv.cy.js --browser firefox --record",
+            "type": "shell",
+            "group": "build"
+        },
+        {
+            "label": "cypress - run/record",
+            "command": "npx cypress run --spec cypress/e2e/csv.cy.js --browser firefox --record --key be615cc3-1966-4364-afde-31a16798bca6",
             "type": "shell",
             "group": "build"
         }
