@@ -2,34 +2,34 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "cypress - ui",
-            "command": "npx cypress open",
+            "label": "playwright - ui",
+            "command": "npx playwright test --ui",
             "type": "shell",
             "group": "build"
         },
         {
-            "label": "cypress - generate source",
+            "label": "playwright - generate source",
             "command": "python3",
             "args": [
-                "cypress/script/ecfeed_cli.py",
+                "script/ecfeed_cli.py",
                 "--model", "0603-5525-0414-9188-9919",
                 "--method", "com.example.test.Demo.typeString",
                 "--template", "CSV",
-                "--output", "cypress/fixtures/source.csv",
+                "--output", "fixtures/source.csv",
                 "--nwise"
             ],
             "type": "shell",
             "group": "build"
         },
         {
-            "label": "cypress - run",
-            "command": "npx cypress run --spec cypress/e2e/csv.cy.js --browser firefox --record",
+            "label": "playwright - open",
+            "command": "npx playwright test --headed --grep '@csv'",
             "type": "shell",
             "group": "build"
         },
         {
-            "label": "cypress - run/cloud",
-            "command": "npx cypress run --spec cypress/e2e/csv.cy.js --browser firefox --record --key be615cc3-1966-4364-afde-31a16798bca6",
+            "label": "playwright - run",
+            "command": "npx playwright test --grep '@csv'",
             "type": "shell",
             "group": "build"
         }

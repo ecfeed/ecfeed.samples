@@ -1,0 +1,30 @@
+Country,Name,Address,Product,Color,Size,Quantity,Payment,Delivery,Phone,Email
+other,John Doe,Tollbodgata 138. 0484 Langtvekkistan,t-shirt,black,L,1,VISA,standard,+48123456789,anna@kowalska.pl
+Norway,Ola Nordmann,Aleja Pysiowa 129. 81-384 Warszawa,hoodie,white,L,2,bank transfer,express,+47123456789,ola@nordmann.no
+Poland,Anna Kowalska,Timmersloher Landstrasse 300. D-12129 Kuhdorf,t-shirt,blue,M,1,cash on delivery,standard,+48123456789,ola@nordmann.no
+other,Max Mustermann,Timmersloher Landstrasse 300. D-12129 Kuhdorf,hoodie,white,XS,3,MASTERCARD,standard,+47123456789,anna@kowalska.pl
+Norway,Anna Kowalska,Tollbodgata 138. 0484 Langtvekkistan,t-shirt,green,S,3,MASTERCARD,express,+47123456789,ola@nordmann.no
+Norway,Max Mustermann,Aleja Pysiowa 129. 81-384 Warszawa,hoodie,black,XL,1,cash on delivery,express,+47123456789,anna@kowalska.pl
+other,Ola Nordmann,Aleja Pysiowa 129. 81-384 Warszawa,t-shirt,red,XL,2,MASTERCARD,standard,+48123456789,ola@nordmann.no
+Poland,Max Mustermann,Tollbodgata 138. 0484 Langtvekkistan,t-shirt,green,S,2,bank transfer,standard,+48123456789,anna@kowalska.pl
+Poland,John Doe,Aleja Pysiowa 129. 81-384 Warszawa,hoodie,white,XL,3,VISA,express,+48123456789,ola@nordmann.no
+Poland,Ola Nordmann,Tollbodgata 138. 0484 Langtvekkistan,t-shirt,blue,XS,2,VISA,express,+48123456789,anna@kowalska.pl
+Norway,John Doe,Timmersloher Landstrasse 300. D-12129 Kuhdorf,t-shirt,red,M,2,bank transfer,express,+47123456789,anna@kowalska.pl
+Poland,Ola Nordmann,Timmersloher Landstrasse 300. D-12129 Kuhdorf,hoodie,black,S,3,cash on delivery,express,+48123456789,ola@nordmann.no
+Norway,Anna Kowalska,Timmersloher Landstrasse 300. D-12129 Kuhdorf,t-shirt,red,XS,1,VISA,standard,+47123456789,anna@kowalska.pl
+other,Ola Nordmann,Aleja Pysiowa 129. 81-384 Warszawa,t-shirt,green,M,3,bank transfer,standard,+48123456789,ola@nordmann.no
+other,John Doe,Aleja Pysiowa 129. 81-384 Warszawa,t-shirt,blue,S,3,MASTERCARD,standard,+47123456789,ola@nordmann.no
+Poland,Max Mustermann,Tollbodgata 138. 0484 Langtvekkistan,t-shirt,red,L,3,cash on delivery,express,+48123456789,anna@kowalska.pl
+other,Anna Kowalska,Aleja Pysiowa 129. 81-384 Warszawa,hoodie,black,XS,2,bank transfer,standard,+47123456789,ola@nordmann.no
+Norway,John Doe,Timmersloher Landstrasse 300. D-12129 Kuhdorf,t-shirt,green,XS,2,cash on delivery,standard,+47123456789,anna@kowalska.pl
+Poland,Max Mustermann,Tollbodgata 138. 0484 Langtvekkistan,hoodie,white,M,1,MASTERCARD,standard,+48123456789,ola@nordmann.no
+Norway,Anna Kowalska,Tollbodgata 138. 0484 Langtvekkistan,t-shirt,blue,XL,1,bank transfer,standard,+47123456789,ola@nordmann.no
+Poland,Anna Kowalska,Timmersloher Landstrasse 300. D-12129 Kuhdorf,hoodie,white,L,3,MASTERCARD,express,+48123456789,anna@kowalska.pl
+other,Max Mustermann,Timmersloher Landstrasse 300. D-12129 Kuhdorf,t-shirt,green,S,1,VISA,standard,+48123456789,anna@kowalska.pl
+Norway,Ola Nordmann,Aleja Pysiowa 129. 81-384 Warszawa,t-shirt,white,S,1,cash on delivery,standard,+47123456789,ola@nordmann.no
+Norway,Max Mustermann,Timmersloher Landstrasse 300. D-12129 Kuhdorf,t-shirt,blue,L,1,bank transfer,express,+47123456789,ola@nordmann.no
+Poland,Max Mustermann,Timmersloher Landstrasse 300. D-12129 Kuhdorf,t-shirt,green,XL,3,MASTERCARD,standard,+48123456789,ola@nordmann.no
+Poland,Ola Nordmann,Tollbodgata 138. 0484 Langtvekkistan,hoodie,black,M,3,VISA,express,+48123456789,anna@kowalska.pl
+Poland,Anna Kowalska,Timmersloher Landstrasse 300. D-12129 Kuhdorf,t-shirt,black,XS,2,MASTERCARD,standard,+48123456789,ola@nordmann.no
+other,John Doe,Tollbodgata 138. 0484 Langtvekkistan,t-shirt,red,S,3,bank transfer,standard,+48123456789,anna@kowalska.pl
+Poland,Max Mustermann,Tollbodgata 138. 0484 Langtvekkistan,t-shirt,green,L,2,MASTERCARD,standard,+48123456789,ola@nordmann.no
