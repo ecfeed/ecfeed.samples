@@ -60,10 +60,10 @@ public class TypeString {
             JSONArray errorOutput = json.getJSONArray("errorOutput");
 
             assertAll("The returned JSON file contains error description(s).",
-                () -> assertTrue(errorInput.length() == 0,
-                    () -> testHandle.addFeedback(false, "Input error", IntStream.range(0, errorInput.length()).boxed().collect(Collectors.toMap(e -> "" + (e + 1), e -> "- " + errorInput.getString(e))))),
-                () -> assertTrue(errorOutput.length() == 0,
-                    () -> testHandle.addFeedback(false, "Output error", IntStream.range(0, errorOutput.length()).boxed().collect(Collectors.toMap(e -> "" + (e + 1), e -> "- " + errorOutput.getString(e)))))
+                () -> assertEquals(0, errorInput.length(),
+                        () -> testHandle.addFeedback(false, "Input error", IntStream.range(0, errorInput.length()).boxed().collect(Collectors.toMap(e -> "" + (e + 1), e -> "- " + errorInput.getString(e))))),
+                () -> assertEquals(0, errorOutput.length(),
+                        () -> testHandle.addFeedback(false, "Output error", IntStream.range(0, errorOutput.length()).boxed().collect(Collectors.toMap(e -> "" + (e + 1), e -> "- " + errorOutput.getString(e)))))
             );
 
         } catch (UnirestException e) {

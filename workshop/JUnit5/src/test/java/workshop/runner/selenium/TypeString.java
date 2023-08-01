@@ -3,7 +3,6 @@ package workshop.runner.selenium;
 import com.ecfeed.TestHandle;
 import com.ecfeed.TestProvider;
 import com.ecfeed.params.ParamsNWise;
-import com.ecfeed.params.ParamsRandom;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -19,7 +18,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class TypeString {
 
@@ -41,22 +40,22 @@ public class TypeString {
 //------------------------------------------------------------------------------
 
     private static void setForm(RemoteWebDriver driver, String[][] values) throws IllegalArgumentException {
-        validateInput(webPageFormInput, values);
+        validateInput(values);
 
         setFormText(driver, values[0]);
         setFormSelect(driver, values[1]);
     }
 
-    private static void validateInput(String[][] reference, String[][] input)
+    private static void validateInput(String[][] input)
             throws IllegalArgumentException {
 
         if (input.length != 2) {
             throw new IllegalArgumentException("The dimension of the input array is incorrect.");
         }
-        if (reference[0].length != input[0].length) {
+        if (TypeString.webPageFormInput[0].length != input[0].length) {
             throw new IllegalArgumentException("The number of the input text fields is incorrect.");
         }
-        if (reference[1].length != input[1].length) {
+        if (TypeString.webPageFormInput[1].length != input[1].length) {
             throw new IllegalArgumentException("The number of the input select fields is incorrect.");
         }
     }
@@ -144,7 +143,7 @@ public class TypeString {
         Arrays.stream(response).forEach(System.out::println);
 
         var custom = IntStream.range(1, response.length).boxed().collect(Collectors.toMap(e -> "" + e, e -> response[e]));
-        assertTrue(response[0].equals(" Request accepted"), () -> testHandle.addFeedback(false, "Output error", custom));
+        assertEquals(" Request accepted", response[0], () -> testHandle.addFeedback(false, "Output error", custom));
         testHandle.addFeedback(true);
     }
 
