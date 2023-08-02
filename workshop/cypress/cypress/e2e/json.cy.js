@@ -1,6 +1,6 @@
 /// <reference types="Cypress" />
 
-const source = require("../fixtures/source.json");
+import source from "../fixtures/source.json";
 
 describe('EcFeed', () => {
 

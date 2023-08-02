@@ -1,6 +1,6 @@
 /// <reference types="Cypress" />
 
-const source = require("../fixtures/source.csv");
+import source from "../fixtures/source.csv";
 
 describe('EcFeed', () => {
 

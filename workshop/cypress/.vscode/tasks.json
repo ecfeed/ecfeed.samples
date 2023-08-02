@@ -9,9 +9,8 @@
         },
         {
             "label": "cypress - generate source",
-            "command": "python3",
+            "command": "ecfeed",
             "args": [
-                "cypress/script/ecfeed_cli.py",
                 "--model", "0603-5525-0414-9188-9919",
                 "--method", "com.example.test.Demo.typeString",
                 "--template", "CSV",
@@ -22,13 +21,13 @@
             "group": "build"
         },
         {
-            "label": "cypress - run",
+            "label": "cypress - run @ csv",
             "command": "npx cypress run --spec cypress/e2e/csv.cy.js --browser firefox --record",
             "type": "shell",
             "group": "build"
         },
         {
-            "label": "cypress - run/cloud",
+            "label": "cypress - run/cloud @csv",
             "command": "npx cypress run --spec cypress/e2e/csv.cy.js --browser firefox --record --key be615cc3-1966-4364-afde-31a16798bca6",
             "type": "shell",
             "group": "build"
