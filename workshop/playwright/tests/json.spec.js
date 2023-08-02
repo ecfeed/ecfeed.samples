@@ -1,9 +1,10 @@
-const { test } = require('@playwright/test');
-const { EcFeed } = require('../page-objects/EcFeed');
+import { test } from "@playwright/test";
+import { parseJSON } from "../helpers/parser";
+import { EcFeed } from "../page-objects/EcFeed";
 
 test.describe('EcFeed @json', () => {
 
-    require("../fixtures/source.json").testCases.forEach(async (element, index) => {
+    parseJSON().forEach(async (element, index) => {
 
         test(`should process an order ${index}`, async ({ page }) => {
             const ecFeed = new EcFeed(page, element);

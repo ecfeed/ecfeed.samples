@@ -4,15 +4,15 @@ module.exports = defineConfig({
   testDir: './tests',
   fullyParallel: false,
   forbidOnly: !!process.env.CI,
-  retries: process.env.CI ? 2 : 1,
-  workers: process.env.CI ? 1 : undefined,
+  retries: 1,
+  workers: 1,
   reporter: 'html',
   
   use: {
     baseURL: 'http://www.workshop-2021-december.ecfeed.com',
     trace: 'on-first-retry',
+    video: 'on-first-retry',
     screenshot: 'only-on-failure',
-    video: 'on-first-retry'
   },
 
   expect: {
@@ -22,13 +22,25 @@ module.exports = defineConfig({
   projects: [
     {
       name: 'chromium',
-      use: { ...devices['Desktop Chrome'] },
+      use: { 
+        ...devices['Desktop Chrome'],
+        viewport: {
+          width: 1536,
+          height: 900
+        }
+      }
     },
 
-    // {
-    //   name: 'firefox',
-    //   use: { ...devices['Desktop Firefox'] },
-    // },
+    {
+      name: 'firefox',
+      use: { 
+        ...devices['Desktop Firefox'],
+        viewport: {
+          width: 1536,
+          height: 900
+        }
+      }
+    },
 
     // {
     //   name: 'webkit',

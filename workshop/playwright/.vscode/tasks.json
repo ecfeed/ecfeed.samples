@@ -9,26 +9,25 @@
         },
         {
             "label": "playwright - generate source",
-            "command": "python3",
+            "command": "ecfeed",
             "args": [
-                "script/ecfeed_cli.py",
                 "--model", "0603-5525-0414-9188-9919",
                 "--method", "com.example.test.Demo.typeString",
                 "--template", "CSV",
-                "--output", "fixtures/source.csv",
+                "--output", "source/source.csv",
                 "--nwise"
             ],
             "type": "shell",
             "group": "build"
         },
         {
-            "label": "playwright - open",
+            "label": "playwright - headed @csv",
             "command": "npx playwright test --headed --grep '@csv'",
             "type": "shell",
             "group": "build"
         },
         {
-            "label": "playwright - run",
+            "label": "playwright - run @csv",
             "command": "npx playwright test --grep '@csv'",
             "type": "shell",
             "group": "build"

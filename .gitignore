@@ -17,7 +17,7 @@
 *.ear
 *.tar.gz
 *.rar
-*.p12
+*security.p12
 *.cnf
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
@@ -50,3 +50,8 @@ workshop/runners/CSharp/src/EcFeed/obj/Debug/netstandard2.0/EcFeed.AssemblyInfoI
 workshop/runners/CSharp/src/EcFeed/obj/Debug/netstandard2.0/EcFeed.csproj.CoreCompileInputs.cache
 workshop/runners/CSharp/src/EcFeedExample/obj/Debug/netcoreapp2.2/EcFeedExample.AssemblyInfo.cs
 workshop/runners/CSharp/src/EcFeedExample/obj/Debug/netcoreapp2.2/EcFeedExample.AssemblyInfoInputs.cache
+
+**/obj
+**/bin
+
+**/playwright-trace.zip
