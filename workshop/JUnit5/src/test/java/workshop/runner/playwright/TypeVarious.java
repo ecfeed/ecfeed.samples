@@ -5,6 +5,8 @@ import com.ecfeed.TestProvider;
 import com.ecfeed.params.ParamsNWise;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
+import workshop.runner.playwright.fixtures.EcFeedFixture;
+
 import workshop.data.*;
 
 import java.util.HashMap;
@@ -13,10 +15,9 @@ import static org.junit.jupiter.api.Assertions.fail;
 
 public class TypeVarious extends EcFeedFixture {
     private static String keyStorePath = "src/test/resources/demo.p12";
-    private static String modelID = "6EG2-YL4S-LMAK-Y5VW-VPV9";
+    private static String modelID = "6EG2-YL4S-LMAK-Y5VW-VPV9"; // "0603-5525-0414-9188-9919"
     private static String method = "com.example.test.Demo.typeVarious";
     private static String label = "Playwright - Various";
-
 
     private static Iterable<Object[]> testProviderNWise() {
         var parameters = new HashMap<String, String>();
