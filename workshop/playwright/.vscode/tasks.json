@@ -8,6 +8,12 @@
             "group": "build"
         },
         {
+            "label": "playwright - codegen",
+            "command": "npx playwright codegen http://www.workshop-2021-december.ecfeed.com?mode=error",
+            "type": "shell",
+            "group": "build"
+        },
+        {
             "label": "playwright - generate source",
             "command": "ecfeed",
             "args": [

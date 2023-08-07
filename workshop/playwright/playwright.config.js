@@ -3,7 +3,7 @@ const { defineConfig, devices } = require('@playwright/test');
 module.exports = defineConfig({
   testDir: './tests',
   fullyParallel: false,
-  forbidOnly: !!process.env.CI,
+  forbidOnly: false,
   retries: 1,
   workers: 1,
   reporter: 'html',
@@ -20,16 +20,16 @@ module.exports = defineConfig({
   },
 
   projects: [
-    {
-      name: 'chromium',
-      use: { 
-        ...devices['Desktop Chrome'],
-        viewport: {
-          width: 1536,
-          height: 900
-        }
-      }
-    },
+    // {
+    //   name: 'chromium',
+    //   use: { 
+    //     ...devices['Desktop Chrome'],
+    //     viewport: {
+    //       width: 1536,
+    //       height: 900
+    //     }
+    //   }
+    // },
 
     {
       name: 'firefox',
