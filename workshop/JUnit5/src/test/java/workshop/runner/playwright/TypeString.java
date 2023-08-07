@@ -3,19 +3,20 @@ package workshop.runner.playwright;
 import com.ecfeed.TestHandle;
 import com.ecfeed.TestProvider;
 import com.ecfeed.params.ParamsNWise;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
+import workshop.Config;
 import workshop.runner.playwright.fixtures.EcFeedFixture;
+import workshop.runner.playwright.helpers.EcFeedHelper;
 
 import java.util.HashMap;
 
-import static org.junit.jupiter.api.Assertions.fail;
-
 public class TypeString extends EcFeedFixture {
-    private static String keyStorePath = "src/test/resources/demo.p12";
-    private static String modelID = "6EG2-YL4S-LMAK-Y5VW-VPV9"; // "0603-5525-0414-9188-9919"
-    private static String method = "com.example.test.Demo.typeString";
-    private static String label = "Playwright";
+    private static String keyStorePath = Config.keyStorePath;
+    private static String modelID = Config.modelID;
+    private static String method = Config.methodString;
+    private static String label = "Playwright - String";
 
     private static Iterable<Object[]> testProviderNWise() {
         var parameters = new HashMap<String, String>();
@@ -43,12 +44,22 @@ public class TypeString extends EcFeedFixture {
 
             ecfeed.submit();
 
-            ecfeed.validate();
-        } catch (Throwable e) {
-            handle.addFeedback(false, e.getMessage());
-            fail();
-        }
+            var status = ecfeed.getStatus();
+            var response = ecfeed.getResponse();
 
-        handle.addFeedback(true);
+            Assertions.assertEquals("Request accepted", status,
+                    () -> EcFeedHelper.sendFeedbackNegative(handle, status, response));
+
+            EcFeedHelper.sendFeedbackPositive(handle);
+        } catch (Throwable e) {
+            handleThrowable(handle, e);
+        }
+    }
+
+    private void handleThrowable(TestHandle handle, Throwable e) {
+
+        EcFeedHelper.sendFeedbackException(handle, e);
+
+        throw new RuntimeException(e);
     }
 }

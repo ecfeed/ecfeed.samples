@@ -3,20 +3,21 @@ package workshop.runner.selenium;
 import com.ecfeed.TestHandle;
 import com.ecfeed.TestProvider;
 import com.ecfeed.params.ParamsNWise;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
+import org.openqa.selenium.NoSuchElementException;
+import workshop.Config;
 import workshop.runner.selenium.fixtures.EcFeedFixture;
 import workshop.runner.selenium.helpers.EcFeedHelper;
 
 import java.util.HashMap;
 
-import static org.junit.jupiter.api.Assertions.fail;
-
 public class TypeString extends EcFeedFixture {
-    private static String keyStorePath = "src/test/resources/demo.p12";
-    private static String modelID = "6EG2-YL4S-LMAK-Y5VW-VPV9"; // "0603-5525-0414-9188-9919"
-    private static String method = "com.example.test.Demo.typeString";
-    private static String label = "Selenium";
+    private static String keyStorePath = Config.keyStorePath;
+    private static String modelID = Config.modelID;
+    private static String method = Config.methodString;
+    private static String label = "Selenium - String";
 
     private static Iterable<Object[]> testProviderNWise() {
         var parameters = new HashMap<String, String>();
@@ -29,24 +30,42 @@ public class TypeString extends EcFeedFixture {
     @MethodSource("testProviderNWise")
     void seleniumValidate(String country, String name, String address, String product, String color, String size, String quantity, String payment, String delivery, String phone, String email, TestHandle handle) {
 
+        ecfeed.setFormTextName(name);
+        ecfeed.setFormTextAddress(address);
+        ecfeed.setFormTextQuantity(quantity);
+        ecfeed.setFormTextPhone(phone);
+        ecfeed.setFormTextEmail(email);
+
         try {
-            ecfeed.setFormText(name, address, quantity, phone, email);
-            ecfeed.setFormBox(country, product, color, size, payment, delivery);
 
-            ecfeed.submit();
+            ecfeed.setFormBoxCountry(country);
+            ecfeed.setFormBoxProduct(product);
+            ecfeed.setFormBoxColor(color);
+            ecfeed.setFormBoxSize(size);
+            ecfeed.setFormBoxPayment(payment);
+            ecfeed.setFormBoxDelivery(delivery);
 
-            var status = ecfeed.getOutputStatus();
-            var response = ecfeed.getOutputResponse();
-
-            if (ecfeed.validate(status)) {
-                EcFeedHelper.sendFeedbackPositive(handle);
-            } else {
-                EcFeedHelper.sendFeedbackNegative(handle, status, response);
-                fail();
-            }
-        } catch (Exception e) {
-
-            EcFeedHelper.sendFeedbackException(handle);
+        } catch (NoSuchElementException e) {
+            handleNoSuchElementException(handle, e);
         }
+
+        ecfeed.submit();
+
+        var status = ecfeed.getOutputStatus();
+        var response = ecfeed.getOutputResponse();
+
+        EcFeedHelper.log(status + " | " + response);
+
+        Assertions.assertEquals("Request accepted", status,
+                () -> EcFeedHelper.sendFeedbackNegative(handle, status, response));
+
+        EcFeedHelper.sendFeedbackPositive(handle);
+    }
+
+    private void handleNoSuchElementException(TestHandle handle, NoSuchElementException e) {
+
+        EcFeedHelper.sendFeedbackException(handle, e);
+
+        throw e;
     }
 }

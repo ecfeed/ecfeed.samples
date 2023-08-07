@@ -10,7 +10,7 @@ import java.nio.file.Paths;
 public class EcFeedFixture {
 
 // To simplify the code and speed up tests, we only use one 'page' object.
-// This might not be a good idea to use in production.
+// This should not be used in production.
 
     static private Playwright playwright;           // Session.
     static private Browser browser;
@@ -18,7 +18,7 @@ public class EcFeedFixture {
     static private BrowserContext context;          // Test (here, it is extended to the whose session).
     static private Page page;
 
-    static public EcFeedPageObject ecfeed;       // Page object.
+    static public EcFeedPageObject ecfeed;          // Page object.
 
     @BeforeAll
     static void setUp() {

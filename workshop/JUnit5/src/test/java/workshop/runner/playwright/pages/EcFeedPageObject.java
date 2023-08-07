@@ -130,20 +130,25 @@ public class EcFeedPageObject {
         }
     }
 
-    public void validate() {
-        var text = "";
+    public String getStatus() {
+
+        return getText("status");
+    }
+
+    public String getResponse() {
+
+        return getText("response");
+    }
+
+    private String getText(String selector) {
+        var locator = page.locator("#" + selector);
 
         try {
-            page.locator("#response").waitFor();
-            text = page.locator("#response").textContent();
+            locator.waitFor();
+            assertThat(locator).hasValue(Pattern.compile("^(?=\\s*\\S).*$"));
+            return locator.inputValue().trim();
         } catch (Throwable e) {
-            throw new RuntimeException("- The 'response' element could not be accessed!");
-        }
-
-        try {
-            assertThat(page.locator("#response")).hasValue(Pattern.compile("Order processed without errors"));
-        } catch (Throwable e) {
-            throw new RuntimeException(text);
+            throw new RuntimeException("- The '" + selector + "' element could not be accessed!");
         }
     }
 

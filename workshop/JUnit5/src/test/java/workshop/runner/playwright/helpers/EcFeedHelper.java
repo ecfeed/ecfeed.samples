@@ -1,4 +1,4 @@
-package workshop.runner.selenium.helpers;
+package workshop.runner.playwright.helpers;
 
 import com.ecfeed.TestHandle;
 
@@ -7,11 +7,6 @@ import java.util.HashMap;
 public class EcFeedHelper {
 
     private EcFeedHelper() {
-    }
-
-    public static void log(String message) {
-
-        System.out.println(message);
     }
 
     public static String sendFeedbackPositive(TestHandle handle) {

@@ -1,8 +1,6 @@
 package workshop.runner.selenium.fixtures;
 
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.*;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import workshop.runner.selenium.pages.EcFeedPageObject;
@@ -12,18 +10,18 @@ public class EcFeedFixture {
     private static final String webDriver =
             System.getProperty("user.dir") + "/src/test/resources/drivers/geckodriver.exe";
 
-    // To simplify the code and speed up tests, we only use one 'page' object.
-    // This might not be a good idea to use in production.
+    private RemoteWebDriver driver;
 
-    private static RemoteWebDriver driver;
-
-    static public EcFeedPageObject ecfeed;
+    public EcFeedPageObject ecfeed;
 
     @BeforeAll
-    static void setUp() {
+    static void setUpGlobal() {
 
         System.setProperty("webdriver.gecko.driver", webDriver);
+    }
 
+    @BeforeEach
+    void setUp() {
         driver = new FirefoxDriver();
 
         ecfeed = new EcFeedPageObject(driver);
@@ -31,8 +29,8 @@ public class EcFeedFixture {
         ecfeed.visit();
     }
 
-    @AfterAll
-    static void tearDown() {
+    @AfterEach
+    void tearDown() {
 
         driver.quit();
     }

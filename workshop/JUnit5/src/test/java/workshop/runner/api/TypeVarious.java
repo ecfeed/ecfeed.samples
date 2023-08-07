@@ -10,6 +10,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
+import workshop.Config;
 import workshop.data.*;
 
 import java.util.HashMap;
@@ -23,14 +24,19 @@ public class TypeVarious {
 
     private static final String webPageAddress = "https://api.ecfeed.com?mode=error";
 
+    private static String keyStorePath = Config.keyStorePath;
+    private static String modelID = Config.modelID;
+    private static String method = Config.methodVarious;
+    private static String label = "API - Type";
+
 //------------------------------------------------------------------------------
 
     private static Iterable<Object[]> testProviderNWise() {
 
         var parameters = new HashMap<String, String>();
-        parameters.put("keyStorePath", "src/test/resources/demo.p12");
+        parameters.put("keyStorePath", keyStorePath);
 
-        return TestProvider.create("6EG2-YL4S-LMAK-Y5VW-VPV9", parameters).generateNWise("com.example.test.Demo.typeVarious", ParamsNWise.create().feedback().label("API"));
+        return TestProvider.create(modelID, parameters).generateNWise(method, ParamsNWise.create().feedback().label(label));
     }
 
     @ParameterizedTest
