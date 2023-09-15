@@ -22,7 +22,7 @@
         },
         {
             "label": "cypress - run @ csv",
-            "command": "npx cypress run --spec cypress/e2e/csv.cy.js --browser firefox --record",
+            "command": "npx cypress run --spec cypress/e2e/csv.cy.js --browser firefox",
             "type": "shell",
             "group": "build"
         },

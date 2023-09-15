@@ -24,7 +24,7 @@ describe('EcFeed', () => {
 
       cy.get('#submit').click();
 
-      cy.get('#response').contains('Order processed without errors!')
+      cy.get('#response').contains('Order processed without errors!');
     });
   });
 });
